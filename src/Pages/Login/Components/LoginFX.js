@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styled/login.css';
-import logo from '../../../Assets/Images/set icap.png'; // Make sure to replace this with the correct path to your logo image
+import logo from '../../../Assets/Images/set icap.png'; // Asegúrate de que esta ruta sea correcta
 
 const LoginForm = () => {
   return (
@@ -16,7 +16,12 @@ const LoginForm = () => {
             <label htmlFor="password">Contraseña*</label>
             <input type="password" id="password" placeholder="Contraseña" required />
           </div>
-          <button type="submit">Iniciar sesión</button>
+          <button
+            type="button"
+            className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          >
+            Iniciar sesión
+          </button>
         </form>
       </div>
     </div>

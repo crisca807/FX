@@ -1,4 +1,7 @@
 /* LoginForm.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
     margin: 0;
@@ -11,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('../../../Assets/Images/pixelcut-export (1).jpeg') no-repeat center center/cover;
+    background: url('../../../Assets/Images/pixelcut-export\ \(1\).jpeg') no-repeat center center/cover;
   }
   
   .login-container::before {
@@ -28,16 +31,17 @@ body {
   .login-box {
     position: relative;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 09);
     border-radius: 8px;
-    padding: 20px 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px 40px; /* Increase padding for more height */
+    box-shadow: 0 4px 8px rgba(141, 27, 27, 0.1);
     text-align: center;
     width: 320px;
+    height: auto; /* Ensure the height is auto-adjusted */
   }
   
   .logo {
-    width: 150px;
+    width: 180px;
     margin-bottom: 20px;
   }
   
@@ -47,7 +51,7 @@ body {
   }
   
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* Increase margin for more space between fields */
     text-align: left;
   }
   
@@ -59,7 +63,7 @@ body {
   
   input {
     width: 100%;
-    padding: 8px;
+    padding: 10px; /* Increase padding for larger input fields */
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -68,12 +72,12 @@ body {
   button {
     background-color: #2c3e50;
     color: white;
-    padding: 10px;
+    padding: 12px; /* Increase padding for a larger button */
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 20px; /* Increase margin to separate the button from input fields */
   }
   
   button:hover {
