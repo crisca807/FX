@@ -1,16 +1,16 @@
 // App.js
 import React from 'react';
-import LoginPage from './Pages/Login/Components/LoginFX'; // Asegúrate de que la ruta sea correcta
 
-import Home from './Pages/Dolarfx/Home';
+import TokenDisplay from './Pages/Dolarfx/Components/tokenresponse' ; // Corregida la ruta
+
 function App() {
   return (
     <div className="App">
-
-        <Home/>
-
+     
+      <TokenDisplay />
     </div>
   );
 }
 
 export default App;
+
