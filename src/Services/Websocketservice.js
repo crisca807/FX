@@ -1,50 +1,53 @@
-// src/webSocketService.js
+import * as neffos from 'neffos.js';
 
-import { handleWebSocketData } from '../Pages/Adapters/adaptorprom';
+// URL base para el WebSocket
+const WS_BASE_URL = 'http://set-fx.com/ws/echo';
 
-// Función para conectar al WebSocket
-export const connectWebSocket = (token, onMessageReceived) => {
-    // Define la URL del WebSocket con el token como parámetro de consulta
-    const wsUrl = `ws://set-fx.com/ws/echo?token=${token}`;
-  
-    // Crea una nueva instancia de WebSocket
-    const socket = new WebSocket(wsUrl);
-  
-    // Evento que se activa cuando la conexión se establece
-    socket.onopen = () => {
-      console.log('WebSocket connection established');
-      alert('Se estableció la conexión WebSocket exitosamente');
-    };
-  
-    // Evento que se activa cuando se recibe un mensaje
-    socket.onmessage = (event) => {
-      console.log('Message received:', event.data);
+// Función para conectar al WebSocket usando el token
+export const connectWebSocket = async (token, setMessage) => {
+  try {
+    // Verifica si setMessage es una función
+    if (typeof setMessage !== 'function') {
+      throw new Error('setMessage no es una función');
+    }
 
-      // Mostrar alerta cuando se están recibiendo datos
-      alert('Recibiendo datos');
-      
-      // Llama a la función de callback con los datos recibidos
-      try {
-        const messageData = JSON.parse(event.data);
-        
-        // Mostrar alerta cuando los datos están siendo procesados
-        alert('Procesando datos');
-        
-        onMessageReceived(messageData);
-      } catch (error) {
-        console.error('Error parsing message data:', error);
+    // Conecta al WebSocket usando el token
+    const wsURL = `${WS_BASE_URL}?token=${token}`;
+
+    // Conecta al WebSocket usando neffos
+    const conn = await neffos.dial(wsURL, {
+      dolar: {  // Asegúrate de que 'dolar' es el namespace correcto
+        _OnNamespaceConnected: function (nsConn, msg) {
+          if (nsConn.conn.wasReconnected()) {
+            console.log('Re-connected after ' + nsConn.conn.reconnectTries.toString() + ' trie(s)');
+          }
+          console.log('Connected to namespace: ' + msg.Namespace);
+        },
+        _OnNamespaceDisconnect: function (nsConn, msg) {
+          console.log('Disconnected from namespace: ' + msg.Namespace);
+        },
+        chat: function (nsConn, msg) {
+          console.log('Message from chat:', msg.Body);
+        }
       }
-    };
-  
-    // Evento que se activa cuando la conexión se cierra
-    socket.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-  
-    // Evento que se activa cuando ocurre un error
-    socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-  
-    return socket;
+    }, {
+      reconnect: 2000,
+      headers: {
+        // Puedes agregar cabeceras personalizadas aquí si es necesario
+      }
+    });
+
+    // Conectar al namespace 'dolar'
+    const nsConn = await conn.connect('dolar');
+    nsConn.emit('chat', 'Hello from client side!');
+
+    // Mensaje de éxito
+    setMessage('Conexión WebSocket exitosa');
+
+    // Puedes agregar más lógica para manejar la conexión aquí
+
+  } catch (error) {
+    console.error('Error al conectar al WebSocket:', error.message);
+    setMessage('Error al conectar al WebSocket'); // Mensaje de error
+  }
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import getToken from '../../../Services/axiosconnect'; // Asegúrate de usar la ruta correcta
+import { getToken } from '../../../Services/axiosconnect'; // Importación con nombre
 
 const ConnectionStatus = () => {
   const [status, setStatus] = useState('Checking connection...');
@@ -9,9 +9,9 @@ const ConnectionStatus = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const result = await getToken();
+        const result = await getToken(setToken, setError); // Llama a `getToken` con las funciones de estado
         if (result.success) {
-          setToken(result.data.access_token); // Ajusta según la estructura de la respuesta
+          setToken(result.data.payload.access_token); // Ajusta según la estructura de la respuesta
           setStatus('Connection successful!');
         } else {
           setStatus('Connection failed');

@@ -12,8 +12,8 @@ const requestData = {
   project_id: '19e28843-6f59-461e-af9e-effbce1f5dd4'
 };
 
-// Función para obtener el token y conectar al WebSocket
-const getTokenAndConnectWebSocket = async (setToken, setMessage) => {
+// Función para obtener el token
+export const getToken = async (setToken, setMessage) => {
   try {
     // Solicita el token
     const response = await axios.post(TOKEN_URL, requestData);
@@ -26,7 +26,8 @@ const getTokenAndConnectWebSocket = async (setToken, setMessage) => {
       setMessage('Token recibido exitosamente'); // Mensaje de éxito
 
       // Conecta al WebSocket usando el token
-      connectWebSocket(token);
+      await connectWebSocket(token, setMessage); // Asegúrate de pasar setMessage si lo necesitas
+
     } else {
       throw new Error('No se recibió el token en la respuesta.');
     }
@@ -38,5 +39,3 @@ const getTokenAndConnectWebSocket = async (setToken, setMessage) => {
     return { success: false, error: error.response?.data || error.message };
   }
 };
-
-export default getTokenAndConnectWebSocket;
