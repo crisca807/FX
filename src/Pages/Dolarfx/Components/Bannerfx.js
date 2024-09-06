@@ -1,8 +1,9 @@
 import React from 'react';
-import '../styles/Banner.css';
+import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import '../styles/Bannerfx.css';
 import logo from '../../../Assets/Images/set_nigga-removebg-preview.png'; // Asegúrate de actualizar la ruta del logo
 
-const Banner = () => {
+const Bannerfx = () => {
   return (
     <div className="banner">
       <div className="logo">
@@ -12,11 +13,11 @@ const Banner = () => {
         <a href="#inicio">Inicio</a>
         <a href="#contactanos">Contáctanos</a>
         <a href="#registrarse">Regístrese y Obtenga un Demo</a>
-        <a href="#iniciar-sesion">Iniciar Sesión</a>
+        <Link to="/login">Iniciar Sesión</Link> {/* Usa Link para navegar a /login */}
         <a href="#pagar-epayco">Pagar con ePayco</a>
       </div>
     </div>
   );
 };
 
-export default Banner;
+export default Bannerfx;

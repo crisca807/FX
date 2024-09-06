@@ -1,30 +1,34 @@
-.banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Eliminar el fondo para que el Banner se mezcle con el Carrusel */
-  background: none; /* Eliminar el fondo del banner */
+/* Estilo del banner */
+.banner-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Cambia el color a negro para mayor visibilidad */
+    background-color: #ffffff; /* Fondo blanco */
 }
 
-.logo img {
-  height: 50px;
+/* Estilo del logo */
+.logo-custom img {
+    height: 50px;
 }
 
-.nav-links {
-  display: flex;
-  gap: 30px; /* Aumentar el espacio entre enlaces */
+/* Estilo de los enlaces de navegación */
+.nav-links-custom {
+    display: flex;
+    gap: 30px; /* Aumentar el espacio entre enlaces */
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: #fff; /* Ajustar el color del texto para que sea visible sobre el fondo */
-  font-weight: bold;
-  font-size: 14px; /* Reducir el tamaño de la letra */
-  transition: color 0.3s ease;
+/* Estilo de cada enlace */
+.nav-links-custom a {
+    text-decoration: none;
+    color: #000000; /* Ajustar el color del texto para que sea visible sobre el fondo blanco */
+    font-weight: bold;
+    font-size: 18px; /* Tamaño de la letra ajustado */
+    transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-  color: #003E69;
+/* Estilo de los enlaces al pasar el ratón */
+.nav-links-custom a:hover {
+    color: #003E69;
 }

@@ -1,0 +1,108 @@
+/* Register.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('../../../Assets/Images/pixelcut-export\ \(1\).jpeg') no-repeat center center/cover;
+  }
+  
+  .d-flex {
+    display: flex;
+  }
+  
+  .justify-content-center {
+    justify-content: center;
+  }
+  
+  .align-items-center {
+    align-items: center;
+  }
+  
+  .vh-100 {
+    height: 100vh;
+  }
+  
+  .bg-light {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-translucent background */
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card p {
+    margin: 0;
+  }
+  
+  .card h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .mb-3 {
+    margin-bottom: 1rem;
+  }
+  
+  .form-label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group .form-control {
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .input-group .btn {
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .btn-outline-secondary {
+    border-color: #ccc;
+    color: #333;
+  }
+  
+  .btn-outline-secondary:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .text-danger {
+    color: #dc3545;
+  }
+  
+  .text-success {
+    color: #28a745;
+  }
+  
+  /* Custom styles for the password visibility toggle */
+  .input-group .btn i {
+    font-size: 18px;
+  }
+  
