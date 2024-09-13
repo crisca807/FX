@@ -1,0 +1,36 @@
+.promedio-dolar-informacion {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco para el contenedor */
+    font-family: 'Arial', sans-serif; /* Fuente común para toda la letra */
+    color: #ffffff; /* Color de texto */
+    font-weight: bold; /* Todas las letras en negrita */
+    font-size: 18px; /* Tamaño más grande, aumentamos dos escalas */
+}
+
+.unique-data-container {
+    width: 90%;
+    height: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* Fondo blanco del gráfico */
+}
+
+h1.container {
+    font-family: 'Arial', sans-serif; /* Aplicamos la fuente Arial */
+    color: #ffffff; /* Color de texto */
+    font-weight: bold; /* Negrita */
+    font-size: 32px; /* Tamaño más grande para el título */
+    text-align: center; /* Centra el título */
+}
+
+p.containers {
+    font-family: 'Arial', sans-serif; /* Aplicamos la fuente Arial */
+    color: #333; /* Color de texto */
+    font-weight: bold; /* Negrita */
+    font-size: 20px; /* Tamaño más grande para los párrafos */
+    text-align: center;
+}

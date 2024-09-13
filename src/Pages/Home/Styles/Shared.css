@@ -1,0 +1,85 @@
+/* Estilo para el contenedor principal que engloba el Banner y el Carrusel */
+.main-container-banner-carrusel {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    background-color: #0e0b0b; /* Fondo negro para todo el contenedor */
+    background-image: url('../../../Assets/Images/Trading-stock-chart-1.png'); /* Fondo compartido */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; /* Ajuste del fondo para que esté centrado */
+    padding: 0;
+    margin: 0;
+    height: 100vh; /* Asegura que ocupe la altura completa */
+}
+
+/* Estilo único para el contenedor del banner */
+.unique-banner-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+   /* Sin fondo propio, usa el del contenedor común */
+}
+
+/* Estilo único para el logo */
+.unique-logo img {
+  height: 60px;
+}
+
+/* Estilo único para los enlaces */
+.unique-nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.unique-nav-links a {
+  text-decoration: none;
+  color: #fff; /* Color del texto blanco */
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.unique-nav-links a:hover {
+  color: #003E69;
+}
+
+
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.box h1 {
+  font-size: 45px;
+  line-height: 0.9;
+  padding-bottom: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.btn1, .btn2 {
+  flex-basis: 30%;
+  border-radius: 20px;
+  padding: 10px 30px;
+  margin-right: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: transparent;
+  border: solid 2px white;
+}
+
+.btn1:hover, .btn2:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

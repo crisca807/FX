@@ -1,42 +1,46 @@
 /* Estilo general del contenedor */
 .dolar-info {
-    background-color: #ffffff; /* Fondo blanco */
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    text-align: center; /* Centra el contenido dentro del contenedor */
-  }
-  
-  /* Estilo del contenedor de datos */
-  .data-container {
-    display: flex; /* Alinea las casillas una al lado de la otra */
-    justify-content: center; /* Centra las casillas horizontalmente en el contenedor */
-    gap: 1.5cm; /* Espacio de 1.5 cm entre las casillas */
-    flex-wrap: wrap; /* Permite que las casillas se ajusten si el espacio es reducido */
-  }
-  
-  /* Estilo de cada casilla de datos */
-  .datadolar-box {
-    background-color: #0f345c; /* Color de fondo azul */
-    color: #ffffff; /* Color del texto blanco */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interior */
-    width: 400px; /* Ancho fijo de las casillas */
-    text-align: center; /* Alinea el texto al centro */
-    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total de la casilla */
-    flex: none; /* Evita que las casillas se expandan */
-  }
-  
-  /* Estilo del título dentro de las casillas de datos */
-  .datadolar-box h2 {
-    margin: 0 0 6px 0; /* Espacio debajo del título reducido */
-    font-size: 1.75rem; /* Tamaño del texto del título dentro de la casilla (aproximadamente 28px) */
-    color: #ffffff; /* Color del texto blanco */
-    font-weight: bold; /* Hace que el texto sea negrita */
-  }
-  
-  /* Estilo del párrafo con los números */
-  .datadolar-box p {
-    margin: 0; /* Elimina el margen del párrafo */
-    font-size: 2.25rem; /* Tamaño del texto del contenido ajustado (aproximadamente 36px) */
-    font-weight: bold; /* Hace que el texto sea negrita */
-  }
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 40px; /* Aumentamos el padding para dar más espacio */
+  font-family: Arial, sans-serif;
+  text-align: center; /* Centra el contenido dentro del contenedor */
+}
+
+/* Estilo del contenedor de datos */
+.data-container {
+  display: flex; /* Alinea las casillas una al lado de la otra */
+  justify-content: center; /* Centra las casillas horizontalmente en el contenedor */
+  gap: 2.5cm; /* Aumentamos el espacio entre las casillas */
+  flex-wrap: wrap; /* Permite que las casillas se ajusten si el espacio es reducido */
+}
+
+/* Estilo de cada casilla de datos */
+.datadolar-box {
+  background-color: #0f345c; /* Color de fondo azul */
+  color: #ffffff; /* Color del texto blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 15px; /* Espaciado interior moderado */
+  width: 400px; /* Ancho de las casillas reducido un poco */
+  height: 130px; /* Se ha reducido el largo de la casilla */
+  text-align: center; /* Alinea el texto al centro */
+  box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total de la casilla */
+  flex: none; /* Evita que las casillas se expandan */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido verticalmente */
+}
+
+/* Estilo del título dentro de las casillas de datos */
+.datadolar-box h2 {
+  margin: 0 0 10px 0; /* Aumentamos el espacio debajo del título */
+  font-size: 2.0rem; /* Aumentamos el tamaño del texto del título (aproximadamente 40px) */
+  color: #ffffff; /* Color del texto blanco */
+  font-weight: bold; /* Hace que el texto sea negrita */
+}
+
+/* Estilo del párrafo con los números */
+.datadolar-box p {
+  margin: 0; /* Elimina el margen del párrafo */
+  font-size: 3.0rem; /* Aumentamos el tamaño del texto del contenido (aproximadamente 56px) */
+  font-weight: bold; /* Hace que el texto sea negrita */
+}

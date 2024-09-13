@@ -4,7 +4,7 @@ import { connectWebSocket } from '../../Services/Websocketservice';
 import JSON5 from 'json5';
 import '../styles/Status.css'; // Importar el archivo CSS
 
-const ConnectionStatus = () => {
+const Dolarsocket = () => {
   const [status, setStatus] = useState('Checking connection...');
   const [error, setError] = useState(null);
   const [data1007, setData1007] = useState([]);
@@ -30,19 +30,25 @@ const ConnectionStatus = () => {
               parsedMessage = { rawMessage: message };
             }
 
-            if (parsedMessage?.id === 1007) {
-              setData1007((prevData) => {
-                const newData = [...prevData, parsedMessage];
-                return newData.slice(-2); // Keep only the last 2 elements
-              });
-              console.log('Updated data for ID 1007:', parsedMessage);
+            // Verificar que el ID es 1007 y que el market es 71
+            if (parsedMessage?.id === 1007 && parsedMessage?.market === 71) {
+              const existingData = data1007.find(
+                (item) => item.data.avg === parsedMessage.data.avg && item.data.close === parsedMessage.data.close
+              );
+              if (!existingData) {
+                setData1007((prevData) => {
+                  const newData = [...prevData, parsedMessage];
+                  return newData.slice(-30); // Mantener solo los últimos 2 elementos
+                });
+                console.log('Updated data for ID 1007 and market 71:', parsedMessage);
+              }
             }
           });
 
           setStatus('Connection successful!');
         } else {
           setStatus('No token provided');
-          setData1007([]); // Clear the data array if no token
+          setData1007([]); // Limpiar los datos si no hay token
         }
       } catch (err) {
         setStatus('Connection failed');
@@ -54,7 +60,7 @@ const ConnectionStatus = () => {
   }, [location.state?.token]);
 
   useEffect(() => {
-    // Refresh the list every 5 seconds
+    // Refrescar la lista cada 5 segundos
     const intervalId = setInterval(() => {
       setData1007((prevData) => [...prevData]);
     }, 5000);
@@ -65,7 +71,7 @@ const ConnectionStatus = () => {
   const renderData = (item) => {
     if (!item) return <p>No data available</p>;
 
-    // Directly access the data without formatting
+    // Acceder directamente a los datos sin formatear
     const avg = item.data?.avg || 'Data not available';
     const close = item.data?.close || 'Data not available';
 
@@ -83,7 +89,7 @@ const ConnectionStatus = () => {
     );
   };
 
-  // Sort the data array by timestamp in descending order (newest first)
+  // Ordenar los datos por timestamp en orden descendente (más recientes primero)
   const sortedData = data1007.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   return (
@@ -92,9 +98,9 @@ const ConnectionStatus = () => {
       <div>
         {location.state?.token ? (
           sortedData.length > 0 ? (
-            renderData(sortedData[0]) // Show only the latest element
+            renderData(sortedData[0]) // Mostrar solo el último elemento
           ) : (
-            <p>No data received for ID 1007.</p>
+            <p>No data received for ID 1007 and market 71.</p>
           )
         ) : (
           <p>No token available to fetch data.</p>
@@ -104,4 +110,4 @@ const ConnectionStatus = () => {
   );
 };
 
-export default ConnectionStatus;
+export default Dolarsocket;

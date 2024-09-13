@@ -1,0 +1,73 @@
+/* Estilo general del contenedor */
+.unique-dolar-info {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura del contenedor igual a la altura de la ventana */
+}
+
+/* Contenedor de la tabla */
+.unique-table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 600px;
+    background-color: #f0f0f0; /* Fondo gris claro para el contenedor de la tabla */
+    padding: 20px;
+    border: 1px solid #dddddd; /* Borde para el contenedor de la tabla */
+    border-radius: 10px; /* Bordes redondeados para el contenedor de la tabla */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor de la tabla */
+}
+
+/* Estilo del título de la tabla */
+.unique-table-title {
+    color: #003E69; /* Azul para el título */
+    font-size: 1.2rem; /* Tamaño de letra del título más pequeño */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de datos en formato de tabla vertical */
+.unique-data-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Estilo de cada fila de datos */
+.unique-data-row {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a vertical */
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 20px; /* Espacio entre los datos más grande */
+}
+
+/* Estilo de cada elemento de datos */
+.unique-data-item {
+    display: flex;
+    flex-direction: row; /* Cambia la dirección a horizontal */
+    justify-content: flex-start; /* Alinea los datos a la izquierda */
+    padding: 15px; /* Espacio entre los datos más grande */
+    border-bottom: 1px solid #dddddd; /* Línea divisoria en los elementos */
+    width: 100%;
+}
+
+/* Estilo de los encabezados de datos */
+.unique-data-item strong {
+    display: block;
+    color: #003E69; /* Azul para los encabezados */
+    margin-right: 20px; /* Espacio entre el título y el valor más grande */
+    font-size: 1.8rem; /* Tamaño de letra de los encabezados más grande */
+}
+
+/* Estilo de los valores en la tabla */
+.unique-data-item p {
+    margin: 0;
+    font-size: 1.8rem; /* Tamaño de letra de los valores más grande */
+}

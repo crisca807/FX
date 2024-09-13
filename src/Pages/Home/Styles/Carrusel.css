@@ -3,22 +3,20 @@ body {
 }
 
 /* Estilo para el contenedor principal que engloba el Banner y el Carrusel */
-.main-container {
+.main-container-carrusel {
     display: flex;
     flex-direction: column;
     max-width: 100%;
-    background-image: url('../../../Assets/Images/Trading-stock-chart-1.png'); /* Fondo que se comparte */
+   
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left;
-}
-
-/* Estilo para el contenedor del Carrusel */
-.container {
     display: flex;
     flex-direction: column;
     height: 80vh;
 }
+
+/* Estilo para el contenedor del Carrusel */
 
 /* Estilo para el contenedor interno del Carrusel */
 .wrap {

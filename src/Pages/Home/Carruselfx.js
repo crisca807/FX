@@ -1,12 +1,11 @@
 import React from 'react';
-import '../styles/Carrusel.css';
+import './Styles/Carrusel.css';
 
 const Carrusel = () => {
   return (
-    <div className="container">
+    <div className="main-container-carrusel">
       <div className="wrap">
         <div className="box">
-          
           <h1>CONOZCA LA INFORMACION DEL DOLAR </h1>
           <h1>EN TIEMPO REAL</h1>
           <p>Mantente actualizado con la última información del dólar en tiempo real y nunca pierdas una oportunidad financiera!</p>
@@ -21,4 +20,3 @@ const Carrusel = () => {
 };
 
 export default Carrusel;
-
