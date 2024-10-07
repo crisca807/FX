@@ -25,9 +25,9 @@ ChartJS.register(
   Legend
 );
 
-const Average = () => {
+const Bollinger = () => {
   const [data1002, setData1002] = useState(null);
-  const { message, error } = useWebSocket(); // Acceder al WebSocketContext sin necesidad de conectar de nuevo
+  const { message, error } = useWebSocket(); // Usar el contexto de WebSocket sin necesidad de conectar de nuevo
 
   useEffect(() => {
     if (message) {
@@ -41,30 +41,23 @@ const Average = () => {
 
       // Filtrar los mensajes para el ID 1002 y el market 71
       if (parsedMessage?.id === 1002 && parsedMessage?.market === 71) {
-        console.log('Mensaje recibido y filtrado (id 1002):', parsedMessage);
-
         const rawData = parsedMessage?.data?.data;
         const nestedData = rawData?.data;
 
         if (nestedData && nestedData.datasets && nestedData.labels) {
           const usdCopPrices = nestedData.datasets[0]?.data || ['Data not available'];
           const mediaMovil8 = nestedData.datasets[1]?.data || ['Data not available'];
-          const mediaMovil13 = nestedData.datasets[2]?.data || ['Data not available'];
+          const mediaMovil20MenosDesv = nestedData.datasets[2]?.data || ['Data not available'];
+          const mediaMovil20MasDesv = nestedData.datasets[3]?.data || ['Data not available'];
           const labels = nestedData.labels || ['Labels not available'];
-
-          console.log('Precios USD/COP:', usdCopPrices);
-          console.log('Media móvil (8):', mediaMovil8);
-          console.log('Media móvil (13):', mediaMovil13);
-          console.log('Etiquetas de tiempo:', labels);
 
           setData1002({
             usdCopPrices,
             mediaMovil8,
-            mediaMovil13,
+            mediaMovil20MenosDesv,
+            mediaMovil20MasDesv,
             labels,
           });
-        } else {
-          console.error('No se pudo acceder a datasets o labels en nestedData:', nestedData);
         }
       }
     }
@@ -78,7 +71,7 @@ const Average = () => {
         data: data1002?.usdCopPrices || [],
         borderColor: '#007bff',
         pointBackgroundColor: '#007bff',
-        backgroundColor: 'rgba(0, 123, 255, 0.6)',
+        backgroundColor: 'rgba(0, 123, 255, 0.1)', // Relleno bajo la línea
         fill: true,
         tension: 0.4,
       },
@@ -87,12 +80,22 @@ const Average = () => {
         data: data1002?.mediaMovil8 || [],
         borderColor: 'rgba(54, 162, 235, 1)',
         fill: false,
+        borderWidth: 2, // Línea más delgada
       },
       {
-        label: 'Media móvil (13)',
-        data: data1002?.mediaMovil13 || [],
-        borderColor: 'rgba(255, 99, 132, 1)',
+        label: 'Media móvil (20)-2 Desv Est',
+        data: data1002?.mediaMovil20MenosDesv || [],
+        borderColor: 'rgba(255, 99, 132, 1)', // Rojo para la línea inferior
+        fill: '-1', // Relleno entre esta línea y la línea superior
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4,
+      },
+      {
+        label: 'Media móvil (20)+2 Desv Est',
+        data: data1002?.mediaMovil20MasDesv || [],
+        borderColor: 'rgba(0, 0, 0, 1)', // Negro para la línea superior
         fill: false,
+        borderWidth: 2,
       },
     ],
   };
@@ -100,7 +103,6 @@ const Average = () => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    aspectRatio: 3,
     plugins: {
       legend: {
         display: true,
@@ -110,6 +112,10 @@ const Average = () => {
             weight: 'bold', // Pone la leyenda en negrita
           },
         },
+      },
+      tooltip: {
+        mode: 'index', // Muestra todas las líneas en el tooltip
+        intersect: false,
       },
     },
     scales: {
@@ -143,8 +149,6 @@ const Average = () => {
           },
           stepSize: 5,
           precision: 0,
-          min: 4140,
-          max: 4200,
         },
       },
     },
@@ -156,7 +160,7 @@ const Average = () => {
       <div>
         {data1002 ? (
           <div className="unique-data-container">
-            <h1>Datos Promedios (ID 1002, Market 71)</h1>
+            <h1>Datos de Bollinger (ID 1002, Market 71)</h1>
             <Line data={chartData} options={chartOptions} />
           </div>
         ) : (
@@ -167,4 +171,4 @@ const Average = () => {
   );
 };
 
-export default Average;
+export default Bollinger;

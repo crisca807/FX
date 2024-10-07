@@ -1,73 +1,53 @@
-/* Estilo general del contenedor */
-.unique-dolar-info {
-    background-color: #ffffff; /* Fondo blanco */
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    text-align: center;
+.trm-dolar-info-container {
+    font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Altura del contenedor igual a la altura de la ventana */
-}
-
-/* Contenedor de la tabla */
-.unique-table-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    max-width: 600px;
-    background-color: #f0f0f0; /* Fondo gris claro para el contenedor de la tabla */
     padding: 20px;
-    border: 1px solid #dddddd; /* Borde para el contenedor de la tabla */
-    border-radius: 10px; /* Bordes redondeados para el contenedor de la tabla */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor de la tabla */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
 }
 
-/* Estilo del título de la tabla */
-.unique-table-title {
-    color: #003E69; /* Azul para el título */
-    font-size: 1.2rem; /* Tamaño de letra del título más pequeño */
-    font-weight: bold;
+.trm-dolar-info {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.trm-table-title {
+    text-align: center;
+    color: #003357;
+    font-size: 24px;
     margin-bottom: 20px;
+    font-weight: 600;
 }
 
-/* Contenedor de datos en formato de tabla vertical */
-.unique-data-table {
+.trm-data-table {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    gap: 10px;
 }
 
-/* Estilo de cada fila de datos */
-.unique-data-row {
+.trm-data-row {
     display: flex;
-    flex-direction: column; /* Cambia la dirección a vertical */
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 20px; /* Espacio entre los datos más grande */
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-bottom: none;
 }
 
-/* Estilo de cada elemento de datos */
-.unique-data-item {
-    display: flex;
-    flex-direction: row; /* Cambia la dirección a horizontal */
-    justify-content: flex-start; /* Alinea los datos a la izquierda */
-    padding: 15px; /* Espacio entre los datos más grande */
-    border-bottom: 1px solid #dddddd; /* Línea divisoria en los elementos */
-    width: 100%;
+/* Aplica negrita y color a los valores */
+.trm-data-row p {
+    font-weight: bold;
+    color: #000000b6; /* Color azul oscuro para los valores */
 }
 
-/* Estilo de los encabezados de datos */
-.unique-data-item strong {
-    display: block;
-    color: #003E69; /* Azul para los encabezados */
-    margin-right: 20px; /* Espacio entre el título y el valor más grande */
-    font-size: 1.8rem; /* Tamaño de letra de los encabezados más grande */
-}
-
-/* Estilo de los valores en la tabla */
-.unique-data-item p {
-    margin: 0;
-    font-size: 1.8rem; /* Tamaño de letra de los valores más grande */
+/* Estilo para los íconos */
+.faCartShopping, .faArrowTrendUp, .faArrowTrendDown {
+    margin-left: 10px;
+    color: #ff0000; /* Ajustar el color del ícono si es necesario */
 }

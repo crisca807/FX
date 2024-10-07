@@ -48,7 +48,7 @@ const DolarInfo = () => {
 
   return (
     <div className="dolar-info">
-      <h1>Vía API REST</h1> {/* Título añadido */}
+      
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

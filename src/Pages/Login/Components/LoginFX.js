@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import { getToken } from '../../Services/axiosconnect'; // Asegúrate de la ruta correcta
-
+import { useNavigate } from 'react-router-dom';
+import TokenService from '../../Services/Tokenservice'; // Importa el singleton
 import '../styled/login.css';
 import logo from '../../../Assets/Images/set icap.png';
 
@@ -15,14 +14,14 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Llama a getToken con el nombre de usuario y la contraseña ingresados
-    const result = await getToken(username, password, setError);
+    // Llama a TokenService para obtener el token
+    const token = await TokenService.fetchToken(username, password);
 
-    if (result.success) {
-      // Redirige a ConnectionStatus y pasa el token en el estado
-      navigate('/Init', { state: { token: result.token } });
+    if (token) {
+      // Redirige a init y pasa el token en el estado
+      navigate('/init', { state: { token } });
     } else {
-      setError('NO AUTORIZADO');
+      setError('No autorizado');
     }
   };
 

@@ -1,0 +1,59 @@
+/* Contenedor principal de la tabla */
+.unique-dolar-info {
+    font-family: 'Poppins', sans-serif;
+   
+    background-color: #ffffff56;
+    border-radius: 8px;
+    padding: 20px;
+
+    margin: 20px 0;
+    width: 11cm; /* Ancho del contenedor */
+    height: 8cm; /* Alto del contenedor */
+}
+.table-title {
+    text-align: center;
+    color: #003E69;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+/* Fila de datos: mostrará dos columnas (título y valor) */
+.unique-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px; /* Reduce el espacio entre las filas */
+    padding: 5px;
+    /* Un poco más claro con opacidad */
+    border-radius: 8px;
+    text-align: left;
+    font-size: 14px;
+    color: #00000073;
+}
+.icon {
+    color: #000000; /* Color verde */
+    margin-right: 10px; /* Añade un espacio entre el ícono y el texto */
+  }
+/* Columna de los títulos de datos */
+.unique-data-item-title {
+    font-size: 16px;
+    color: #000000;
+    font-weight: 600; /* Mantiene la negrita solo para los títulos */
+    width: 50%; /* Ajusta el ancho para mantener espacio entre las columnas */
+}
+
+/* Columna de los valores de datos */
+.unique-data-row .unique-data-item-value {
+    font-size: 16px;
+    font-weight: 400 !important; /* Fuerza la ausencia de negrita */
+    color: #0000009c;
+    text-align: right;
+    width: 50%; /* Ajusta el ancho para la columna de valores */
+}
+
+/* Estilo hover en los elementos */
+.unique-data-row:hover {
+    background-color: #ffffff36;
+    color: #000; /* Cambia el color del texto al hacer hover */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

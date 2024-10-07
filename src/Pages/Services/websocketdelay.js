@@ -1,10 +1,10 @@
 import * as neffos from 'neffos.js';
 
 // URL base para el WebSocket
-const WS_BASE_URL = 'http://set-fx.com/ws/echo';
+const WS_BASE_URL = 'ws://set-fx.com/ws/dolar';
 
 // Función para conectar al WebSocket usando el token
-export const connectWebSocket = async (token, onMessageReceived) => {
+export const connectWebSocketdelay = async (token, onMessageReceived) => {
   try {
     // Verifica si onMessageReceived es una función
     if (typeof onMessageReceived !== 'function') {
@@ -16,7 +16,7 @@ export const connectWebSocket = async (token, onMessageReceived) => {
 
     // Conecta al WebSocket usando neffos
     const conn = await neffos.dial(wsURL, {
-      dolar_delay: {  // Asegúrate de que 'dolar' es el namespace correcto
+      delay: {  // Asegúrate de que 'dolar' es el namespace correcto
         _OnNamespaceConnected: function (nsConn, msg) {
           if (nsConn.conn.wasReconnected()) {
             console.log('Re-conectado después de ' + nsConn.conn.reconnectTries.toString() + ' intento(s)');
@@ -39,7 +39,7 @@ export const connectWebSocket = async (token, onMessageReceived) => {
     });
 
     // Conectar al namespace 'dolar'
-    const nsConn = await conn.connect('dolar_delay');
+    const nsConn = await conn.connect('delay');
     nsConn.emit('chat', 'Hello from client side!');
 
     // Mensaje de éxito

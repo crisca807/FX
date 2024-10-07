@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+body-login {
     margin: 0;
     font-family: Arial, sans-serif;
   }
@@ -14,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('../../../Assets/Images/pixelcut-export\ \(1\).jpeg') no-repeat center center/cover;
+    background: url('../../../Assets/Images/fondo\ recuperar.PNG') no-repeat center center/cover;
   }
   
   .login-container::before {

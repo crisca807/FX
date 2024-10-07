@@ -1,62 +1,92 @@
-/* init.css */
-
-/* Fondo blanco global para la página */
-body, html {
-    background-color: #fff;
+/* Estilo global para el cuerpo */
+body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Fondo blanco para toda la página */
 }
 
-/* Contenedor principal */
-
-
-/* Contenedor para las tarjetas de información del dólar */
-.info-container-dolar {
-    display: flex;
-    justify-content: space-around; /* Los elementos estarán más cerca */
-    width: 100%;
-    max-width: 1200px;
-    gap: 10px; /* Reducido para acercar más las tarjetas */
-    padding: 10px; /* Reducido el padding general */
-    background-color: #fff;
-}
-
-/* Cada tarjeta individual */
-.info-container-dolar > div {
-    background-color: #fff;
-    padding: 15px; /* Menos padding para que el contenido esté más cerca del borde */
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    flex: 1;
+/* Estilo para el banner */
+.Banner-container {
+    background-color: #0033a0;
+    color: white;
     text-align: center;
-    min-width: 300px;
+    font-size: 4rem;
 }
 
-/* Estilo de los títulos */
-.info-container-dolar h3 {
-    color: #333;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 28px; /* Aumentamos el tamaño de los títulos */
+/* Estilo para los contenedores de la página */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    margin-bottom: 3cm;
+    background-color: #ffffff; /* Fondo blanco para el contenedor principal */
 }
 
-/* Estilo del texto */
-.info-container-dolar p {
-    font-size: 22px; /* Aumentamos el tamaño de la fuente */
-    color: #333;
-    margin: 10px 0;
+/* Estilos para el contenedor DolarSpot */
+.Dolarspot-container {
+    margin-top: 1cm;
+    background-color: #ffffff; /* Fondo blanco del contenedor */
+    padding: 20px;
+    width: 90%;
+    margin-bottom: 50px;
+    border-radius: 20px; /* Redondeo suave para el contenedor */
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
 }
 
-/* Contenedor de la gráfica */
-.average-container {
-    width: 100%;
-    max-width: 1200px;
-    padding-top: 20px;
+/* Estilos para el título Dólar Spot */
+.dolarspot-title {
+    text-align: center;
+    color: #003357;
+    font-size: 46px;
+    margin-bottom: 30px;
+    font-weight: 600;
 }
 
-.average-container canvas {
-    width: 100% !important;
+/* Estilos para la sección de información Dólar (mantener fondo azul) */
+.info-container-dolar {
+    display: flex; /* Coloca los elementos uno al lado del otro */
+    justify-content: space-between; /* Espacio entre las tarjetas */
+    align-items: flex-start; /* Alineación superior de las tarjetas */
+    width: 90%; /* Ajusta el ancho para mantener las tarjetas visibles */
+    margin-bottom: 20px;
+    background-color: #ffffff; /* Fondo azul */
+    padding: 20px;
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0); /* Sombra ligera */
+}
+
+/* Tarjetas individuales dentro de info-container-dolar */
+.info-container-dolar > div {
+    background-color: #ffffff; /* Fondo blanco para las tarjetas */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    flex: 1; /* Permitir que las tarjetas ocupen el mismo espacio */
+    max-width: 40%; /* Ajustar el ancho máximo para que quepan dos tarjetas en la fila */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Tarjetas individuales dentro de info-container-dolar */
+
+
+/* Estilo para la sección de gráficos (Graphics) */
+.Graphics-container-dolar {
+    width: 90%;
+    margin-bottom: 20px;
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor */
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Estilo para la sección de noticias (News) */
+.News-container {
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    width: 90%;
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor */
 }

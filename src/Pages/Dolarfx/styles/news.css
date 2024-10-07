@@ -1,0 +1,80 @@
+/* Estilos generales del cuerpo */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif; /* Aplicar la tipografía Poppins */
+  background-color: #ff0000; /* Fondo rojo sólido */
+  color: rgb(68, 0, 0); /* Texto en blanco para buena visibilidad sobre fondo rojo */
+}
+
+.news-logo {
+  width: 70px;  /* Ajusta el tamaño de tu logo */
+  height: 70px; /* Ajusta el tamaño de tu logo */
+  background-image: url('../../../Assets/Images/la_republica-removebg-preview.png'); /* Ruta real de tu imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: -10px; /* Añade espacio entre el logo y el texto */
+}
+
+.news-container {
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo con cierta opacidad */
+  padding: 20px;
+  border-radius: 8px;
+  color: #b31515;
+}
+
+.news-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.news-header h1 {
+  font-size: 32px;
+  font-weight: 700; /* Negrita */
+}
+
+.news-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: space-between;
+  overflow-x: auto;
+}
+
+.news-item {
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco con opacidad */
+  color: #000;
+  padding: 20px;
+  width: calc(25% - 20px); /* Cada noticia ocupa el 25% del ancho */
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.news-item h2 {
+  font-size: 18px;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.news-item p {
+  margin: 5px 0;
+}
+
+.news-item a {
+  color: #b31515;
+  text-decoration: none;
+}
+
+.news-item a:hover {
+  text-decoration: underline;
+}
+
+.news-item:hover {
+  background-color: rgba(255, 255, 255, 0.6); /* Cambiar opacidad al pasar el ratón */
+}

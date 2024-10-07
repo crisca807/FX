@@ -1,0 +1,29 @@
+.tab-menu {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .tab-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  
+  .tab-button.active {
+    border-bottom: 2px solid blue; /* Línea azul bajo la pestaña activa */
+  }
+  
+  .tab-button:hover {
+    border-bottom: 2px solid rgb(0, 0, 0);
+  }
+  
+  .tab-content {
+    margin-top: 20px;
+  }
+  
