@@ -1,33 +1,29 @@
-/* Estilo para el contenedor principal que engloba el Banner y el Carrusel */
-.main-container-banner-carrusel {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    background-color: #0e0b0b; /* Fondo negro para todo el contenedor */
-    background-image: url('../../../Assets/Images/Trading-stock-chart-1.png'); /* Fondo compartido */
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center; /* Ajuste del fondo para que esté centrado */
-    padding: 0;
-    margin: 0;
-    height: 100vh; /* Asegura que ocupe la altura completa */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff; /* Fondo blanco para el cuerpo */
 }
 
-/* Estilo único para el contenedor del banner */
+/* Estilo específico para el banner (ancho completo) */
 .unique-banner-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-   /* Sin fondo propio, usa el del contenedor común */
+  padding: 30px;
+  background-color: #000000; /* Fondo negro solo para el banner */
+  color: #ffffff; /* Texto en blanco en el banner */
+  width: 100vw; /* Atraviesa toda la pantalla */
+  margin: 0; /* Elimina márgenes */
+  padding: 0 30px; /* Añade padding para espaciar los elementos dentro del banner */
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
-/* Estilo único para el logo */
+/* Estilo único para el logo del banner */
 .unique-logo img {
-  height: 60px;
+  height: 70px;
 }
 
-/* Estilo único para los enlaces */
+/* Estilo único para los enlaces de navegación en el banner */
 .unique-nav-links {
   display: flex;
   gap: 30px;
@@ -35,24 +31,115 @@
 
 .unique-nav-links a {
   text-decoration: none;
-  color: #fff; /* Color del texto blanco */
+  color: #ffffff; /* Texto blanco en los enlaces del banner */
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   transition: color 0.3s ease;
 }
 
 .unique-nav-links a:hover {
-  color: #003E69;
+  color: #003E69; /* Efecto hover en los enlaces */
 }
 
+/* Estilo específico para el contenedor del carrusel */
+.main-container-banner-carrusel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #000000; /* Fondo blanco para el carrusel */
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
 
+/* Estilo para el carrusel (sin afectar el banner) */
+.carrusel-container {
+  width: 100%; /* Carrusel ocupa todo el ancho restante */
+  margin-top: 20px; /* Añade margen superior para separar del banner */
+}
+
+/* Contenedor específico para DelaySocket */
+
+
+/* Contenedor principal que agrupa todo */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Contenedor para los componentes de TrmDelay y MountDelay */
+.delay-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px; /* Ajustar el ancho máximo */
+  margin: 20px 0;
+  flex-direction: row; /* Asegura que estén uno al lado del otro */
+  z-index: 2; /* Asegura que este contenedor esté encima de la gráfica */
+}
+
+/* Estilo específico para el contenedor de TrmDelay */
+.Trmdelay-container {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-right: 10px;
+  text-align: left;
+}
+
+/* Estilo específico para el contenedor de MountDelay */
+.Mountdelay-container {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
+  text-align: left;
+}
+
+/* Estilo específico para el contenedor de NewsComponent */
+.Newsdelay-container {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  padding: 10px 20px; /* Reduzco el padding superior e inferior a 10px */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 20px auto; /* Reduzco el margen superior e inferior a 20px */
+  text-align: center;
+  z-index: 3; /* Asegura que esté por encima de otros elementos */
+}
+
+/* Estilo para el título de Resumen del mercado */
+.market-summary-title {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 24px;
+  color: #ffffff;
+  text-align: left;
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+/* Ajustar el tamaño del gráfico o contenido dentro de DelaySocket */
+.delaysocket-container canvas {
+  width: 100%;
+  height: 400px; /* Ajuste de altura */
+}
+
+/* Estilo para alinear los contenidos centrales */
 .wrap {
   max-width: 1000px;
   margin: 0 auto;
-  height: 100%;
   display: flex;
   justify-content: center;
 }
+
+/* Estilo para los encabezados y botones */
 .box h1 {
   font-size: 45px;
   line-height: 0.9;
@@ -62,6 +149,7 @@
   margin-bottom: 20px;
 }
 
+/* Estilo para los botones */
 .buttons {
   display: flex;
   margin-top: 30px;
@@ -75,11 +163,11 @@
   margin-right: 20px;
   text-align: center;
   text-decoration: none;
-  color: #fff;
+  color: #ffffff; /* Texto en blanco */
   background-color: transparent;
   border: solid 2px white;
 }
 
 .btn1:hover, .btn2:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3); /* Efecto hover */
 }

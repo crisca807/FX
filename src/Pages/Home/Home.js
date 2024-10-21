@@ -1,13 +1,23 @@
 import React from 'react';
-import UniqueBanner from './Bannerfx'; // Importa el componente del banner
-import Carrusel from './Carruselfx'; // Importa el componente del carrusel
-import './Styles/Shared.css'; // Hoja de estilo compartida
+import Unit from '../Home/Unit';
+import Delaysocket from '../Delay/delaysocket'; 
+import SpotDelay from '../Delay/spotdelay';
+import TrmDelay from '../Delay/Trmdelay';
+import MountDelay from '../Delay/Mountdelay';
+import './Styles/home.css'; 
+import './Styles/Shared.css'; 
 
 const Home = () => {
   return (
     <div className="main-container-banner-carrusel"> {/* Contenedor padre compartido */}
-      <UniqueBanner /> {/* Banner */}
-      <Carrusel /> {/* Carrusel */}
+
+      {/* Contenedor del componente Unit */}
+      <div className="container-unit">
+        <Unit /> 
+      </div>
+
+     
+
     </div>
   );
 };

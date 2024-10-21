@@ -15,7 +15,7 @@ export const WebSocketProvider = ({ children }) => {
     const connect = async () => {
       try {
         // Intentar obtener el token desde localStorage o solicitarlo si no está disponible
-        let token = localStorage.getItem('token');
+        let token = localStorage.getItem('token-socket');  // Usando el nuevo nombre de token
         
         // Si no existe el token, obtenerlo a través del servicio de Token
         if (!token) {
@@ -30,10 +30,10 @@ export const WebSocketProvider = ({ children }) => {
         }
 
         // Guardar el token en localStorage para futuras conexiones
-        localStorage.setItem('token', token);
+        localStorage.setItem('token-socket', token);
 
         // Conectar al WebSocket usando el token
-        await WebSocketService.connect(token);
+        await WebSocketService.connect(token); // Pasa el token al servicio
         WebSocketService.addListener((msg) => {
           setMessage(msg); // Actualiza el estado con el último mensaje recibido
         });

@@ -3,7 +3,7 @@ import { getToken } from './axiosconnect';
 
 class TokenService {
   constructor() {
-    this.token = localStorage.getItem('token'); // Intentar cargar el token desde localStorage si ya existe
+    this.token = localStorage.getItem('token-socket'); // Intentar cargar el token desde localStorage con el nuevo nombre
     this.isFetching = false; // Evita múltiples peticiones simultáneas
     this.subscribers = []; // Componentes que están esperando por el token
   }
@@ -30,8 +30,8 @@ class TokenService {
       if (success) {
         this.token = token;
 
-        // Guardar el token en localStorage
-        localStorage.setItem('token', this.token);
+        // Guardar el token en localStorage con el nuevo nombre
+        localStorage.setItem('token-socket', this.token);
 
         // Notifica a los suscriptores que ya tenemos el token
         this.subscribers.forEach((resolve) => resolve(this.token));
@@ -51,7 +51,7 @@ class TokenService {
   // Método para limpiar el token (en caso de logout o expiración)
   clearToken() {
     this.token = null;
-    localStorage.removeItem('token'); // Limpia el token del localStorage
+    localStorage.removeItem('token-socket'); // Limpia el token del localStorage con el nuevo nombre
   }
 }
 

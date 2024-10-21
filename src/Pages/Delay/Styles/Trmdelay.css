@@ -1,0 +1,53 @@
+.trm-dolar-info-container {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+.trm-dolar-info {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.trm-table-title {
+    text-align: center;
+    color: #003357;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.trm-data-table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trm-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px;
+    border-bottom: none;
+}
+
+/* Aplica negrita y color a los valores */
+.trm-data-row p {
+    font-weight: bold;
+    color: #000000b6; /* Color azul oscuro para los valores */
+}
+
+/* Estilo para los íconos */
+.faCartShopping, .faArrowTrendUp, .faArrowTrendDown {
+    margin-left: 10px;
+    color: #ff0000; /* Ajustar el color del ícono si es necesario */
+}

@@ -21,7 +21,7 @@ class WebSocketService {
 
     try {
       // Obtener el token del localStorage
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token-socket');
 
       if (!token) {
         throw new Error('Token no encontrado en localStorage');
