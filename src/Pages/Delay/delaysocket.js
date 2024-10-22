@@ -124,7 +124,7 @@ const Delaysocket = () => {
             const { dataIndex, dataset } = context;
             return dataset.data[dataIndex] > precioInicial ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)'; // Azul más vibrante si subió, rojo suave si bajó
           },
-          borderWidth: 2, // Aquí defines el grosor de la línea. Puedes ajustar el valor (por ejemplo, 2 o 0.5 para cambiar el grosor)
+          borderWidth: 2.1, // Aquí defines el grosor de la línea. Puedes ajustar el valor (por ejemplo, 2 o 0.5 para cambiar el grosor)
           // Colores del área debajo de las líneas (relleno con gradiente)
           segment: {
             borderColor: ctx => (ctx.p0.parsed.y > precioInicial ? 'rgba(0, 123, 255, 0.6)' : 'rgba(255, 0, 0, 0.6)'), // Azul vibrante por encima de la línea, rojo suave por debajo
@@ -204,7 +204,7 @@ const Delaysocket = () => {
         x: {
           ticks: {
             font: {
-              size: 10, // Reducir tamaño de la fuente
+              size: 14, // Reducir tamaño de la fuente
               family: 'Roboto, sans-serif', // Fuente personalizada para el eje X
               weight: 'normal', // Sin negrita
             },
@@ -230,7 +230,7 @@ const Delaysocket = () => {
           },
           ticks: {
             font: {
-              size: 10, // Reducir tamaño de la fuente en el eje Y
+              size: 14, // Reducir tamaño de la fuente en el eje Y
               family: 'Roboto, sans-serif', // Fuente personalizada para el eje Y
             },
           },
@@ -246,7 +246,7 @@ const Delaysocket = () => {
           ticks: {
             stepSize: 1000, // Ajustar el paso de los ticks a 1000 en 1000
             font: {
-              size: 10, // Reducir tamaño de la fuente en el eje Y1
+              size: 14, // Reducir tamaño de la fuente en el eje Y1
               family: 'Roboto, sans-serif', // Fuente personalizada para el eje Y1
             },
           },
@@ -258,10 +258,12 @@ const Delaysocket = () => {
   };
 
   return (
-    <div className="dolar-spot-socket" style={{ backgroundColor: 'white', color: 'black', padding: '20px', width: '100%', maxWidth: '1800px', height: '600px' }}>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <div style={{ width: '100%', height: '100%' }}>
-        {renderChart()}
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}> {/* Este contenedor centrará la gráfica */}
+      <div className="dolar-spot-socket" style={{ backgroundColor: 'white', color: 'black', padding: '20px', width: '100%', maxWidth: '1800px', height: '700px' }}>
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        <div style={{ width: '100%', height: '100%' }}>
+          {renderChart()}
+        </div>
       </div>
     </div>
   );

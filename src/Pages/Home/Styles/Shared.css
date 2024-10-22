@@ -13,9 +13,9 @@ body {
   background-color: #000000; /* Fondo negro solo para el banner */
   color: #ffffff; /* Texto en blanco en el banner */
   width: 100vw; /* Atraviesa toda la pantalla */
-  margin: 0; /* Elimina márgenes */
-  padding: 0 30px; /* Añade padding para espaciar los elementos dentro del banner */
-  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+  margin: 0;
+  padding: 0 30px;
+  box-sizing: border-box; 
 }
 
 /* Estilo único para el logo del banner */
@@ -23,7 +23,7 @@ body {
   height: 70px;
 }
 
-/* Estilo único para los enlaces de navegación en el banner */
+/* Estilo para los enlaces de navegación */
 .unique-nav-links {
   display: flex;
   gap: 30px;
@@ -31,143 +31,85 @@ body {
 
 .unique-nav-links a {
   text-decoration: none;
-  color: #ffffff; /* Texto blanco en los enlaces del banner */
+  color: #ffffff;
   font-weight: bold;
   font-size: 18px;
   transition: color 0.3s ease;
 }
 
 .unique-nav-links a:hover {
-  color: #003E69; /* Efecto hover en los enlaces */
+  color: #003E69;
 }
 
-/* Estilo específico para el contenedor del carrusel */
+/* Contenedor principal del carrusel y banner */
 .main-container-banner-carrusel {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #000000; /* Fondo blanco para el carrusel */
+  background-color: #000000; /* Fondo negro para el carrusel */
   padding: 0;
   margin: 0;
-  min-height: 100vh;
+  min-height: 90vh; /* Aumentando la altura del carrusel a 90vh */
 }
 
-/* Estilo para el carrusel (sin afectar el banner) */
-.carrusel-container {
-  width: 100%; /* Carrusel ocupa todo el ancho restante */
-  margin-top: 20px; /* Añade margen superior para separar del banner */
+/* Contenedor de Dolardelay y Delaysocket */
+.dolardelay-container {
+  background-color: #ffffff; /* Fondo blanco para el contenedor debajo del carrusel */
+  padding: 20px; /* Espaciado interno */
+  margin-top: 20px; /* Espaciado entre el carrusel y el contenedor */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, ); /* Sombra suave */
+  max-width: 2000px; /* Limitar el ancho máximo */
+  margin: 20px auto;
 }
 
-/* Contenedor específico para DelaySocket */
-
-
-/* Contenedor principal que agrupa todo */
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-/* Contenedor para los componentes de TrmDelay y MountDelay */
-.delay-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1200px; /* Ajustar el ancho máximo */
-  margin: 20px 0;
-  flex-direction: row; /* Asegura que estén uno al lado del otro */
-  z-index: 2; /* Asegura que este contenedor esté encima de la gráfica */
-}
-
-/* Estilo específico para el contenedor de TrmDelay */
-.Trmdelay-container {
-  flex: 1;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  margin-right: 10px;
-  text-align: left;
-}
-
-/* Estilo específico para el contenedor de MountDelay */
-.Mountdelay-container {
-  flex: 1;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  margin-left: 10px;
-  text-align: left;
-}
-
-/* Estilo específico para el contenedor de NewsComponent */
-.Newsdelay-container {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #ffffff;
-  padding: 10px 20px; /* Reduzco el padding superior e inferior a 10px */
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  margin: 20px auto; /* Reduzco el margen superior e inferior a 20px */
-  text-align: center;
-  z-index: 3; /* Asegura que esté por encima de otros elementos */
-}
-
-/* Estilo para el título de Resumen del mercado */
+/* Título del Resumen del mercado */
 .market-summary-title {
   font-family: "Noto Sans", sans-serif;
-  font-size: 24px;
-  color: #ffffff;
-  text-align: left;
-  margin: 20px 0;
-  padding-left: 20px;
+  font-size: 35px;
+  color: #000000; /* Color negro para el título */
+  font-weight: bold;
+  margin-bottom: 10px; /* Espacio entre el título y el contenido */
+  text-align: center; /* Centrando el título */
+}
+
+/* Contenedor de Delaysocket */
+.delaysocket-container {
+  background-color: #ffffff; /* Fondo blanco para delaysocket */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0); /* Sombra suave */
+  margin-top: 10px; /* Espacio entre Dolardelay y Delaysocket */
 }
 
 /* Ajustar el tamaño del gráfico o contenido dentro de DelaySocket */
 .delaysocket-container canvas {
   width: 100%;
-  height: 400px; /* Ajuste de altura */
+  height: 1000px; /* Ajuste de altura */
 }
 
-/* Estilo para alinear los contenidos centrales */
-.wrap {
-  max-width: 1000px;
-  margin: 0 auto;
+
+.infomounts-socket-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px;
 }
 
-/* Estilo para los encabezados y botones */
-.box h1 {
-  font-size: 45px;
-  line-height: 0.9;
-  padding-bottom: 20px;
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 20px;
+.trmdelay-container, .mountdelay-container {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para los botones */
-.buttons {
-  display: flex;
-  margin-top: 30px;
-  justify-content: center;
-}
-
-.btn1, .btn2 {
-  flex-basis: 30%;
-  border-radius: 20px;
-  padding: 10px 30px;
-  margin-right: 20px;
-  text-align: center;
-  text-decoration: none;
-  color: #ffffff; /* Texto en blanco */
-  background-color: transparent;
-  border: solid 2px white;
-}
-
-.btn1:hover, .btn2:hover {
-  background-color: rgba(255, 255, 255, 0.3); /* Efecto hover */
+.infonews-socket-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Espaciado entre infomounts y infonews */
+  max-width: 2000px;
+  margin: 20px auto;
 }
