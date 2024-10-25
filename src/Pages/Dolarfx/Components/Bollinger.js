@@ -71,8 +71,7 @@ const Bollinger = () => {
         data: data1002?.usdCopPrices || [],
         borderColor: '#007bff',
         pointBackgroundColor: '#007bff',
-        backgroundColor: 'rgba(0, 123, 255, 0.1)', // Relleno bajo la línea
-        fill: true,
+        fill: false, // Eliminar el relleno bajo la línea azul
         tension: 0.4,
       },
       {
@@ -86,8 +85,7 @@ const Bollinger = () => {
         label: 'Media móvil (20)-2 Desv Est',
         data: data1002?.mediaMovil20MenosDesv || [],
         borderColor: 'rgba(255, 99, 132, 1)', // Rojo para la línea inferior
-        fill: '-1', // Relleno entre esta línea y la línea superior
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        fill: false, // Eliminar el relleno debajo de la línea roja
         tension: 0.4,
       },
       {
@@ -133,6 +131,9 @@ const Bollinger = () => {
             size: 14, // Aumenta el tamaño de la fuente en el eje X
           },
         },
+        grid: {
+          display: false, // Ocultar las líneas verticales
+        },
       },
       y: {
         title: {
@@ -149,6 +150,9 @@ const Bollinger = () => {
           },
           stepSize: 5,
           precision: 0,
+        },
+        grid: {
+          display: true, // Mostrar solo las líneas horizontales
         },
       },
     },

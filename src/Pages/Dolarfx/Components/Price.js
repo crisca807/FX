@@ -73,6 +73,14 @@ const Price = () => {
 
     const { cotizacion, labels } = data1001;
 
+    // Función para crear el gradiente de blanco a azul
+    const createGradient = (ctx, chartArea) => {
+      const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Blanco en la parte inferior
+      gradient.addColorStop(1, 'rgba(135, 206, 235, 1)'); // Azul cielo en la parte superior
+      return gradient;
+    };
+
     // Datos para la gráfica
     const data = {
       labels: labels,
@@ -81,10 +89,18 @@ const Price = () => {
           label: 'Cotización USD/COP',
           data: cotizacion,
           borderColor: '#00a1ff',
-          backgroundColor: 'rgba(0, 161, 255, 0.2)',  // Fondo degradado debajo de la línea
+          backgroundColor: (ctx) => {
+            const chart = ctx.chart;
+            const { ctx: context, chartArea } = chart;
+
+            if (!chartArea) {
+              return null;
+            }
+            return createGradient(context, chartArea); // Aplica el gradiente como fondo
+          },
           borderWidth: 2,
           fill: true,  // Activa el relleno
-          tension: 0.5,  // Suaviza más la línea
+          tension: 0,  // Suaviza más la línea
           pointRadius: 0  // Remueve los puntos en la línea
         }
       ]
@@ -109,13 +125,26 @@ const Price = () => {
           },
           ticks: {
             autoSkip: true,  // Auto saltar etiquetas de tiempo para evitar aglomeración
-            maxTicksLimit: 20
+            maxTicksLimit: 20,
+            font: {
+              size: 14,  // Ajusta el tamaño de la fuente del eje X
+              family: 'Arial, sans-serif', // Fuente personalizada
+              weight: 'normal', // Sin negrita
+            },
           }
         },
         y: {
           display: true,
           beginAtZero: false,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.2)'  // Ajustar la opacidad de las líneas horizontales
+          },
           ticks: {
+            font: {
+              size: 14,  // Ajusta el tamaño de la fuente del eje Y
+              family: 'Arial, sans-serif', // Fuente personalizada
+              weight: 'normal', // Sin negrita
+            },
             callback: function(value) {
               return value.toFixed(0);  // Eliminar decimales
             }

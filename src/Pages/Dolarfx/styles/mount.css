@@ -1,59 +1,64 @@
 /* Contenedor principal de la tabla */
 .unique-dolar-info {
     font-family: 'Poppins', sans-serif;
-   
-    background-color: #ffffff56;
+    background-color: #ffffff;
     border-radius: 8px;
     padding: 20px;
-
     margin: 20px 0;
-    width: 11cm; /* Ancho del contenedor */
-    height: 8cm; /* Alto del contenedor */
+    width: 100%;
+    max-width: 600px; /* Mantiene el ancho del contenedor */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    height: 400px; /* Ajuste de altura consistente con el otro contenedor */
 }
+
+/* Título de la tabla */
 .table-title {
     text-align: center;
     color: #003E69;
-    font-size: 20px;
+    font-size: 28px;
     margin-bottom: 15px;
-  }
-  
-/* Fila de datos: mostrará dos columnas (título y valor) */
+}
+
+/* Fila de datos: mostrará ícono, título y valor */
 .unique-data-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px; /* Reduce el espacio entre las filas */
-    padding: 5px;
-    /* Un poco más claro con opacidad */
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
     border-radius: 8px;
-    text-align: left;
-    font-size: 14px;
-    color: #00000073;
+    font-size: 16px;
+    color: #000000b6;
 }
+
+/* Ajuste de tamaño para los íconos */
 .icon {
-    color: #000000; /* Color verde */
-    margin-right: 10px; /* Añade un espacio entre el ícono y el texto */
-  }
+    font-size: 18px; /* Ajustar tamaño del ícono */
+    color: #000000;
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    flex-shrink: 0; /* Asegura que los íconos no se reduzcan en tamaño */
+}
+
 /* Columna de los títulos de datos */
 .unique-data-item-title {
     font-size: 16px;
     color: #000000;
-    font-weight: 600; /* Mantiene la negrita solo para los títulos */
-    width: 50%; /* Ajusta el ancho para mantener espacio entre las columnas */
+    font-weight: 600;
+    width: 50%;
 }
 
 /* Columna de los valores de datos */
-.unique-data-row .unique-data-item-value {
+.unique-data-item-value {
     font-size: 16px;
-    font-weight: 400 !important; /* Fuerza la ausencia de negrita */
-    color: #0000009c;
+    font-weight: 400;
+    color: #000000b6;
     text-align: right;
-    width: 50%; /* Ajusta el ancho para la columna de valores */
+    width: 50%;
 }
 
-/* Estilo hover en los elementos */
+/* Hover efecto en las filas */
 .unique-data-row:hover {
-    background-color: #ffffff36;
-    color: #000; /* Cambia el color del texto al hacer hover */
+    background-color: #f0f0f0;
     transition: background-color 0.3s ease, color 0.3s ease;
 }

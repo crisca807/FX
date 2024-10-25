@@ -6,6 +6,7 @@ import Delaysocket from '../Delay/delaysocket';
 import TrmDelay from '../Delay/Trmdelay';
 import MountDelay from '../Delay/Mountdelay';
 import NewsComponent from '../Dolarfx/Components/newscomponent';
+import Footer from '../Delay/Footerdelay';
 import './Styles/Shared.css';
 
 const Unit = () => {
@@ -28,9 +29,14 @@ const Unit = () => {
         {/* Nuevo contenedor para NewsComponent */}
         <div className="infonews-socket-container">
           <NewsComponent /> {/* Contenedor para NewsComponent */}
+
+          <div className="Footer-socket-container">
+          <Footer/> {/* Contenedor para NewsComponent */}
+          
         </div>
         
       </div>
+    </div>
     </div>
   );
 };

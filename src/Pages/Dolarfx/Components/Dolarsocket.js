@@ -53,13 +53,14 @@ const Dolarsocket = () => {
 
     return (
       <div className="data-container">
-        <div className="datadolar-box avg-box">
-          <h2>Promedio</h2>
-          <p>{avg}</p>
-        </div>
+        {/* Cambiar el orden: Cierre primero, Promedio después */}
         <div className="datadolar-box close-box">
           <h2>Cierre</h2>
           <p>{close}</p>
+        </div>
+        <div className="datadolar-box avg-box">
+          <h2>Promedio</h2>
+          <p>{avg}</p>
         </div>
       </div>
     );

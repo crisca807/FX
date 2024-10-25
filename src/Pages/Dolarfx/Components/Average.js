@@ -52,11 +52,6 @@ const Average = () => {
           const mediaMovil13 = nestedData.datasets[2]?.data || ['Data not available'];
           const labels = nestedData.labels || ['Labels not available'];
 
-          console.log('Precios USD/COP:', usdCopPrices);
-          console.log('Media móvil (8):', mediaMovil8);
-          console.log('Media móvil (13):', mediaMovil13);
-          console.log('Etiquetas de tiempo:', labels);
-
           setData1002({
             usdCopPrices,
             mediaMovil8,
@@ -70,15 +65,31 @@ const Average = () => {
     }
   }, [message]);
 
+  // Función para crear el degradado
+  const createGradient = (ctx, area) => {
+    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Blanco en la parte inferior (eje X)
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0.4)'); // Azul en la parte superior
+    return gradient;
+  };
+
   const chartData = {
     labels: data1002?.labels || [],
     datasets: [
       {
         label: 'Cotización USD/COP',
         data: data1002?.usdCopPrices || [],
-        borderColor: '#007bff',
-        pointBackgroundColor: '#007bff',
-        backgroundColor: 'rgba(0, 123, 255, 0.6)',
+        borderColor: '#00a1ff',
+        pointBackgroundColor: '#00a1ff',
+        backgroundColor: (context) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) {
+            return null;
+          }
+          return createGradient(ctx, chartArea);
+        },
         fill: true,
         tension: 0.4,
       },
@@ -122,9 +133,14 @@ const Average = () => {
             weight: 'bold', // Pone en negrita el título del eje X
           },
         },
+        grid: {
+          display: false, // Elimina las líneas verticales
+        },
         ticks: {
           font: {
             size: 14, // Aumenta el tamaño de la fuente en el eje X
+            family: 'Arial, sans-serif', // Fuente personalizada
+            weight: 'normal', // Sin negrita
           },
         },
       },
@@ -137,9 +153,14 @@ const Average = () => {
             weight: 'bold', // Pone en negrita el título del eje Y
           },
         },
+        grid: {
+          display: true, // Mantiene las líneas horizontales
+        },
         ticks: {
           font: {
             size: 14, // Aumenta el tamaño de la fuente en el eje Y
+            family: 'Arial, sans-serif', // Fuente personalizada
+            weight: 'normal', // Sin negrita
           },
           stepSize: 5,
           precision: 0,

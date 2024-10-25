@@ -10,17 +10,11 @@
     margin: 20px;
 }
 
-.trm-dolar-info {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 600px;
-}
+
 
 .trm-table-title {
     text-align: center;
-    color: #003357;
+    color: #6831af;
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: 600;
@@ -43,11 +37,11 @@
 /* Aplica negrita y color a los valores */
 .trm-data-row p {
     font-weight: bold;
-    color: #000000b6; /* Color azul oscuro para los valores */
+    color: #742525b6; /* Color azul oscuro para los valores */
 }
 
 /* Estilo para los íconos */
 .faCartShopping, .faArrowTrendUp, .faArrowTrendDown {
     margin-left: 10px;
-    color: #ff0000; /* Ajustar el color del ícono si es necesario */
+    color: #340088; /* Ajustar el color del ícono si es necesario */
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,22 +12,23 @@ import {
   Legend,
   Filler
 } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { useWebSocket } from '../../Context/Websocketcontext'; // Usar el contexto de WebSocket
 
-// Registrar Filler, BarElement y el plugin de anotación
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler, annotationPlugin);
+// Registrar los elementos de ChartJS y plugins necesarios
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler, annotationPlugin, zoomPlugin);
 
 const DolarSpot = () => {
-  const [status, setStatus] = useState('Verificando conexión...');
   const [error, setError] = useState(null);
-  const [data1000, setData1000] = useState(null);
+  const data1000Ref = useRef(null); // Usar useRef para mantener la referencia de los datos
+  const chartRef = useRef(null); // Usar useRef para el componente de la gráfica
 
   // Acceder al contexto de WebSocket
   const { isConnected, message } = useWebSocket();
 
   useEffect(() => {
-    if (message) {
+    if (message && !data1000Ref.current) { // Solo actualizar si no tenemos los datos previos en la referencia
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
@@ -40,14 +41,16 @@ const DolarSpot = () => {
         return; // Ignorar mensajes que no sean del ID 1000 o mercado 71
       }
 
+      // Extraer la información de datos_grafico_moneda_mercado
       const result = parsedMessage?.result?.[0];
-      if (!result || !result.datos_grafico_moneda_mercado_rt) {
+      const datosGraficoString = result?.datos_grafico_moneda_mercado_rt;
+
+      if (!datosGraficoString) {
         console.error('No se pudo acceder a datos_grafico_moneda_mercado_rt:', result);
         return;
       }
 
-      const datosGraficoString = result.datos_grafico_moneda_mercado_rt;
-
+      // Extraer los datos relevantes desde el string de datos
       const preciosCierreMatch = datosGraficoString.match(/Precios de cierre',data:\s*\[([0-9.,\s]+)\]/);
       const montosUSDMatch = datosGraficoString.match(/Montos \(Miles USD\)',data:\s*\[([0-9.,\s]+)\]/);
       const labelsMatch = datosGraficoString.match(/labels:\s*\[([0-9:,\s]+)\]/);
@@ -56,11 +59,12 @@ const DolarSpot = () => {
       const montosUSD = montosUSDMatch ? montosUSDMatch[1].split(',').map(Number) : [];
       const labels = labelsMatch ? labelsMatch[1].split(',') : [];
 
-      setData1000({
+      // Guardar los datos en el useRef para evitar actualizaciones frecuentes
+      data1000Ref.current = {
         preciosCierre,
         montosUSD,
         labels,
-      });
+      };
     }
   }, [message]);
 
@@ -70,6 +74,8 @@ const DolarSpot = () => {
   };
 
   const renderChart = () => {
+    const data1000 = data1000Ref.current;
+
     if (!data1000) {
       return <p>No se recibieron datos para el ID 1000 y mercado 71.</p>;
     }
@@ -78,79 +84,87 @@ const DolarSpot = () => {
     const precioInicial = preciosCierre.length > 0 ? preciosCierre[0] : 0; // Validación para evitar errores
     const promedioCierre = calcularPromedio(preciosCierre);
 
-    // Ajustar los valores mínimos y máximos para centrar los datos
-    const minY = Math.min(...preciosCierre) - 5;
-    const maxY = Math.max(...preciosCierre) + 5;
-
-    const minY1 = Math.min(...montosUSD) - 250;  // Ajustar para pegar al eje
-    const maxY1 = Math.max(...montosUSD) + 500;
-
-    // Crear el degradado que comienza justo encima de las barras
-    const getBarGradient = (ctx, chartArea) => {
-      const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top); // De abajo (gris) hacia arriba (blanco)
-      gradient.addColorStop(0, 'rgba(194, 194, 194, 1)'); // Gris en la parte inferior
-      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.7)'); // Blanco con opacidad encima de las barras
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Totalmente transparente en la parte superior
+    // Crear el degradado para difuminar el cambio entre colores
+    const createGradient = (ctx, area) => {
+      const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.5, 'rgba(255, 120, 120, 0.6)');
+      gradient.addColorStop(0.4, 'rgba(255, 120, 120, 0.8)');
+      gradient.addColorStop(0.6, 'rgba(157, 212, 255, 0.6)');
+      gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)');
       return gradient;
     };
 
     const data = {
-      labels: labels.slice(0, preciosCierre.length),
+      labels: labels,
       datasets: [
         {
           label: 'Precios de cierre',
           data: preciosCierre,
-          borderColor: '#00a1ff',
-          fill: true,
-          tension: 0.0,
-          pointRadius: 0,
-          yAxisID: 'y',
-          type: 'line',
-          backgroundColor: (ctx) => {
-            const chart = ctx.chart;
-            const { chartArea } = chart;
+          fill: 'start',
+          tension: 0,
+          backgroundColor: (context) => {
+            const chart = context.chart;
+            const { ctx, chartArea } = chart;
 
             if (!chartArea) {
               return null;
             }
-
-            return getBarGradient(ctx.chart.ctx, chartArea);
+            return createGradient(ctx, chartArea);
           },
+          borderColor: (context) => {
+            const { dataIndex, dataset } = context;
+            return dataset.data[dataIndex] > precioInicial ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)';
+          },
+          borderWidth: 2.1,
           segment: {
-            borderColor: (ctx) => (ctx.p0.parsed.y >= precioInicial ? 'rgba(0, 161, 255, 0.8)' : 'rgba(165, 38, 38, 0.8)'), // Azul si es mayor, rojo si es menor
-            backgroundColor: (ctx) => (ctx.p0.parsed.y >= precioInicial ? 'rgba(0, 161, 255, 0.1)' : 'rgba(181, 44, 44, 0.1)'), // Cambiar color de fondo
+            borderColor: ctx => (ctx.p0.parsed.y > precioInicial ? 'rgba(0, 123, 255, 0.6)' : 'rgba(255, 0, 0, 0.6)'),
           },
+          pointRadius: 0,
+          yAxisID: 'y',
         },
         {
           label: 'Montos (Miles USD)',
           data: montosUSD,
-          backgroundColor: 'rgba(194, 194, 194, 1)', // Barras 100% gris
+          backgroundColor: 'rgba(158, 147, 147, 0.4)',
           yAxisID: 'y1',
           type: 'bar',
-          barThickness: 3, // Ajustar el grosor de las barras
+          barThickness: 2,
         },
       ],
     };
 
     const options = {
       responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 3,
       interaction: {
         mode: 'index',
         intersect: false,
       },
-      animation: false, // Sin animaciones para la transición de los montos
+      animation: false,
       stacked: false,
       plugins: {
+        zoom: {
+          pan: {
+            enabled: true,
+            mode: 'x',
+          },
+          zoom: {
+            enabled: true,
+            mode: 'x',
+            speed: 0.05,
+          },
+        },
         legend: {
           display: true,
           labels: {
             font: {
-              size: 18, // Tamaño de la fuente de la leyenda
-              family: 'Arial, sans-serif', // Tipografía de la leyenda
+              size: 14,
+              family: 'Roboto, sans-serif',
+              weight: 'normal',
             },
-            color: '#000000', // Color del texto de la leyenda
-            usePointStyle: true, // Cambia la forma de la leyenda a un punto en lugar de una línea
-            padding: 20, // Espaciado adicional alrededor de la leyenda
+            color: '#000000',
           },
         },
         annotation: {
@@ -158,24 +172,20 @@ const DolarSpot = () => {
             line1: {
               type: 'line',
               scaleID: 'y',
-              value: precioInicial, // Primer precio del día
-              borderColor: 'rgba(0, 0, 0, 0.5)', // Línea negra con opacidad al 50%
-              borderWidth: 2,
+              value: precioInicial,
+              borderColor: 'rgba(0, 0, 0, 0.3)',
+              borderWidth: 0.5,
+              borderDash: [5, 5],
               label: {
-                content: `$${precioInicial.toFixed(2)}`, // Mostrar el valor exacto al lado de la línea
                 enabled: true,
-                position: 'start',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                content: `Precio Inicial: $${precioInicial.toFixed(2)}`,
+                position: 'end',
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
                 color: 'white',
                 font: {
-                  size: 14,
+                  size: 12,
                   family: 'Arial, sans-serif',
                 },
-                padding: {
-                  top: 6,
-                  bottom: 6,
-                },
-                yAdjust: -10, // Ajuste para que la etiqueta no esté directamente sobre la línea
               },
             },
           },
@@ -183,14 +193,22 @@ const DolarSpot = () => {
       },
       scales: {
         x: {
-          grid: {
-            drawOnChartArea: false,
-          },
           ticks: {
             font: {
-              size: 16,
-              family: 'Arial, sans-serif',
+              size: 14,
+              family: 'Roboto, sans-serif',
+              weight: 'normal',
             },
+            callback: function(value, index, values) {
+              if (index % 120 === 0) {
+                return labels[index];
+              }
+            },
+            maxRotation: 0,
+            minRotation: 0,
+          },
+          grid: {
+            display: false,
           },
         },
         y: {
@@ -198,48 +216,44 @@ const DolarSpot = () => {
           display: true,
           position: 'left',
           grid: {
-            drawOnChartArea: true,
+            display: false,
           },
-          min: minY,
-          max: maxY,
           ticks: {
-            stepSize: (maxY - minY) / 10,  // Divide en 10 segmentos
-            callback: (value) => `$${(typeof value === 'number') ? value.toFixed(2) : '0.00'}`, // Validar antes de usar toFixed
             font: {
-              size: 16,
-              family: 'Arial, sans-serif',
+              size: 14,
+              family: 'Roboto, sans-serif',
             },
           },
+          suggestedMax: precioInicial + 5,
         },
         y1: {
           type: 'linear',
           display: true,
           position: 'right',
           grid: {
-            drawOnChartArea: false,
+            display: false,
           },
-          min: minY1,
-          max: maxY1,
           ticks: {
-            stepSize: (maxY1 - minY1) / 10,  // Divide en 10 segmentos
-            callback: (value) => `${(typeof value === 'number') ? value.toFixed(0) : '0'}`, // Validar antes de usar toFixed
+            stepSize: 1000,
             font: {
-              size: 16,
-              family: 'Arial, sans-serif',
+              size: 14,
+              family: 'Roboto, sans-serif',
             },
           },
         },
       },
     };
 
-    return <Line data={data} options={options} />;
+    return <Line ref={chartRef} data={data} options={options} />;
   };
 
   return (
-    <div className="dolar-spot-informacion" style={{ backgroundColor: 'white', color: 'black', padding: '20px' }}>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <div>
-        {renderChart()}
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div className="dolar-spot-socket" style={{ backgroundColor: 'white', color: 'black', padding: '20px', width: '100%', maxWidth: '1800px', height: '700px' }}>
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        <div style={{ width: '100%', height: '100%' }}>
+          {renderChart()}
+        </div>
       </div>
     </div>
   );

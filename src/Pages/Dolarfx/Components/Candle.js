@@ -25,7 +25,7 @@ const CandleData = () => {
   const candleWidth = 0.3; // Ajusta este valor para cambiar el ancho de las velas (valores entre 0 y 1)
 
   // Acceder al contexto de WebSocket
-  const { message, error } = useWebSocket(); // Elimina `isConnected` y `connectWebSocket`
+  const { message, error } = useWebSocket();
 
   // Procesar los mensajes recibidos desde el WebSocket
   useEffect(() => {
@@ -107,20 +107,27 @@ const CandleData = () => {
               type: 'time',
               time: {
                 unit: 'minute', // Establecer la unidad en minutos
-                tooltipFormat: 'yyyy-MM-dd HH:mm', // Formato para el tooltip
+                tooltipFormat: 'HH:mm', // Formato para el tooltip (solo horas y minutos)
                 displayFormats: {
-                  minute: 'yyyy-MM-dd HH:mm', // Mostrar fecha y hora en el eje X
+                  minute: 'HH:mm', // Mostrar solo horas y minutos en el eje X
                 }
               },
               title: {
                 display: true,
-                text: 'Fecha/Hora',
+                text: 'Hora',
+                font: {
+                  size: 14,
+                  weight: 'bold',
+                },
               },
               ticks: {
-                autoSkip: true, // Saltar etiquetas para evitar superposición
+                autoSkip: true, // Saltar etiquetas si es necesario para evitar superposición
                 maxRotation: 0, // Evitar rotación de etiquetas
                 minRotation: 0,
-                source: 'auto', // Asegurar que las etiquetas se generen automáticamente
+                callback: function(value, index, values) {
+                  // Mostrar solo horas y minutos en las etiquetas del eje X
+                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                },
               },
               grid: {
                 display: true, // Mostrar las líneas de la cuadrícula en el eje X

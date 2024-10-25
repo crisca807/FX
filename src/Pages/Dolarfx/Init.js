@@ -1,12 +1,12 @@
 import React from 'react';
 import Banner from '../Dolarfx/Components/Banner.js';
 import DolarSpot from './Components/Dolarspot.js';
-import DolarInfo from './Components/Dolarrest.js';
+import Dolarsocket from './Components/Dolarsocket.js'; // Asegúrate de que esté bien importado // Asegúrate de que esté bien importado
 import Trm from './Components/TrmReal.js';
 import Mount from './Components/Mount.js';
 import Graphics from './Components/graphics.js';
 import NewsComponent from './Components/newscomponent.js';
-import '../Dolarfx/styles/Init.css';
+import '../Dolarfx/styles/Init.css'; // Estilos generales
 
 const Init = () => {
   const [scrollPosition, setScrollPosition] = React.useState(0);
@@ -41,11 +41,19 @@ const Init = () => {
       <div className="Banner-container">
         <Banner />
       </div>
+      <div className="DolarInfo-socket-container">
+   
+          <div className="DolarInfo-socket-content">
+            <Dolarsocket />
 
       <div className="main-container">
         <div className="Dolarspot-container">
-          <h2 className="dolarspot-title">DOLAR SPOT</h2>
+        <h2 className="dolarspot-title">DOLAR SPOT</h2>
+    
           <DolarSpot />
+        </div>
+
+          </div>
         </div>
 
         <div
@@ -65,8 +73,6 @@ const Init = () => {
 
         <div className="News-container">
           <NewsComponent />
-          
-          
         </div>
       </div>
     </div>

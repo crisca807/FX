@@ -11,28 +11,28 @@ const Graphics = () => {
 
   return (
     <div className="graphics-container">
-      {/* Menu de Pestañas */}
+      {/* Menú de Pestañas */}
       <div className="tab-menu">
-        <button 
-          className={`tab-button ${activeTab === 'price' ? 'active' : ''}`} 
+        <button
+          className={`tab-button price-tab ${activeTab === 'price' ? 'active' : ''}`}
           onClick={() => setActiveTab('price')}
         >
           Precios
         </button>
-        <button 
-          className={`tab-button ${activeTab === 'average' ? 'active' : ''}`} 
+        <button
+          className={`tab-button average-tab ${activeTab === 'average' ? 'active' : ''}`}
           onClick={() => setActiveTab('average')}
         >
           Promedio
         </button>
-        <button 
-          className={`tab-button ${activeTab === 'candle' ? 'active' : ''}`} 
+        <button
+          className={`tab-button candle-tab ${activeTab === 'candle' ? 'active' : ''}`}
           onClick={() => setActiveTab('candle')}
         >
           Velas
         </button>
-        <button 
-          className={`tab-button ${activeTab === 'bollinger' ? 'active' : ''}`} 
+        <button
+          className={`tab-button bollinger-tab ${activeTab === 'bollinger' ? 'active' : ''}`}
           onClick={() => setActiveTab('bollinger')}
         >
           Bollinger

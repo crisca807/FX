@@ -4,7 +4,7 @@
 body {
   font-family: 'Poppins', sans-serif; /* Aplicar la tipografía Poppins */
   background-color: #ff0000; /* Fondo rojo sólido */
-  color: rgb(68, 0, 0); /* Texto en blanco para buena visibilidad sobre fondo rojo */
+  color: rgb(68, 0, 0); /* Texto oscuro */
 }
 
 .news-logo {
@@ -18,14 +18,14 @@ body {
 }
 
 .news-container {
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo con cierta opacidad */
+  background-color: rgb(255, 255, 255 ); /* Fondo con cierta opacidad */
   padding: 20px;
   border-radius: 8px;
   color: #b31515;
-  width: 100%; /* Aumenta el ancho del contenedor */
-  max-width: 1200px; /* Establece un ancho máximo para mejorar la estética */
+  width: 95%; /* Aumenta el ancho del contenedor */
+  max-width: 1600px; /* Ancho máximo mayor para mejorar la estética */
   margin: 20px auto; /* Centra el contenedor horizontalmente y añade espacio superior e inferior */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+
 }
 
 .news-header {
@@ -36,7 +36,7 @@ body {
 }
 
 .news-header h1 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700; /* Negrita */
 }
 
@@ -44,28 +44,29 @@ body {
   display: flex;
   gap: 20px;
   justify-content: space-between;
-  flex-wrap: wrap; /* Permite que las noticias se acomoden en varias líneas si es necesario */
+  flex-wrap: nowrap; /* Asegura que estén en una sola fila */
 }
 
 .news-item {
-  background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco con opacidad */
+  background-color: rgba(255, 255, 255, ); /* Fondo blanco con opacidad */
   color: #000;
   padding: 20px;
-  width: calc(33.33% - 20px); /* Cada noticia ocupa un tercio del ancho disponible */
+  flex: 1; /* Asegura que todas las noticias tengan el mismo tamaño */
+  max-width: 23%; /* Controla el ancho máximo para que 4 noticias quepan en una fila */
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, ); /* Sombra */
   transition: background-color 0.3s ease;
   text-align: center;
 }
 
 .news-item h2 {
-  font-size: 18px;
+  font-size: 20px;
   margin: 0 0 10px;
   font-weight: 600;
 }
 
 .news-item p {
-  margin: 5px 0;
+  margin: 1px 0;
 }
 
 .news-item a {
@@ -83,8 +84,13 @@ body {
 
 /* Ajustes para dispositivos móviles */
 @media (max-width: 768px) {
+  .news-grid {
+    flex-wrap: wrap; /* Permitir que se acomoden en varias filas si es necesario */
+  }
+
   .news-item {
     width: calc(50% - 20px); /* Ajusta el tamaño de los items en pantallas más pequeñas */
+    max-width: 100%;
   }
 }
 

@@ -101,15 +101,26 @@ body {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, );
 }
 
 .infonews-socket-container {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, );
   margin-top: 20px; /* Espaciado entre infomounts y infonews */
   max-width: 2000px;
   margin: 20px auto;
 }
+
+  .Footer-socket-container {
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, );
+    margin-top: 20px; /* Espaciado entre infomounts y infonews */
+    max-width: 2000px;
+    margin: 20px auto;
+  }
+  
