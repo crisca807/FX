@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
 import '../styles/Banner.css';
-import logo from '../../../Assets/Images/LOGO_SET_ICAP_FX-removebg-preview.png'; // Asegúrate de actualizar la ruta del logo
+import logo from '../../../Assets/Images/set_icapn.png'; // Asegúrate de actualizar la ruta del logo
 
 const Banner = () => {
   return (

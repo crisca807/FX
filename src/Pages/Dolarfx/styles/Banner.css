@@ -3,9 +3,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 40px;
+    padding: 30px 40px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Cambia el color a negro para mayor visibilidad */
-    background-color: #ffffff; /* Fondo blanco */
+    background-color: #000000; /* Fondo blanco */
 }
 
 /* Estilo del logo */
@@ -22,7 +22,7 @@
 /* Estilo de cada enlace */
 .nav-links-custom a {
     text-decoration: none;
-    color: #000000; /* Ajustar el color del texto para que sea visible sobre el fondo blanco */
+    color: #ffffff; /* Ajustar el color del texto para que sea visible sobre el fondo blanco */
     font-weight: bold;
     font-size: 22px; /* Tamaño de la letra ajustado */
     transition: color 0.3s ease;

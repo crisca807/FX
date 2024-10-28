@@ -108,6 +108,7 @@ const Price = () => {
 
     const options = {
       responsive: true,
+      maintainAspectRatio: false,  // Asegura que la gráfica se ajuste a su contenedor
       plugins: {
         legend: {
           display: false
@@ -153,11 +154,11 @@ const Price = () => {
       }
     };
 
-    return <Line data={data} options={options} />;
+    return <Line data={data} options={options} height={491} />;  // Cambia aquí la altura de la gráfica
   };
 
   return (
-    <div className="price-information" style={{ backgroundColor: 'white', color: 'black', padding: '20px' }}>
+    <div className="price-information" style={{ backgroundColor: 'white', color: 'black', padding: '20px', maxWidth: '1420px', height: '570px', margin: '0 auto' }}>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
         {renderChart()}

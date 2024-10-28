@@ -6,12 +6,12 @@
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
     margin: 20px;
 }
 
 .trm-dolar-info {
-    background-color: #ffffff;
+    background-color: #000000;
     padding: 24px;
     border-radius: 10px;
     width: 100%;
@@ -20,7 +20,7 @@
 
 .trm-table-title {
     text-align: center;
-    color: #003357;
+    color: #ffffff;
     font-size: 28px;
     margin-bottom: 20px;
     font-weight: 600;
@@ -77,7 +77,7 @@
 /* Aplica negrita, color y tamaño más grande a los valores */
 .trm-data-row p {
     font-weight: bold;
-    color: #000000b6;
+    color: #ffffffb6;
     font-size: 18px;
     margin-left: auto; /* Mueve los valores hacia la derecha */
 }
@@ -85,5 +85,5 @@
 /* Estilo para los íconos */
 .faCartShopping, .faArrowTrendUp, .faArrowTrendDown {
     margin-left: 9px;
-    color: #000000;
+    color: #ffffff;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWebSocketDelay } from '../Context/WebSocketContextDelay'; // Importar el contexto de WebSocket
 import JSON5 from 'json5';
-import '../Dolarfx/styles/Status.css'; // Importar el archivo CSS
+import '../Delay/Styles/dolar.css'; // Importar el archivo CSS
 
 const Dolardelay = () => {
   const [data1007, setData1007] = useState([]);
@@ -52,12 +52,12 @@ const Dolardelay = () => {
     const close = item.data?.close || 'Data not available';
 
     return (
-      <div className="data-container">
-        <div className="datadolar-box avg-box">
+      <div className="infoprom-delay-data-container">
+        <div className="infoprom-delay-datadolar-box infoprom-delay-avg-box">
           <h2>Promedio</h2>
           <p>{avg}</p>
         </div>
-        <div className="datadolar-box close-box">
+        <div className="infoprom-delay-datadolar-box infoprom-delay-close-box">
           <h2>Cierre</h2>
           <p>{close}</p>
         </div>
@@ -69,7 +69,7 @@ const Dolardelay = () => {
   const sortedData = data1007.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   return (
-    <div className="dolar-info">
+    <div className="infoprom-delay-dolar-info">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
         {sortedData.length > 0 ? (

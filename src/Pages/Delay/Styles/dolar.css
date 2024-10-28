@@ -1,13 +1,13 @@
 /* Estilo general del contenedor */
-.dolar-info {
-  background-color: #ffffff; /* Fondo blanco */
+.infoprom-delay-dolar-info {
+  background-color: #ffffff; /* Fondo negro */
   padding: 20px;
   font-family: Arial, sans-serif;
   text-align: center; /* Centra el contenido dentro del contenedor */
 }
 
 /* Estilo del título principal */
-.dolar-info h1 {
+.infoprom-delay-dolar-info h1 {
   font-size: 2.5rem; /* Tamaño del texto del título */
   color: #0f345c; /* Color del texto azul */
   font-weight: bold; /* Hace que el texto sea negrita */
@@ -15,15 +15,15 @@
 }
 
 /* Contenedor de datos, alineado horizontalmente con espacio entre elementos */
-.data-container {
+.infoprom-delay-data-container {
   display: flex; /* Alinea las casillas una al lado de la otra */
   justify-content: center; /* Centra las casillas horizontalmente en el contenedor */
   gap: 1.5cm; /* Espacio de 1.5 cm entre las casillas */
   flex-wrap: wrap; /* Permite que las casillas se ajusten si el espacio es reducido */
 }
 
-/* Estilo unificado de las casillas de datos (datadolar-box y data-box) */
-.datadolar-box, .data-box {
+/* Estilo unificado de las casillas de datos (infoprom-delay-datadolar-box y infoprom-delay-data-box) */
+.infoprom-delay-datadolar-box, .infoprom-delay-data-box {
   background-color: #0f345c; /* Color de fondo azul */
   color: #ffffff; /* Color del texto blanco */
   border-radius: 10px; /* Bordes redondeados */
@@ -39,7 +39,7 @@
 }
 
 /* Estilo del título dentro de las casillas de datos */
-.datadolar-box h2, .data-box h2 {
+.infoprom-delay-datadolar-box h2, .infoprom-delay-data-box h2 {
   margin: 0 0 6px 0; /* Espacio debajo del título reducido */
   font-size: 2.0rem; /* Tamaño del texto del título dentro de la casilla (aproximadamente 28px) */
   color: #ffffff; /* Color del texto blanco */
@@ -47,7 +47,7 @@
 }
 
 /* Estilo del párrafo con los números */
-.datadolar-box p, .data-box p {
+.infoprom-delay-datadolar-box p, .infoprom-delay-data-box p {
   margin: 0; /* Elimina el margen del párrafo */
   font-size: 2.70rem; /* Tamaño del texto del contenido ajustado (aproximadamente 36px) */
   font-weight: bold; /* Hace que el texto sea negrita */

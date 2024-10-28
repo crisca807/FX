@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { postDolarInformacion } from '../../Services/apicommercial';
-import '../styles/dolar.css'; // Importa el archivo CSS
+ // Importa el archivo CSS
 
 const DolarInfo = () => {
   const location = useLocation();

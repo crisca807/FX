@@ -8,8 +8,8 @@ body {
 
 /* Estilo para el banner */
 .Banner-container {
-    background-color: #0033a0;
-    color: white;
+    background-color: #000000;
+    color: rgb(0, 0, 0);
     text-align: center;
     font-size: 4rem;
 }
@@ -24,6 +24,13 @@ body {
     background-color: #ffffff; /* Fondo blanco para el contenedor principal */
 }
 
+.market-titule {
+    font-size: 2.5rem;
+    color: #0f345c; /* Color del título */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px; /* Espacio debajo del título */
+  }
 /* Estilos para el contenedor DolarSpot */
 .Dolarspot-container {
     margin-top: 1cm;
@@ -34,7 +41,16 @@ body {
     border-radius: 20px; /* Redondeo suave para el contenedor */
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
 }
-
+.market-titule {
+    font-size: 2.5rem;
+    color: #ffffff; /* Color del texto en blanco */
+    background-color: #000000; /* Fondo negro */
+    font-weight: bold;
+    text-align: center;
+    padding: 10px; /* Añadir espacio interno para mejorar la apariencia */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
 /* Estilos para el título Dólar Spot */
 .dolarspot-title {
     text-align: center;
@@ -46,17 +62,16 @@ body {
 
 /* Estilos para la sección de información Dólar (mantener fondo azul) */
 .info-container-dolar {
-    display: flex; /* Coloca los elementos uno al lado del otro */
-    justify-content: space-between; /* Espacio entre las tarjetas */
-    align-items: flex-start; /* Alineación superior de las tarjetas */
-    width: 90%; /* Ajusta el ancho para mantener las tarjetas visibles */
-    margin-bottom: 20px;
-    background-color: #ffffff; /* Fondo azul */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%; /* Ajustar ancho si es necesario */
+    margin: 0 auto; /* Centrará el contenedor */
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 20px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0); /* Sombra ligera */
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 /* Tarjetas individuales dentro de info-container-dolar */
 .info-container-dolar > div {
     background-color: #ffffff; /* Fondo blanco para las tarjetas */
@@ -73,14 +88,15 @@ body {
 
 /* Estilo para la sección de gráficos (Graphics) */
 .Graphics-container-dolar {
-    width: 90%;
-    margin-bottom: 20px;
-    background-color: #ffffff; /* Fondo blanco */
+    width: 90%; /* Ajustar ancho si es necesario */
+    margin: 0 auto; /* Centrará el contenedor */
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 20px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor */
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
+
 
 /* Estilo para la sección de noticias (News) */
 .News-container {

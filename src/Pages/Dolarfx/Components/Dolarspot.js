@@ -14,21 +14,19 @@ import {
 } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Usar el contexto de WebSocket
+import { useWebSocket } from '../../Context/Websocketcontext';
 
-// Registrar los elementos de ChartJS y plugins necesarios
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler, annotationPlugin, zoomPlugin);
 
 const DolarSpot = () => {
   const [error, setError] = useState(null);
-  const data1000Ref = useRef(null); // Usar useRef para mantener la referencia de los datos
-  const chartRef = useRef(null); // Usar useRef para el componente de la gráfica
+  const data1000Ref = useRef(null);
+  const chartRef = useRef(null);
 
-  // Acceder al contexto de WebSocket
   const { isConnected, message } = useWebSocket();
 
   useEffect(() => {
-    if (message && !data1000Ref.current) { // Solo actualizar si no tenemos los datos previos en la referencia
+    if (message && !data1000Ref.current) {
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
@@ -38,10 +36,9 @@ const DolarSpot = () => {
       }
 
       if (parsedMessage?.id !== 1000 || parsedMessage?.market !== 71) {
-        return; // Ignorar mensajes que no sean del ID 1000 o mercado 71
+        return;
       }
 
-      // Extraer la información de datos_grafico_moneda_mercado
       const result = parsedMessage?.result?.[0];
       const datosGraficoString = result?.datos_grafico_moneda_mercado_rt;
 
@@ -50,7 +47,6 @@ const DolarSpot = () => {
         return;
       }
 
-      // Extraer los datos relevantes desde el string de datos
       const preciosCierreMatch = datosGraficoString.match(/Precios de cierre',data:\s*\[([0-9.,\s]+)\]/);
       const montosUSDMatch = datosGraficoString.match(/Montos \(Miles USD\)',data:\s*\[([0-9.,\s]+)\]/);
       const labelsMatch = datosGraficoString.match(/labels:\s*\[([0-9:,\s]+)\]/);
@@ -59,7 +55,6 @@ const DolarSpot = () => {
       const montosUSD = montosUSDMatch ? montosUSDMatch[1].split(',').map(Number) : [];
       const labels = labelsMatch ? labelsMatch[1].split(',') : [];
 
-      // Guardar los datos en el useRef para evitar actualizaciones frecuentes
       data1000Ref.current = {
         preciosCierre,
         montosUSD,
@@ -73,6 +68,22 @@ const DolarSpot = () => {
     return total / data.length;
   };
 
+  const createGradient = (ctx, area, precioInicial, preciosCierre) => {
+    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
+
+    const maxPrecio = Math.max(...preciosCierre);
+    const minPrecio = Math.min(...preciosCierre);
+    const relativeStart = (precioInicial - minPrecio) / (maxPrecio - minPrecio);
+
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    gradient.addColorStop(relativeStart, 'rgba(255, 120, 120, 0.6)');
+    gradient.addColorStop(relativeStart - 0.1, 'rgba(255, 120, 120, 0.8)');
+    gradient.addColorStop(relativeStart + 0.1, 'rgba(157, 212, 255, 0.6)');
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)');
+
+    return gradient;
+  };
+
   const renderChart = () => {
     const data1000 = data1000Ref.current;
 
@@ -81,19 +92,8 @@ const DolarSpot = () => {
     }
 
     const { preciosCierre, montosUSD, labels } = data1000;
-    const precioInicial = preciosCierre.length > 0 ? preciosCierre[0] : 0; // Validación para evitar errores
+    const precioInicial = preciosCierre.length > 0 ? preciosCierre[0] : 0;
     const promedioCierre = calcularPromedio(preciosCierre);
-
-    // Crear el degradado para difuminar el cambio entre colores
-    const createGradient = (ctx, area) => {
-      const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.5, 'rgba(255, 120, 120, 0.6)');
-      gradient.addColorStop(0.4, 'rgba(255, 120, 120, 0.8)');
-      gradient.addColorStop(0.6, 'rgba(157, 212, 255, 0.6)');
-      gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)');
-      return gradient;
-    };
 
     const data = {
       labels: labels,
@@ -110,7 +110,7 @@ const DolarSpot = () => {
             if (!chartArea) {
               return null;
             }
-            return createGradient(ctx, chartArea);
+            return createGradient(ctx, chartArea, precioInicial, preciosCierre);
           },
           borderColor: (context) => {
             const { dataIndex, dataset } = context;
@@ -160,9 +160,9 @@ const DolarSpot = () => {
           display: true,
           labels: {
             font: {
-              size: 14,
-              family: 'Roboto, sans-serif',
-              weight: 'normal',
+              size: 16, // Aumentar tamaño de "Precios de cierre" y "Montos (Miles USD)"
+              family: 'Poppins, sans-serif',
+              weight: 'bold',
             },
             color: '#000000',
           },
@@ -196,7 +196,7 @@ const DolarSpot = () => {
           ticks: {
             font: {
               size: 14,
-              family: 'Roboto, sans-serif',
+              family: 'Poppins, sans-serif',
               weight: 'normal',
             },
             callback: function(value, index, values) {
@@ -221,7 +221,7 @@ const DolarSpot = () => {
           ticks: {
             font: {
               size: 14,
-              family: 'Roboto, sans-serif',
+              family: 'Poppins, sans-serif',
             },
           },
           suggestedMax: precioInicial + 5,
@@ -237,7 +237,7 @@ const DolarSpot = () => {
             stepSize: 1000,
             font: {
               size: 14,
-              family: 'Roboto, sans-serif',
+              family: 'Poppins, sans-serif',
             },
           },
         },

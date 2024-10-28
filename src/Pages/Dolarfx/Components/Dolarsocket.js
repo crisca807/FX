@@ -6,6 +6,17 @@ import '../styles/Status.css'; // Importar el archivo CSS
 const Dolarsocket = () => {
   const [data1007, setData1007] = useState([]);
   const { message, error } = useWebSocket(); // Usar solo el mensaje y el error del contexto
+  const [isBlue, setIsBlue] = useState(false); // Estado para alternar entre colores
+
+  useEffect(() => {
+    // Configurar el cambio de color automático cada 3 segundos
+    const intervalId = setInterval(() => {
+      setIsBlue((prevState) => !prevState); // Alterna entre azul y negro
+    }, 3000);
+
+    // Limpiar el intervalo si el componente se desmonta
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     if (message) {
@@ -35,15 +46,6 @@ const Dolarsocket = () => {
     }
   }, [message, data1007]);
 
-  useEffect(() => {
-    // Refrescar la lista cada 5 segundos
-    const intervalId = setInterval(() => {
-      setData1007((prevData) => [...prevData]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [data1007]);
-
   const renderData = (item) => {
     if (!item) return <p>No data available</p>;
 
@@ -53,12 +55,15 @@ const Dolarsocket = () => {
 
     return (
       <div className="data-container">
-        {/* Cambiar el orden: Cierre primero, Promedio después */}
-        <div className="datadolar-box close-box">
+        <div
+          className={`datadolar-box close-box ${isBlue ? 'blue-color' : ''}`}
+        >
           <h2>Cierre</h2>
           <p>{close}</p>
         </div>
-        <div className="datadolar-box avg-box">
+        <div
+          className={`datadolar-box avg-box ${isBlue ? 'blue-color' : ''}`}
+        >
           <h2>Promedio</h2>
           <p>{avg}</p>
         </div>
@@ -70,7 +75,8 @@ const Dolarsocket = () => {
   const sortedData = data1007.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   return (
-    <div className="dolar-info">
+    <div className="dolar-info-time">
+      <h1 className="market-title">Resumen del Mercado</h1> {/* Título añadido y centrado */}
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
         {sortedData.length > 0 ? (
