@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importa el contexto de WebSocket
-import JSON5 from 'json5'; // Importa JSON5 para manejar el parseo de mensajes
-import '../styles/Trm.css'; // Asegúrate de que este archivo CSS esté actualizado
+import { useWebSocket } from '../../Context/Websocketcontext';
+import JSON5 from 'json5';
+import '../styles/Trm.css';
 
 const Trm = () => {
   const [data1006, setData1006] = useState([]);
-  const { message, error } = useWebSocket(); // Usar el contexto de WebSocket
-  const comparisonValue = 4199; // Valor fijo para la comparación
+  const { message, error } = useWebSocket();
+  const comparisonValue = 4199;
 
   useEffect(() => {
     if (message) {
@@ -20,18 +20,16 @@ const Trm = () => {
         parsedMessage = { rawMessage: message };
       }
 
-      // Filtrar solo datos del market 71 y ID 1006
       if (parsedMessage?.id === 1006 && parsedMessage?.market === 71) {
         setData1006((prevData) => {
           const newData = [...prevData, parsedMessage];
-          return newData.slice(-2); // Mantener los últimos dos elementos para comparación
+          return newData.slice(-2);
         });
       }
     }
   }, [message]);
 
   useEffect(() => {
-    // Refrescar la lista cada 5 segundos
     const intervalId = setInterval(() => {
       setData1006((prevData) => [...prevData]);
     }, 5000);
@@ -39,15 +37,11 @@ const Trm = () => {
     return () => clearInterval(intervalId);
   }, [data1006]);
 
-  // Función para redondear el valor antes de la comparación
-  const roundValue = (value) => {
-    return Math.round(parseFloat(value));
-  };
+  const roundValue = (value) => Math.round(parseFloat(value));
 
-  // Función para determinar el color y la dirección de la flecha
   const renderArrowIcon = (value) => {
     if (!value || value === 'Data not available') return null;
-    const numericValue = roundValue(value); // Redondear el valor
+    const numericValue = roundValue(value);
     if (numericValue > comparisonValue) {
       return <FontAwesomeIcon icon={faArrowTrendUp} style={{ color: 'green', marginLeft: '10px' }} />;
     } else if (numericValue < comparisonValue) {
@@ -65,28 +59,40 @@ const Trm = () => {
             <h1 className="trm-table-title">Precios del dólar</h1>
             <div className="trm-data-table">
               <div className="trm-data-row">
-                <strong>TRM:</strong>
+                <div className="trm-row-title">
+                  <div className="circular-icon banco-de-la-republica"></div>
+                  <strong className="trm-data-title">TRM:</strong>
+                </div>
                 <p>
                   {data1006[0].data?.trm || 'Data not available'}
                   <FontAwesomeIcon icon={faCartShopping} style={{ marginLeft: '10px' }} />
                 </p>
               </div>
               <div className="trm-data-row">
-                <strong>Apertura:</strong>
+                <div className="trm-row-title">
+                  <div className="circular-icon apertura"></div>
+                  <strong className="trm-data-title">Apertura:</strong>
+                </div>
                 <p>
                   {data1006[0].data?.open || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.open)}
                 </p>
               </div>
               <div className="trm-data-row">
-                <strong>Mínimo:</strong>
+                <div className="trm-row-title">
+                  <div className="circular-icon minimo"></div>
+                  <strong className="trm-data-title">Mínimo:</strong>
+                </div>
                 <p>
                   {data1006[0].data?.low || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.low)}
                 </p>
               </div>
               <div className="trm-data-row">
-                <strong>Máximo:</strong>
+                <div className="trm-row-title">
+                  <div className="circular-icon cierre"></div>
+                  <strong className="trm-data-title">Máximo:</strong>
+                </div>
                 <p>
                   {data1006[0].data?.high || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.high)}

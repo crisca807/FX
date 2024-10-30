@@ -1,0 +1,80 @@
+.IndicatorDolar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #00000088;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Estilos para el menú de pestañas */
+.IndicatorDolar-tab-menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.IndicatorDolar-tab-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background-color: #ffffff;
+    color: #333;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.IndicatorDolar-tab-button.IndicatorDolar-active {
+    background-color: #9793936e;
+    color: #ffffff;
+}
+
+/* Contenido de la pestaña con animación de transición */
+.IndicatorDolar-tab-content {
+    width: 100%;
+    max-width: 900px;
+    background-color: #00000017;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animaciones */
+.slide-left {
+    animation: slide-left 0.3s ease forwards;
+}
+
+.slide-right {
+    animation: slide-right 0.3s ease forwards;
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

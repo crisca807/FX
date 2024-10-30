@@ -32,3 +32,18 @@
 .nav-links-custom a:hover {
     color: #003E69;
 }
+.logout-button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .logout-button:hover {
+    background-color: #ff6666;
+  }
+  

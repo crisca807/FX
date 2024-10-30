@@ -1,64 +1,64 @@
-/* Contenedor principal de la tabla */
-.unique-dolar-info {
+/* Contenedor principal de la tabla de montos */
+.MountDolar-container {
     font-family: 'Poppins', sans-serif;
-    background-color: #ffffff;
-    border-radius: 8px;
+    background-color: #5a56562d; /* Fondo similar a la especificación */
+    border-radius: 10px;
     padding: 20px;
-    margin: 20px 0;
+    margin: 20px auto;
     width: 100%;
-    max-width: 600px; /* Mantiene el ancho del contenedor */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    height: 400px; /* Ajuste de altura consistente con el otro contenedor */
+    max-width: 900px; /* Ancho máximo del contenido aumentado */
+    
+    text-align: center;
 }
 
 /* Título de la tabla */
-.table-title {
+.MountDolar-table-title {
     text-align: center;
-    color: #003E69;
+    color: #ffffff;
     font-size: 28px;
     margin-bottom: 15px;
+    font-weight: bold;
 }
 
 /* Fila de datos: mostrará ícono, título y valor */
-.unique-data-row {
+.MountDolar-data-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #1414142d;
     border-radius: 8px;
-    font-size: 16px;
-    color: #000000b6;
+    font-size: 18px;
 }
 
 /* Ajuste de tamaño para los íconos */
-.icon {
-    font-size: 18px; /* Ajustar tamaño del ícono */
-    color: #000000;
+.MountDolar-icon {
+    font-size: 20px; /* Ajuste de tamaño */
+    color: #ffffff;
     margin-right: 10px; /* Espacio entre el ícono y el texto */
     flex-shrink: 0; /* Asegura que los íconos no se reduzcan en tamaño */
 }
 
 /* Columna de los títulos de datos */
-.unique-data-item-title {
-    font-size: 16px;
-    color: #000000;
+.MountDolar-data-item-title {
+    font-size: 18px;
+    color: #ffffff;
     font-weight: 600;
     width: 50%;
 }
 
 /* Columna de los valores de datos */
-.unique-data-item-value {
-    font-size: 16px;
+.MountDolar-data-item-value {
+    font-size: 18px;
     font-weight: 400;
-    color: #000000b6;
+    color: #ffffffb6;
     text-align: right;
     width: 50%;
 }
 
 /* Hover efecto en las filas */
-.unique-data-row:hover {
-    background-color: #f0f0f0;
+.MountDolar-data-row:hover {
+    background-color: #4b4b4b75;
     transition: background-color 0.3s ease, color 0.3s ease;
 }

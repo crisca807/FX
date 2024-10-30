@@ -41,16 +41,7 @@ body {
     border-radius: 20px; /* Redondeo suave para el contenedor */
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
 }
-.market-titule {
-    font-size: 2.5rem;
-    color: #ffffff; /* Color del texto en blanco */
-    background-color: #000000; /* Fondo negro */
-    font-weight: bold;
-    text-align: center;
-    padding: 10px; /* Añadir espacio interno para mejorar la apariencia */
-    border-radius: 10px; /* Bordes redondeados */
-    margin-bottom: 20px; /* Espacio debajo del título */
-}
+
 /* Estilos para el título Dólar Spot */
 .dolarspot-title {
     text-align: center;
@@ -63,25 +54,17 @@ body {
 /* Estilos para la sección de información Dólar (mantener fondo azul) */
 .info-container-dolar {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 90%; /* Ajustar ancho si es necesario */
-    margin: 0 auto; /* Centrará el contenedor */
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center; /* Centrar elementos hijos horizontalmente */
+    align-items: center; /* Centrar elementos hijos verticalmente */
+    width: 100%;
+    margin: 10px auto; /* Ajusta el margen superior e inferior para reducir espacio */
+    background-color: #000000;
+    padding: 1px; /* Reduce el padding para hacer el contenedor más compacto */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgb(255, 255, 255);
+    box-sizing: border-box;
 }
 /* Tarjetas individuales dentro de info-container-dolar */
-.info-container-dolar > div {
-    background-color: #ffffff; /* Fondo blanco para las tarjetas */
-    padding: 20px;
-    border-radius: 10px;
-    margin: 10px;
-    flex: 1; /* Permitir que las tarjetas ocupen el mismo espacio */
-    max-width: 40%; /* Ajustar el ancho máximo para que quepan dos tarjetas en la fila */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-}
 
 /* Tarjetas individuales dentro de info-container-dolar */
 
@@ -89,13 +72,14 @@ body {
 /* Estilo para la sección de gráficos (Graphics) */
 .Graphics-container-dolar {
     width: 90%; /* Ajustar ancho si es necesario */
-    margin: 0 auto; /* Centrará el contenedor */
+    margin: 60px auto; /* Aumenta el margen superior para más espacio */
     background-color: #ffffff;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
+
 
 
 /* Estilo para la sección de noticias (News) */

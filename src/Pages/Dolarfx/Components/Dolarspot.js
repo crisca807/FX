@@ -77,8 +77,9 @@ const DolarSpot = () => {
 
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
     gradient.addColorStop(relativeStart, 'rgba(255, 120, 120, 0.6)');
-    gradient.addColorStop(relativeStart - 0.1, 'rgba(255, 120, 120, 0.8)');
-    gradient.addColorStop(relativeStart + 0.1, 'rgba(157, 212, 255, 0.6)');
+    gradient.addColorStop(Math.max(0, relativeStart - 0.1), 'rgba(255, 120, 120, 0.8)');
+    gradient.addColorStop(Math.min(1, relativeStart + 0.1), 'rgba(157, 212, 255, 0.6)');
+    
     gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)');
 
     return gradient;

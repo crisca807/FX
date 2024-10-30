@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
 import { useWebSocketDelay } from '../Context/WebSocketContextDelay';
 import JSON5 from 'json5'; 
-import '../../Pages/Dolarfx/styles/Trm.css';
+import '../../Pages/Delay/Styles/Trmdelay.css';
 
 const TrmDelay = () => {
   const [data1006, setData1006] = useState([]);

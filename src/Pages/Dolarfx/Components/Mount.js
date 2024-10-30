@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importa el contexto de WebSocket
+import { useWebSocket } from '../../Context/Websocketcontext';
 import JSON5 from 'json5';
-import '../styles/mount.css'; // Importa el archivo CSS actualizado
+import '../styles/mount.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBusinessTime, faList, faChartSimple, faArrowDown, faArrowUp, faCashRegister } from '@fortawesome/free-solid-svg-icons'; // Importar los íconos
+import { faBusinessTime, faList, faChartSimple, faArrowDown, faArrowUp, faCashRegister } from '@fortawesome/free-solid-svg-icons';
 
 const Mount = () => {
   const [data1005, setData1005] = useState([]);
-  const { isConnected, message, error } = useWebSocket(); // Usar el contexto de WebSocket
+  const { isConnected, message, error } = useWebSocket();
 
   useEffect(() => {
     if (message) {
@@ -42,46 +42,45 @@ const Mount = () => {
     return () => clearInterval(intervalId);
   }, [data1005]);
 
-  // Tomar solo el último dato más reciente
   const latestData = data1005.length > 0 ? data1005[0] : null;
 
   return (
-    <div className="unique-dolar-info">
+    <div className="MountDolar-container">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
         {latestData ? (
           <>
-            <h2 className="table-title">Montos USD</h2> {/* Agrega el título */}
-            <div className="unique-data-table">
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faBusinessTime} className="icon" /> {/* Ícono negociado */}
-                <span className="unique-data-item-title">Negociado:</span>
-                <span className="unique-data-item-value">{latestData.data?.sum || 'Data not available'}</span>
+            <h2 className="MountDolar-table-title">Montos USD</h2>
+            <div className="MountDolar-data-table">
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faBusinessTime} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Negociado:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.sum || 'Data not available'}</span>
               </div>
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faList} className="icon" /> {/* Ícono último */}
-                <span className="unique-data-item-title">Último:</span>
-                <span className="unique-data-item-value">{latestData.data?.open || 'Data not available'}</span>
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faList} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Último:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.open || 'Data not available'}</span>
               </div>
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faChartSimple} className="icon" /> {/* Ícono promedio */}
-                <span className="unique-data-item-title">Promedio:</span>
-                <span className="unique-data-item-value">{latestData.data?.avg || 'Data not available'}</span>
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faChartSimple} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Promedio:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.avg || 'Data not available'}</span>
               </div>
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faArrowDown} className="icon" /> {/* Ícono mínimo */}
-                <span className="unique-data-item-title">Mínimo:</span>
-                <span className="unique-data-item-value">{latestData.data?.low || 'Data not available'}</span>
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faArrowDown} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Mínimo:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.low || 'Data not available'}</span>
               </div>
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faArrowUp} className="icon" /> {/* Ícono máximo */}
-                <span className="unique-data-item-title">Máximo:</span>
-                <span className="unique-data-item-value">{latestData.data?.high || 'Data not available'}</span>
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faArrowUp} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Máximo:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.high || 'Data not available'}</span>
               </div>
-              <div className="unique-data-row">
-                <FontAwesomeIcon icon={faCashRegister} className="icon" /> {/* Ícono transacciones */}
-                <span className="unique-data-item-title">Transacciones:</span>
-                <span className="unique-data-item-value">{latestData.data?.count || 'Data not available'}</span>
+              <div className="MountDolar-data-row">
+                <FontAwesomeIcon icon={faCashRegister} className="MountDolar-icon" />
+                <span className="MountDolar-data-item-title">Transacciones:</span>
+                <span className="MountDolar-data-item-value">{latestData.data?.count || 'Data not available'}</span>
               </div>
             </div>
           </>
