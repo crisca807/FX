@@ -23,29 +23,28 @@ import Footer from './Pages/Delay/Footerdelay';
 
 // Import authentication context if needed
 import { AuthProvider } from './Pages/Context/tokencontext';
-import { WebSocketProvider } from './Pages/Context/Websocketcontext'; // Importa el WebSocketProvider estándar
-import { WebSocketProviderDelay } from './Pages/Context/WebSocketContextDelay'; // Importa el WebSocketProvider para delay
-import { TokenProviderDelay } from './Pages/Context/tokencontextdelay'; // Importa el TokenProviderDelay para manejar el token
+import { WebSocketProvider } from './Pages/Context/Websocketcontext';
+import { WebSocketProviderDelay } from './Pages/Context/WebSocketContextDelay';
+import { TokenProviderDelay } from './Pages/Context/tokencontextdelay';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="App">
-          {/* Rutas que necesitan TokenProviderDelay */}
-
+          {/* Envuelve todas las rutas con TokenProviderDelay y WebSocketProviderDelay si comparten el mismo contexto */}
+          <TokenProviderDelay>
             <WebSocketProviderDelay>
               <Routes>
-                <Route path="/" element={<Home />} /> {/* Página principal usando TokenProviderDelay y WebSocketProviderDelay */}
-              <Route path="/delay" element={<DelayComponent />} /> {/* Ruta para DelayComponent */}
-              <Route path="/Trmdelay" element={<TrmDelay />} /> {/* Ruta para DelayComponent */}
-              <Route path="/Footer" element={<Footer />} /> {/* Ruta para DelayComponent */}
+                <Route path="/" element={<Home />} /> 
+                <Route path="/delay" element={<DelayComponent />} />
+                <Route path="/Trmdelay" element={<TrmDelay />} />
+                <Route path="/Footer" element={<Footer />} />
               </Routes>
             </WebSocketProviderDelay>
+          </TokenProviderDelay>
 
-
-          {/* Rutas que usan solo el WebSocketProvider estándar */}
-          <TokenProviderDelay>
+          {/* Envuelve las otras rutas con el WebSocketProvider estándar */}
           <WebSocketProvider>
             <Routes>
               <Route path="/login" element={<LoginForm />} />
@@ -62,8 +61,6 @@ function App() {
               <Route path="/news" element={<NewsComponent />} />
             </Routes>
           </WebSocketProvider>
-           </TokenProviderDelay>
-
         </div>
       </Router>
     </AuthProvider>

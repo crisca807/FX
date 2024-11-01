@@ -68,20 +68,13 @@ const DolarSpot = () => {
     return total / data.length;
   };
 
-  const createGradient = (ctx, area, precioInicial, preciosCierre) => {
+  const createGradient = (ctx, area) => {
     const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-
-    const maxPrecio = Math.max(...preciosCierre);
-    const minPrecio = Math.min(...preciosCierre);
-    const relativeStart = (precioInicial - minPrecio) / (maxPrecio - minPrecio);
-
     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(relativeStart, 'rgba(255, 120, 120, 0.6)');
-    gradient.addColorStop(Math.max(0, relativeStart - 0.1), 'rgba(255, 120, 120, 0.8)');
-    gradient.addColorStop(Math.min(1, relativeStart + 0.1), 'rgba(157, 212, 255, 0.6)');
-    
+    gradient.addColorStop(0.5, 'rgba(255, 120, 120, 0.6)');
+    gradient.addColorStop(0.4, 'rgba(255, 120, 120, 0.8)');
+    gradient.addColorStop(0.6, 'rgba(157, 212, 255, 0.6)');
     gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)');
-
     return gradient;
   };
 
@@ -107,11 +100,8 @@ const DolarSpot = () => {
           backgroundColor: (context) => {
             const chart = context.chart;
             const { ctx, chartArea } = chart;
-
-            if (!chartArea) {
-              return null;
-            }
-            return createGradient(ctx, chartArea, precioInicial, preciosCierre);
+            if (!chartArea) return null;
+            return createGradient(ctx, chartArea);
           },
           borderColor: (context) => {
             const { dataIndex, dataset } = context;
@@ -161,9 +151,9 @@ const DolarSpot = () => {
           display: true,
           labels: {
             font: {
-              size: 16, // Aumentar tamaño de "Precios de cierre" y "Montos (Miles USD)"
-              family: 'Poppins, sans-serif',
-              weight: 'bold',
+              size: 14,
+              family: 'Roboto, sans-serif',
+              weight: 'normal',
             },
             color: '#000000',
           },
@@ -197,7 +187,7 @@ const DolarSpot = () => {
           ticks: {
             font: {
               size: 14,
-              family: 'Poppins, sans-serif',
+              family: 'Roboto, sans-serif',
               weight: 'normal',
             },
             callback: function(value, index, values) {
@@ -222,7 +212,7 @@ const DolarSpot = () => {
           ticks: {
             font: {
               size: 14,
-              family: 'Poppins, sans-serif',
+              family: 'Roboto, sans-serif',
             },
           },
           suggestedMax: precioInicial + 5,
@@ -238,7 +228,7 @@ const DolarSpot = () => {
             stepSize: 1000,
             font: {
               size: 14,
-              family: 'Poppins, sans-serif',
+              family: 'Roboto, sans-serif',
             },
           },
         },

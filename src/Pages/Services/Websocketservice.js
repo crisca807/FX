@@ -1,6 +1,6 @@
 import * as neffos from 'neffos.js';
 
-// URL base actualizada para el WebSocket
+// URL base para el WebSocket
 const WS_BASE_URL = 'ws://set-fx.com/ws/dolar';
 
 class WebSocketService {
@@ -9,15 +9,18 @@ class WebSocketService {
     this.nsConn = null; // Mantiene la conexión al namespace
     this.listeners = []; // Lista de listeners para los mensajes
     this.isConnected = false; // Estado de la conexión
+    this.isConnecting = false; // Estado de conexión en progreso
   }
 
   // Conectar al WebSocket usando el token
   async connect() {
-    // Verifica si ya hay una conexión activa para evitar duplicados
-    if (this.isConnected && this.connection) {
-      console.log("Ya hay una conexión activa.");
-      return; // Si ya hay una conexión, no hacemos nada más
+    // Verifica si ya hay una conexión activa o en progreso para evitar duplicados
+    if (this.isConnected || this.isConnecting) {
+      console.log("Conexión activa o en progreso. No se realizará una nueva conexión.");
+      return; // Salir si ya hay una conexión o intento de conexión
     }
+
+    this.isConnecting = true; // Marca que se está intentando conectar
 
     try {
       // Obtener el token del localStorage
@@ -34,14 +37,15 @@ class WebSocketService {
       this.connection = await neffos.dial(wsURL, {
         dolar: {
           _OnNamespaceConnected: (nsConn) => {
-            if (nsConn.conn.wasReconnected()) {
-              console.log('Reconectado');
-            }
+            this.isConnected = true; // Cambiar el estado de la conexión a true
+            this.isConnecting = false; // Finaliza el estado de conexión en progreso
+            this.nsConn = nsConn;
             console.log('Conectado al namespace dolar');
           },
-          _OnNamespaceDisconnect: (nsConn) => {
+          _OnNamespaceDisconnect: () => {
             console.log('Desconectado del namespace dolar');
             this.isConnected = false; // Cambiar el estado de la conexión
+            this.nsConn = null; // Limpiar la conexión del namespace
           },
           chat: (nsConn, msg) => {
             // Notificar a todos los listeners registrados
@@ -49,18 +53,16 @@ class WebSocketService {
           }
         }
       }, {
-        reconnect: 2000, // Intentar reconectar cada 2 segundos en caso de fallo
-        headers: {
-          // Aquí puedes añadir cabeceras adicionales si es necesario
-        }
+        reconnect: false, // Desactiva reconexión automática para evitar bucles
       });
 
       // Conectar al namespace 'dolar'
       this.nsConn = await this.connection.connect('dolar');
-      this.isConnected = true; // Actualiza el estado de conexión
       console.log('Conexión WebSocket establecida');
     } catch (error) {
       console.error('Error al conectar al WebSocket:', error.message);
+      this.isConnected = false;
+      this.isConnecting = false; // Restablece el estado en caso de error
     }
   }
 
@@ -78,7 +80,9 @@ class WebSocketService {
     if (this.connection) {
       this.connection.close(); // Desconectar del WebSocket
       this.connection = null; // Limpiar la conexión
+      this.nsConn = null; // Limpiar la conexión al namespace
       this.isConnected = false; // Actualizar el estado de conexión
+      this.isConnecting = false; // Asegura que isConnecting también esté en false
       console.log('Desconectado del WebSocket');
     }
   }

@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import WebSocketService from '../Services/Websocketservice';
 import TokenService from '../Services/Tokenservice';
-import { useNavigate } from 'react-router-dom'; // Usa useNavigate en lugar de useHistory
+import { useNavigate } from 'react-router-dom';
 
-// Crear el contexto de WebSocket
 const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children }) => {
@@ -13,14 +12,19 @@ export const WebSocketProvider = ({ children }) => {
     const savedMessage = sessionStorage.getItem('lastWebSocketMessage');
     return savedMessage ? JSON.parse(savedMessage) : null;
   });
+  const wsConnectionRef = useRef(null); // Usar useRef para almacenar la conexión
 
-  const navigate = useNavigate(); // Hook de react-router para redirección
+  const navigate = useNavigate();
 
   useEffect(() => {
     const connect = async () => {
+      if (wsConnectionRef.current) {
+        // Si ya hay una conexión activa, salir de la función
+        return;
+      }
+
       try {
         let token = localStorage.getItem('token-socket');
-        
         if (!token) {
           console.log('No se encontró el token en localStorage, intentando obtener uno nuevo...');
           token = await TokenService.fetchToken('your-username', 'your-password');
@@ -33,11 +37,14 @@ export const WebSocketProvider = ({ children }) => {
 
         localStorage.setItem('token-socket', token);
 
-        await WebSocketService.connect(token);
+        // Conectar al WebSocket usando el token y guardar en la referencia
+        wsConnectionRef.current = await WebSocketService.connect(token);
+        
         WebSocketService.addListener((msg) => {
           setMessage(msg);
           sessionStorage.setItem('lastWebSocketMessage', JSON.stringify(msg));
         });
+
         setIsConnected(true);
         console.log('Conexión al WebSocket establecida.');
       } catch (err) {
@@ -49,19 +56,28 @@ export const WebSocketProvider = ({ children }) => {
     connect();
 
     return () => {
-      WebSocketService.disconnect();
+      // Desconectar y limpiar la referencia al desmontar
+      if (wsConnectionRef.current) {
+        WebSocketService.disconnect();
+        wsConnectionRef.current = null;
+      }
       setIsConnected(false);
     };
   }, []);
 
-  // Función para cerrar sesión
+  // Función para cerrar sesión y desconectar WebSocket
   const logout = () => {
-    localStorage.removeItem('token-socket'); // Eliminar el token
-    sessionStorage.removeItem('lastWebSocketMessage'); // Eliminar el último mensaje
-    setIsConnected(false); // Cambiar el estado de conexión
-    setMessage(null); // Limpiar mensaje
-    WebSocketService.disconnect(); // Desconectar del WebSocket
-    navigate('/'); // Redirigir al home
+    localStorage.removeItem('token-socket');
+    sessionStorage.removeItem('lastWebSocketMessage');
+    
+    if (wsConnectionRef.current) {
+      WebSocketService.disconnect();
+      wsConnectionRef.current = null;
+    }
+
+    setIsConnected(false);
+    setMessage(null);
+    navigate('/');
   };
 
   return (
