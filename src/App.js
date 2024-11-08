@@ -19,7 +19,8 @@ import Bollinger from './Pages/Dolarfx/Components/Bollinger';
 import NewsComponent from './Pages/Dolarfx/Components/newscomponent';
 import DelayComponent from './Pages/Delay/delaysocket';
 import TrmDelay from './Pages/Delay/Trmdelay';
-import Footer from './Pages/Delay/Footerdelay';
+import Resetpassword from './Pages/Login/Components/ResetPassword';
+
 
 // Import authentication context if needed
 import { AuthProvider } from './Pages/Context/tokencontext';
@@ -39,7 +40,8 @@ function App() {
                 <Route path="/" element={<Home />} /> 
                 <Route path="/delay" element={<DelayComponent />} />
                 <Route path="/Trmdelay" element={<TrmDelay />} />
-                <Route path="/Footer" element={<Footer />} />
+                <Route path="/Reset" element={<Resetpassword />} />
+            
               </Routes>
             </WebSocketProviderDelay>
           </TokenProviderDelay>

@@ -1,86 +1,169 @@
-body {
-    font-family: 'Helvetica Neue', sans-serif;
+/* Estilos generales del contenedor Swiper */
+.swiper {
+    width: 100%;
+    height: 95%; /* Reducir el alto en 1 cm aproximadamente */
 }
 
-/* Estilo para el contenedor principal que engloba el Banner y el Carrusel */
-.main-container-carrusel {
+/* Fondo de cada slide */
+.swiper-slide {
     display: flex;
-    flex-direction: column;
-    max-width: 100%;
-   
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: left;
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #bd4a4a00;
 }
 
-/* Estilo para el contenedor del Carrusel */
-
-/* Estilo para el contenedor interno del Carrusel */
-.wrap {
-    max-width: 1000px;
+/* Contenedor que divide texto y la imagen */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 40px 60px; /* Reducir el padding superior e inferior para subir el contenido */
     margin: 0 auto;
-    height: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start; /* Alineación a la izquierda */
+    flex-wrap: wrap;
 }
 
-/* Estilo para el contenedor de texto en el Carrusel */
-.box {
-    flex-basis: 100%;
+/* Estilos para el contenedor de texto */
+.text-content {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px 20px 0 20px; /* Ajuste de padding para subir el texto */
     color: #fff;
-    text-align: center;
-    align-self: center;
+    text-align: left;
+    font-family: "Noto Sans", sans-serif;
 }
 
-/* Estilo para el encabezado h1 en el Carrusel */
-.box h1 {
-    font-size: 45px;
-    line-height: 0.9;
-    padding-bottom: 20px;
+/* Título */
+.text-content h2 {
+    font-size: 65px; /* Tamaño original */
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 10px; /* Espacio reducido debajo del título */
+}
+
+/* Descripción */
+.text-content p {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 10px;
+}
+
+/* Botón personalizado */
+.custom-button {
+    background-color: #003E69;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "Noto Sans", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px; /* Reduce la distancia entre el texto y el botón */
+}
+
+.custom-button:hover {
+    background-color: #002a4f;
+    transform: scale(1.05);
+}
+
+/* Contenedor de la imagen */
+.image-content {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px; /* Ajuste de padding */
+}
+
+/* Animación de arriba hacia abajo */
+@keyframes moveDownUp {
+    0% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.image-content img {
+    width: 550px;
+    height: auto;
+    object-fit: contain;
+    animation: moveDownUp 2s ease-in-out infinite;
+}
+
+/* Estilos de la paginación */
+.swiper-pagination-bullet {
+    background: #003E69;
+    opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+    background: #002a4f;
+    opacity: 1;
+}
+
+/* Botones de navegación */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #003E69;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Estilo para los botones en el Carrusel */
-.buttons {
-    display: flex;
-    margin-top: 30px;
-    flex-flow: row wrap;
-    justify-content: center; /* Centra los botones horizontalmente */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: #002a4f;
+    transform: scale(1.1);
 }
 
-.btn1 {
-    flex-basis: 30%;
-    border: solid 2px;
-    border-radius: 20px;
-    padding: 10px 30px;
-    margin-right: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-content {
+        text-align: center;
+        padding-right: 0;
+    }
+
+    .text-content h2 {
+        font-size: 50px;
+    }
+
+    .custom-button {
+        font-size: 16px;
+    }
 }
 
-.btn2 {
-    flex-basis: 30%;
-    background-color: #fff;
-    border: solid 2px #fff;
-    border-radius: 20px;
-    padding: 10px 30px;
-    margin-right: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #000;
-}
+@media (max-width: 480px) {
+    .content-wrapper {
+        padding: 10px;
+    }
 
-.btn1:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
+    .text-content h2 {
+        font-size: 40px;
+    }
 
-.btn2:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    .custom-button {
+        font-size: 14px;
+    }
 }

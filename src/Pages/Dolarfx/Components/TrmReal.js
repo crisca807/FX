@@ -6,7 +6,11 @@ import JSON5 from 'json5';
 import '../styles/Trm.css';
 
 const Trm = () => {
-  const [data1006, setData1006] = useState([]);
+  const [data1006, setData1006] = useState(() => {
+    // Intentar cargar los datos almacenados en localStorage para el ID 1006
+    const storedData = localStorage.getItem('webSocketMessage_1006');
+    return storedData ? [JSON.parse(storedData)] : [];
+  });
   const { message, error } = useWebSocket();
   const comparisonValue = 4199;
 
@@ -20,22 +24,15 @@ const Trm = () => {
         parsedMessage = { rawMessage: message };
       }
 
+      // Filtrar solo los datos que corresponden al ID 1006 y mercado 71
       if (parsedMessage?.id === 1006 && parsedMessage?.market === 71) {
-        setData1006((prevData) => {
-          const newData = [...prevData, parsedMessage];
-          return newData.slice(-2);
-        });
+        setData1006([parsedMessage]); // Mostrar solo el dato más reciente
+
+        // Almacenar los datos en localStorage para acceso posterior
+        localStorage.setItem('webSocketMessage_1006', JSON.stringify(parsedMessage));
       }
     }
   }, [message]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setData1006((prevData) => [...prevData]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [data1006]);
 
   const roundValue = (value) => Math.round(parseFloat(value));
 

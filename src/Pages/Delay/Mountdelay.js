@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useWebSocketDelay } from '../../Pages/Context/WebSocketContextDelay'; // Importa el contexto de WebSocket
 import JSON5 from 'json5';
-import '../Dolarfx/styles/mount.css'; // Importa el archivo CSS actualizado
+import '../Delay/Styles/Mountdelay.css'; // Importa el archivo CSS actualizado
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBusinessTime, faList, faChartSimple, faArrowDown, faArrowUp, faCashRegister } from '@fortawesome/free-solid-svg-icons'; // Importar los íconos

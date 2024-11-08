@@ -1,69 +1,79 @@
 import React, { useEffect, useState } from 'react';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importar el contexto de WebSocket
+import { useWebSocket } from '../../Context/Websocketcontext';
 import JSON5 from 'json5';
-import '../styles/Status.css'; // Importar el archivo CSS
+import '../styles/Status.css';
 
 const Dolarsocket = () => {
-  const [data1007, setData1007] = useState([]);
-  const { message, error } = useWebSocket(); // Usar solo el mensaje y el error del contexto
-  const [isBlue, setIsBlue] = useState(false); // Estado para alternar entre colores
+  // Cargar datos almacenados de localStorage en el estado inicial
+  const [data1007, setData1007] = useState(() => {
+    const storedData = localStorage.getItem('webSocketMessage_1007');
+    return storedData ? [JSON.parse(storedData)] : [];
+  });
+  const { message, error } = useWebSocket();
+  const [isBlue, setIsBlue] = useState(false);
 
+  // Cambiar colores cada 3 segundos
   useEffect(() => {
-    // Configurar el cambio de color automático cada 3 segundos
     const intervalId = setInterval(() => {
-      setIsBlue((prevState) => !prevState); // Alterna entre azul y negro
+      setIsBlue((prevState) => !prevState);
     }, 3000);
-
-    // Limpiar el intervalo si el componente se desmonta
     return () => clearInterval(intervalId);
   }, []);
 
+  // Cargar datos en tiempo real si llegan y almacenarlos
   useEffect(() => {
     if (message) {
-      console.log('Received message in component:', message);
-
       let parsedMessage;
       try {
         parsedMessage = JSON5.parse(message);
       } catch (e) {
         console.error('Error parsing data with JSON5:', e.message);
-        parsedMessage = { rawMessage: message };
+        return;
       }
 
-      // Verificar que el ID es 1007 y que el market es 71
+      // Verificar ID y mercado
       if (parsedMessage?.id === 1007 && parsedMessage?.market === 71) {
-        const existingData = data1007.find(
-          (item) => item.data.avg === parsedMessage.data.avg && item.data.close === parsedMessage.data.close
-        );
-        if (!existingData) {
-          setData1007((prevData) => {
-            const newData = [...prevData, parsedMessage];
-            return newData.slice(-30); // Mantener solo los últimos 30 elementos
-          });
-          console.log('Updated data for ID 1007 and market 71:', parsedMessage);
-        }
+        setData1007((prevData) => {
+          const newData = [parsedMessage, ...prevData].slice(0, 30); // Solo mantener los últimos 30 elementos
+          localStorage.setItem('webSocketMessage_1007', JSON.stringify(parsedMessage));
+          return newData;
+        });
       }
     }
-  }, [message, data1007]);
+  }, [message]);
+
+  // Efecto para verificar y cargar datos almacenados en localStorage cada 2 segundos
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const storedData = localStorage.getItem('webSocketMessage_1007');
+      if (storedData) {
+        const parsedStoredData = JSON.parse(storedData);
+        // Comprobar si los datos almacenados han cambiado
+        setData1007((prevData) => {
+          if (!prevData.length || prevData[0]?.data?.avg !== parsedStoredData.data?.avg || prevData[0]?.data?.close !== parsedStoredData.data?.close) {
+            return [parsedStoredData, ...prevData].slice(0, 30);
+          }
+          return prevData;
+        });
+      }
+    }, 2000); // Revisar cada 2 segundos
+
+    return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente se desmonta
+  }, []);
 
   const renderData = (item) => {
     if (!item) return <p>No data available</p>;
 
-    // Acceder directamente a los datos sin formatear
     const avg = item.data?.avg || 'Data not available';
     const close = item.data?.close || 'Data not available';
 
     return (
       <div className="data-container">
-        <div
-          className={`datadolar-box close-box ${isBlue ? 'blue-color' : ''}`}
-        >
+        <div className={`datadolar-box close-box ${isBlue ? 'blue-color' : ''}`}>
           <h2>Cierre</h2>
           <p>{close}</p>
         </div>
-        <div
-          className={`datadolar-box avg-box ${isBlue ? 'blue-color' : ''}`}
-        >
+        <div className={`datadolar-box avg-box ${isBlue ? 'blue-color' : ''}`}>
           <h2>Promedio</h2>
           <p>{avg}</p>
         </div>
@@ -71,19 +81,12 @@ const Dolarsocket = () => {
     );
   };
 
-  // Ordenar los datos por timestamp en orden descendente (más recientes primero)
-  const sortedData = data1007.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
   return (
     <div className="dolar-info-time">
-      <h1 className="market-title">Resumen del Mercado</h1> {/* Título añadido y centrado */}
+      <h1 className="market-title">Resumen del Mercado</h1>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
-        {sortedData.length > 0 ? (
-          renderData(sortedData[0]) // Mostrar solo el último elemento
-        ) : (
-          <p>No data received for ID 1007 and market 71.</p>
-        )}
+        {data1007.length > 0 ? renderData(data1007[0]) : <p>No se recibieron datos para el ID 1007 y market 71.</p>}
       </div>
     </div>
   );

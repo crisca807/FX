@@ -62,16 +62,19 @@ const NewsComponent = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <div className="news-grid">
         {news.map((item, index) => (
-          <div key={index} className="news-item">
-            <h2>{item.title}</h2>
-           
-            <p>{item.description}</p>
-            <a href={item.link} target="_blank" rel="noopener noreferrer">
-              Leer más
-            </a>
-            <p><strong>Publicado el:</strong> {new Date(item.pubDate).toLocaleString()}</p>
-            
-          </div>
+          <a
+            key={index}
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="news-item-link" // Clase para el enlace
+          >
+            <div className="news-item">
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+              <p><strong>Publicado el:</strong> {new Date(item.pubDate).toLocaleString()}</p>
+            </div>
+          </a>
         ))}
       </div>
     </div>

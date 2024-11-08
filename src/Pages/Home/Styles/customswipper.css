@@ -1,8 +1,10 @@
+/* Estilos generales del contenedor Swiper */
 .swiper {
     width: 100%;
     height: 100%;
 }
 
+/* Fondo de cada slide */
 .swiper-slide {
     display: flex;
     justify-content: center;
@@ -16,93 +18,157 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1400px; /* Aumenta el ancho máximo del contenedor */
-    padding: 60px;
-    margin-top: -30px; /* Subir todo el contenido (texto e imagen) 3 cm */
-    margin-left: 100px; /* Mover el contenedor más hacia el borde izquierdo */
-    margin-right: 100px; /* Mover el contenedor más hacia el borde derecho */
+    max-width: 1400px;
+    padding: 30px 60px; /* Reducir padding superior para acercar el contenido */
+    margin-top: -50px; /* Ajustar la posición general hacia arriba */
+    margin-left: 50px;
+    margin-right: 50px;
+    flex-wrap: wrap;
 }
 
 /* Estilos para el contenedor de texto */
 .text-content {
     flex: 1;
-    padding-right: 90px; /* Aumentar el espacio horizontal entre texto e imagen */
+    min-width: 300px;
+    padding: 0 20px;
+    margin-top: -30px; /* Subir el texto más hacia arriba */
     color: #fff;
     text-align: left;
     font-family: "Noto Sans", sans-serif;
 }
 
+/* Título */
 .text-content h2 {
     font-size: 65px;
     font-weight: 700;
-    line-height: 1.1; /* Reducir el line-height para compactar más los títulos */
-    margin-bottom: 10px; /* Reducir el margen inferior */
+    line-height: 1.1;
+    margin-bottom: 15px;
 }
 
+/* Descripción */
 .text-content p {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
-    line-height: 1.3; /* Reducir el line-height para los párrafos */
-    margin-bottom: 5px; /* Reducir el margen inferior */
+    line-height: 1.3;
+    margin-bottom: 10px;
 }
 
-/* Estilos del botón personalizado */
+/* Botón personalizado */
 .custom-button {
-    background-color: #003E69; /* Azul oscuro */
-    color: white; /* Texto blanco */
+    background-color: #003E69;
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     font-weight: 700;
-    font-family: "Noto Sans", sans-serif; /* Mismo tipo de letra que el título */
+    font-family: "Noto Sans", sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px; /* Espacio entre el texto y el botón */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
 }
 
-/* Cambiar el color de fondo al pasar el mouse */
 .custom-button:hover {
-    background-color: #002a4f; /* Azul más oscuro */
+    background-color: #002a4f;
+    transform: scale(1.05);
 }
 
-/* Estilos para el contenedor de la imagen */
+/* Contenedor de la imagen */
 .image-content {
     flex: 1;
+    min-width: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 90px; /* Aumentar la separación horizontal desde la imagen */
+    padding: 20px;
 }
 
 /* Animación de arriba hacia abajo */
 @keyframes moveDownUp {
     0% {
-        transform: translateY(-15px); /* Comienza 15px arriba */
+        transform: translateY(-10px);
     }
     50% {
-        transform: translateY(15px);  /* Baja 15px */
+        transform: translateY(10px);
     }
     100% {
-        transform: translateY(-15px); /* Regresa a la posición inicial */
+        transform: translateY(-10px);
     }
 }
 
-/* Aplicar la animación a todas las imágenes */
 .image-content img {
-    width: 600px;
-    height: 600px;
+    width: 550px;
+    height: auto;
     object-fit: contain;
-    animation: moveDownUp 2s ease-in-out infinite; /* Animación de arriba hacia abajo */
+    animation: moveDownUp 2s ease-in-out infinite;
 }
 
-/* Estilos para la paginación */
+/* Estilos de la paginación */
 .swiper-pagination-bullet {
     background: #003E69;
+    opacity: 0.7;
 }
 
-/* Estilos para los botones de navegación */
+.swiper-pagination-bullet-active {
+    background: #002a4f;
+    opacity: 1;
+}
+
+/* Botones de navegación */
 .swiper-button-next,
 .swiper-button-prev {
     color: #003E69;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: #002a4f;
+    transform: scale(1.1);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .text-content {
+        text-align: center;
+        padding-right: 0;
+        margin-top: -30px; /* Mantener ajuste para pantallas pequeñas */
+    }
+
+    .text-content h2 {
+        font-size: 50px;
+    }
+
+    .custom-button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-wrapper {
+        padding: 10px;
+    }
+
+    .text-content h2 {
+        font-size: 40px;
+    }
+
+    .custom-button {
+        font-size: 14px;
+    }
 }

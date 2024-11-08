@@ -1,47 +1,101 @@
-.trm-dolar-info-container {
+/* Contenedor principal de la tabla */
+.delay-trmdelay-container {
     font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
     background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px;
+    border-radius: 8px;
+    padding: 20px;
+    width: 20cm; /* Ancho del contenedor ajustado a 20 cm */
+    height: 16cm; /* Alto del contenedor */
+    margin: 20px auto; /* Centrado horizontal */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un toque de elevación */
 }
 
-
-
-.trm-table-title {
-    text-align: center;
-    color: #6831af;
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.trm-data-table {
+/* Contenedor de datos TRM delay */
+.delay-trmdelay-data {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start; /* Alinear todo al lado izquierdo */
+    justify-content: flex-start;
+    padding-left: 1.1cm; /* Desplazamiento de 1 cm hacia la derecha */
 }
 
-.trm-data-row {
+/* Título de la tabla */
+.delay-trm-table-title {
+    text-align: center;
+    color: #000000;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 1cm; /* Separación de 1 cm entre el título y los datos */
+}
+  
+/* Fila de datos */
+.delay-trm-data-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 14px;
-    border-bottom: none;
+    width: 100%;
+    margin-bottom: 30px; /* Espacio entre filas */
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 24px; /* Tamaño de letra de 24px para toda la fila */
+    color: #333;
+    justify-content: space-between; /* Alinear el título y el valor en extremos opuestos */
 }
 
-/* Aplica negrita y color a los valores */
-.trm-data-row p {
-    font-weight: bold;
-    color: #742525b6; /* Color azul oscuro para los valores */
+/* Títulos de cada fila */
+.delay-trm-title {
+    font-weight: 600;
+    font-size: 24px; /* Tamaño de letra de 24px */
+    color: #000000;
+    display: flex;
+    align-items: center;
+    margin-right: 6cm; /* Espacio de 6 cm entre el título y el valor */
+    margin-bottom: 0;  /* Sin margen inferior */
+    padding: 18px;
 }
 
-/* Estilo para los íconos */
-.faCartShopping, .faArrowTrendUp, .faArrowTrendDown {
-    margin-left: 10px;
-    color: #340088; /* Ajustar el color del ícono si es necesario */
+/* Valores de cada fila */
+.delay-trm-value {
+    font-weight: 500;
+    font-size: 24px; /* Tamaño de letra de 24px */
+    color: #000000;
+    text-align: right;
+}
+
+/* Íconos circulares */
+.delay-circular-icon {
+    width: 36px; /* Incrementar tamaño del ícono */
+    height: 36px; /* Incrementar tamaño del ícono */
+    border-radius: 50%;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    background-color: #ffffff; /* Fondo blanco para que se vean bien */
+    padding: 5px; /* Espacio interno para el ícono */
+}
+
+/* Especificar imágenes para cada ícono circular */
+.delay-banco-de-la-republica {
+    background-image: url('../../../Assets//Images/banco_de_la_republica.png'); /* Reemplaza con la URL de tu imagen */
+    background-color: #ffffff;
+}
+ 
+.delay-apertura {
+    background-image: url('../../../Assets//Images/apertura.jpg'); /* Reemplaza con la URL de tu imagen */
+    background-color: #ffffff;
+}
+ 
+.delay-minimo {
+    background-image: url('../../../Assets//Images/minimo__3___1_-removebg-preview\ \(1\).png');
+    background-color: #ffffff;
+}
+ 
+.delay-cierre {
+    background-image: url('../../../Assets//Images/cierre.png');
+    background-color: #ffffff;
+}
+
+/* Hover en filas */
+.delay-trm-data-row:hover {
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
 }

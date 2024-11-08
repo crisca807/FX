@@ -1,0 +1,84 @@
+/* Chatws.css */
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 35px; /* Ajusta la distancia desde el lado derecho */
+    width: 70px; /* Tamaño del botón */
+    height: 70px;
+    background-color: #25D366; /* Color de fondo */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    background-image: url('../../../Assets//Images/whatsapp.png'); /* Ruta de la imagen */
+    background-size: 50%; /* Tamaño de la imagen en el botón */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.chat-box {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 300px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header .close-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.chat-content {
+    padding: 10px;
+}
+
+.chat-message {
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+}
+
+.send-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #25D366;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}

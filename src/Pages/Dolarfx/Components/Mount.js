@@ -7,7 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBusinessTime, faList, faChartSimple, faArrowDown, faArrowUp, faCashRegister } from '@fortawesome/free-solid-svg-icons';
 
 const Mount = () => {
-  const [data1005, setData1005] = useState([]);
+  const [data1005, setData1005] = useState(() => {
+    // Intentar cargar datos almacenados para ID 1005 desde el inicio
+    const savedData = localStorage.getItem('webSocketMessage_1005');
+    return savedData ? [JSON.parse(savedData)] : [];
+  });
   const { isConnected, message, error } = useWebSocket();
 
   useEffect(() => {
@@ -22,25 +26,17 @@ const Mount = () => {
         parsedMessage = { rawMessage: message };
       }
 
-      // Filtrar solo datos del market 71
+      // Filtrar solo datos del market 71 para ID 1005
       if (parsedMessage?.id === 1005 && parsedMessage?.market === 71) {
         setData1005((prevData) => {
-          const newData = [...prevData, parsedMessage];
-          return newData.slice(-20); // Mantener solo los últimos 20 elementos
+          const newData = [parsedMessage, ...prevData];
+          localStorage.setItem('webSocketMessage_1005', JSON.stringify(parsedMessage)); // Almacenar en localStorage
+          return newData.slice(0, 20); // Mantener solo los últimos 20 elementos
         });
         console.log('Datos actualizados para ID 1005 y market 71:', parsedMessage);
       }
     }
   }, [message]);
-
-  useEffect(() => {
-    // Refrescar la lista cada 5 segundos
-    const intervalId = setInterval(() => {
-      setData1005((prevData) => [...prevData]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [data1005]);
 
   const latestData = data1005.length > 0 ? data1005[0] : null;
 

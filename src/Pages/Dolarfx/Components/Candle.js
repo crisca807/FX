@@ -1,117 +1,76 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Usar el contexto de WebSocket
-import { Chart, registerables, TimeScale, LinearScale, CategoryScale } from 'chart.js';
-import { CandlestickController, OhlcController, CandlestickElement, OhlcElement } from 'chartjs-chart-financial';
-import 'chartjs-adapter-date-fns';
+import { useWebSocket } from '../../Context/Websocketcontext';
+import { Chart, registerables, CategoryScale, LinearScale } from 'chart.js';
+import { CandlestickController, CandlestickElement } from 'chartjs-chart-financial';
 
 // Registrar los controladores necesarios para Chart.js
-Chart.register(
-  ...registerables,
-  CandlestickController,
-  OhlcController,
-  CandlestickElement,
-  OhlcElement,
-  TimeScale,
-  LinearScale,
-  CategoryScale
-);
+Chart.register(...registerables, CandlestickController, CandlestickElement, CategoryScale, LinearScale);
 
 const CandleData = () => {
   const [data1003, setData1003] = useState([]);
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Para almacenar la instancia del gráfico
+  const chartInstance = useRef(null);
+  const candleWidth = 0.5;
 
-  // Variable para controlar el ancho de las velas desde el código
-  const candleWidth = 0.3; // Ajusta este valor para cambiar el ancho de las velas (valores entre 0 y 1)
-
-  // Acceder al contexto de WebSocket
   const { message, error } = useWebSocket();
 
-  // Procesar los mensajes recibidos desde el WebSocket
   useEffect(() => {
     if (message) {
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
-        console.log('Mensaje JSON.parseado completo:', parsedMessage);
       } catch (e) {
         console.error('Error parsing JSON:', e.message);
         return;
       }
 
-      if (parsedMessage?.id !== 1003 || parsedMessage?.market !== 71) {
-        console.log('El mensaje recibido no es para el ID 1003 o el mercado 71.');
-        return;
-      }
+      if (parsedMessage?.id === 1003 && parsedMessage?.market === 71) {
+        const result = parsedMessage?.data?.data?.data;
+        if (!result || !result.datasets || !Array.isArray(result.datasets) || !result.labels) {
+          return;
+        }
 
-      const result = parsedMessage?.data?.data?.data;
-      if (!result || !result.datasets || !Array.isArray(result.datasets)) {
-        console.error('No se encontraron datasets válidos.');
-        return;
-      }
+        const labels = result.labels;
+        const candles = result.datasets[0]?.data || [];
 
-      if (!result.labels || !Array.isArray(result.labels)) {
-        console.error('No se encontraron etiquetas válidas.');
-        return;
-      }
+        const newCandles = candles.map((candle, index) => ({
+          x: labels[index],
+          o: candle.o,
+          h: candle.h,
+          l: candle.l,
+          c: candle.c,
+        }));
 
-      // Convertir las etiquetas (labels) de cadenas a objetos Date
-      const labels = result.labels.map(label => new Date(label));
-
-      const candles = result.datasets[0]?.data || [];
-
-      if (candles.length === 0 || labels.length === 0) {
-        console.error('No se encontraron datos o etiquetas válidas.');
-        return;
-      }
-
-      const newCandles = candles.map((candle, index) => ({
-        x: labels[index], // El eje X será el tiempo convertido a formato de fecha
-        o: candle.o, // Apertura
-        h: candle.h, // Máximo
-        l: candle.l, // Mínimo
-        c: candle.c, // Cierre
-      }));
-
-      // Actualizar los datos sin destruir el gráfico
-      setData1003((prevData) => [...prevData, ...newCandles]);
-
-      if (chartInstance.current) {
-        chartInstance.current.data.datasets[0].data = [...data1003, ...newCandles]; // Usar data1003 en lugar de prevData
-        chartInstance.current.update(); // Actualizar el gráfico sin destruirlo
+        setData1003(newCandles);
       }
     }
-  }, [message, data1003]);
+  }, [message]);
 
-  // Crear o actualizar el gráfico de velas
   useEffect(() => {
-    if (chartRef.current && data1003.length > 0 && !chartInstance.current) {
+    if (chartRef.current && data1003.length > 0) {
       const ctx = chartRef.current.getContext('2d');
 
-      // Crear el gráfico solo si aún no existe
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+
       chartInstance.current = new Chart(ctx, {
         type: 'candlestick',
         data: {
           datasets: [{
             label: 'Cotización USD/COP',
             data: data1003,
-            borderColor: ({ o, c }) => (c > o ? 'blue' : 'red'), // Azul si el cierre es mayor, rojo si es menor
-            color: ({ o, c }) => (c > o ? 'blue' : 'red'), // Misma lógica para el color del cuerpo
-            barPercentage: candleWidth, // Controlar el ancho de las velas
-            categoryPercentage: candleWidth, // Ajustar el espacio entre velas
+            borderColor: ({ o, c }) => (c > o ? 'blue' : 'red'),
+            color: ({ o, c }) => (c > o ? 'blue' : 'red'),
+            barPercentage: candleWidth,
+            categoryPercentage: candleWidth,
           }]
         },
         options: {
           scales: {
             x: {
-              type: 'time',
-              time: {
-                unit: 'minute', // Establecer la unidad en minutos
-                tooltipFormat: 'HH:mm', // Formato para el tooltip (solo horas y minutos)
-                displayFormats: {
-                  minute: 'HH:mm', // Mostrar solo horas y minutos en el eje X
-                }
-              },
+              type: 'category',
+              labels: data1003.map(item => item.x),
               title: {
                 display: true,
                 text: 'Hora',
@@ -121,26 +80,33 @@ const CandleData = () => {
                 },
               },
               ticks: {
-                autoSkip: true, // Saltar etiquetas si es necesario para evitar superposición
-                maxRotation: 0, // Evitar rotación de etiquetas
+                autoSkip: true,
+                maxTicksLimit: 6,
+                autoSkipPadding: 15,
+                maxRotation: 0,
                 minRotation: 0,
-                callback: function(value, index, values) {
-                  // Mostrar solo horas y minutos en las etiquetas del eje X
-                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                },
               },
               grid: {
-                display: true, // Mostrar las líneas de la cuadrícula en el eje X
+                display: false,
               },
             },
             y: {
-              beginAtZero: false, // No empezar en 0, ajustarse a los precios
+              beginAtZero: false,
               title: {
                 display: true,
                 text: 'Precio USD/COP',
               },
+              suggestedMin: 4400,
+              suggestedMax: 4450,
+              ticks: {
+                stepSize: 10,
+                callback: function (value) {
+                  return value.toFixed(2);
+                }
+              },
               grid: {
-                display: true, // Mostrar líneas de cuadrícula en el eje Y
+                color: 'rgba(0, 0, 0, 0.1)',
+                display: true,
               },
             }
           },
@@ -159,17 +125,17 @@ const CandleData = () => {
               }
             }
           },
-          responsive: true, // Ajuste automático de tamaño
-          maintainAspectRatio: true // Mantener la relación de aspecto
+          responsive: true,
+          maintainAspectRatio: false,
         }
       });
     }
   }, [data1003]);
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <div style={{ width: '100%', height: '400px' }}>
+      <div style={{ width: '1360px', height: '500px' }}> {/* Ancho de aproximadamente 34.5 cm */}
         {data1003.length > 0 ? (
           <canvas ref={chartRef} />
         ) : (

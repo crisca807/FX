@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importa el contexto de WebSocket
+import { useWebSocket } from '../../Context/Websocketcontext';
 import JSON5 from 'json5';
 import { Line } from 'react-chartjs-2';
 import {
@@ -12,9 +12,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import '../styles/Average.css'; // Archivo CSS para estilo
+import '../styles/Average.css';
 
-// Registrar componentes necesarios para Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,8 +25,27 @@ ChartJS.register(
 );
 
 const Average = () => {
-  const [data1002, setData1002] = useState(null);
-  const { message, error } = useWebSocket(); // Acceder al WebSocketContext sin necesidad de conectar de nuevo
+  const { message, error } = useWebSocket();
+
+  // Estado inicial que carga los datos de localStorage o un objeto vacío como fallback
+  const [data1002, setData1002] = useState(() => {
+    const storedData = localStorage.getItem('webSocketMessage_1002');
+    return storedData
+      ? JSON.parse(storedData)
+      : { usdCopPrices: [], mediaMovil8: [], mediaMovil13: [], labels: [] };
+  });
+
+  useEffect(() => {
+    if (!data1002 || (data1002.labels && data1002.labels.length === 0)) {
+      // Intentar cargar datos de localStorage en caso de que no haya datos iniciales
+      const storedData = localStorage.getItem('webSocketMessage_1002');
+      if (storedData) {
+        setData1002(JSON.parse(storedData));
+      } else {
+        console.warn("No se encontraron datos previos en 'localStorage'.");
+      }
+    }
+  }, [data1002]);
 
   useEffect(() => {
     if (message) {
@@ -39,25 +57,25 @@ const Average = () => {
         return;
       }
 
-      // Filtrar los mensajes para el ID 1002 y el market 71
       if (parsedMessage?.id === 1002 && parsedMessage?.market === 71) {
-        console.log('Mensaje recibido y filtrado (id 1002):', parsedMessage);
-
         const rawData = parsedMessage?.data?.data;
         const nestedData = rawData?.data;
 
         if (nestedData && nestedData.datasets && nestedData.labels) {
-          const usdCopPrices = nestedData.datasets[0]?.data || ['Data not available'];
-          const mediaMovil8 = nestedData.datasets[1]?.data || ['Data not available'];
-          const mediaMovil13 = nestedData.datasets[2]?.data || ['Data not available'];
-          const labels = nestedData.labels || ['Labels not available'];
+          const usdCopPrices = nestedData.datasets[0]?.data || [];
+          const mediaMovil8 = nestedData.datasets[1]?.data || [];
+          const mediaMovil13 = nestedData.datasets[2]?.data || [];
+          const labels = nestedData.labels || [];
 
-          setData1002({
+          const newData = {
             usdCopPrices,
             mediaMovil8,
             mediaMovil13,
             labels,
-          });
+          };
+
+          setData1002(newData);
+          localStorage.setItem('webSocketMessage_1002', JSON.stringify(newData));
         } else {
           console.error('No se pudo acceder a datasets o labels en nestedData:', nestedData);
         }
@@ -65,43 +83,27 @@ const Average = () => {
     }
   }, [message]);
 
-  // Función para crear el degradado
-  const createGradient = (ctx, area) => {
-    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Blanco en la parte inferior (eje X)
-    gradient.addColorStop(1, 'rgba(0, 123, 255, 0.4)'); // Azul en la parte superior
-    return gradient;
-  };
-
+  // Configuración de los datos para el gráfico, verificando que los datos existan
   const chartData = {
-    labels: data1002?.labels || [],
+    labels: data1002.labels || [],
     datasets: [
       {
         label: 'Cotización USD/COP',
-        data: data1002?.usdCopPrices || [],
+        data: data1002.usdCopPrices || [],
         borderColor: '#00a1ff',
-        pointBackgroundColor: '#00a1ff',
-        backgroundColor: (context) => {
-          const chart = context.chart;
-          const { ctx, chartArea } = chart;
-
-          if (!chartArea) {
-            return null;
-          }
-          return createGradient(ctx, chartArea);
-        },
+        backgroundColor: 'rgba(0, 123, 255, 0.1)',
         fill: true,
         tension: 0.4,
       },
       {
         label: 'Media móvil (8)',
-        data: data1002?.mediaMovil8 || [],
+        data: data1002.mediaMovil8 || [],
         borderColor: 'rgba(54, 162, 235, 1)',
         fill: false,
       },
       {
         label: 'Media móvil (13)',
-        data: data1002?.mediaMovil13 || [],
+        data: data1002.mediaMovil13 || [],
         borderColor: 'rgba(255, 99, 132, 1)',
         fill: false,
       },
@@ -111,14 +113,13 @@ const Average = () => {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    aspectRatio: 3,
     plugins: {
       legend: {
         display: true,
         labels: {
           font: {
-            size: 14, // Cambia el tamaño de la fuente de la leyenda
-            weight: 'bold', // Pone la leyenda en negrita
+            size: 14,
+            weight: 'bold',
           },
         },
       },
@@ -129,19 +130,12 @@ const Average = () => {
           display: true,
           text: 'Etiquetas de tiempo',
           font: {
-            size: 16, // Aumenta el tamaño del título del eje X
-            weight: 'bold', // Pone en negrita el título del eje X
+            size: 16,
+            weight: 'bold',
           },
         },
         grid: {
-          display: false, // Elimina las líneas verticales
-        },
-        ticks: {
-          font: {
-            size: 14, // Aumenta el tamaño de la fuente en el eje X
-            family: 'Arial, sans-serif', // Fuente personalizada
-            weight: 'normal', // Sin negrita
-          },
+          display: false,
         },
       },
       y: {
@@ -149,21 +143,12 @@ const Average = () => {
           display: true,
           text: 'Precios (USD/COP)',
           font: {
-            size: 16, // Aumenta el tamaño del título del eje Y
-            weight: 'bold', // Pone en negrita el título del eje Y
+            size: 16,
+            weight: 'bold',
           },
-        },
-        grid: {
-          display: true, // Mantiene las líneas horizontales
         },
         ticks: {
-          font: {
-            size: 14, // Aumenta el tamaño de la fuente en el eje Y
-            family: 'Arial, sans-serif', // Fuente personalizada
-            weight: 'normal', // Sin negrita
-          },
           stepSize: 5,
-          precision: 0,
           min: 4140,
           max: 4200,
         },
@@ -175,13 +160,13 @@ const Average = () => {
     <div className="promedio-dolar-informacion">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
-        {data1002 ? (
+        {data1002.labels && data1002.labels.length > 0 ? (
           <div className="unique-data-container">
             <h1>Datos Promedios (ID 1002, Market 71)</h1>
             <Line data={chartData} options={chartOptions} />
           </div>
         ) : (
-          <p>No data received for ID 1002 and market 71.</p>
+          <p>No hay datos disponibles. Mostrando datos anteriores de localStorage si están disponibles.</p>
         )}
       </div>
     </div>

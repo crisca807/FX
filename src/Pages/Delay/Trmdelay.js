@@ -51,41 +51,41 @@ const TrmDelay = () => {
   };
 
   return (
-    <div className="trm-dolar-info">
+    <div className="delay-trmdelay-container">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <div>
+      <div className="delay-trmdelay-data">
         {data1006.length > 0 ? (
-          <div className="trm-table-container">
-            <h1 className="trm-table-title">Precios del dólar</h1>
-            <div className="trm-data-table">
-              <div className="trm-data-row">
-                <div className="circular-icon banco-de-la-republica"></div> {/* Fondo desde CSS */}
-                <strong>TRM:</strong>
-                <p>
+          <div className="delay-trm-table-container">
+            <h1 className="delay-trm-table-title">Precios del dólar</h1>
+            <div className="delay-trm-data-table">
+              <div className="delay-trm-data-row">
+                <div className="delay-circular-icon delay-banco-de-la-republica"></div>
+                <strong className="delay-trm-title">TRM:</strong>
+                <p className="delay-trm-value">
                   {data1006[0].data?.trm || 'Data not available'}
                   <FontAwesomeIcon icon={faCartShopping} style={{ marginLeft: '10px' }} />
                 </p>
               </div>
-              <div className="trm-data-row">
-                <div className="circular-icon apertura"></div> {/* Fondo desde CSS */}
-                <strong>Apertura:</strong>
-                <p>
+              <div className="delay-trm-data-row">
+                <div className="delay-circular-icon delay-apertura"></div>
+                <strong className="delay-trm-title">Apertura:</strong>
+                <p className="delay-trm-value">
                   {data1006[0].data?.open || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.open)}
                 </p>
               </div>
-              <div className="trm-data-row">
-                <div className="circular-icon minimo"></div> {/* Fondo desde CSS */}
-                <strong>Mínimo:</strong>
-                <p>
+              <div className="delay-trm-data-row">
+                <div className="delay-circular-icon delay-minimo"></div>
+                <strong className="delay-trm-title">Mínimo:</strong>
+                <p className="delay-trm-value">
                   {data1006[0].data?.low || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.low)}
                 </p>
               </div>
-              <div className="trm-data-row">
-                <div className="circular-icon cierre"></div> {/* Fondo desde CSS */}
-                <strong>Máximo:</strong>
-                <p>
+              <div className="delay-trm-data-row">
+                <div className="delay-circular-icon delay-cierre"></div>
+                <strong className="delay-trm-title">Máximo:</strong>
+                <p className="delay-trm-value">
                   {data1006[0].data?.high || 'Data not available'}
                   {renderArrowIcon(data1006[0].data?.high)}
                 </p>

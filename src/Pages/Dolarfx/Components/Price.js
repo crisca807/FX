@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importa el contexto de WebSocket
+import { useWebSocket } from '../../Context/Websocketcontext';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,56 +13,63 @@ import {
   Filler
 } from 'chart.js';
 
-// Registrar los componentes necesarios para la gráfica
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Price = () => {
-  const [data1001, setData1001] = useState(null);
-  const { isConnected, message, error } = useWebSocket(); // Usar el contexto de WebSocket
+  // Cargar datos almacenados de localStorage al inicializar el estado
+  const [data1001, setData1001] = useState(() => {
+    const storedData = localStorage.getItem('webSocketMessage_1001');
+    return storedData ? JSON.parse(storedData) : null;
+  });
+  const { message, error } = useWebSocket();
+
+  useEffect(() => {
+    // Si hay datos en localStorage y aún no se han cargado en el estado, establecerlos
+    if (!data1001) {
+      const storedData = localStorage.getItem('webSocketMessage_1001');
+      if (storedData) {
+        setData1001(JSON.parse(storedData));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (message) {
-      console.log('Mensaje recibido en el componente:', message);
-
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
-        console.log('Mensaje JSON.parseado completo:', parsedMessage);
       } catch (e) {
         console.error('Error al parsear JSON:', e.message);
         return;
       }
 
-      if (parsedMessage?.id !== 1001 || parsedMessage?.market !== 71) {
-        console.log('El mensaje recibido no es para el ID 1001 o el mercado 71.');
-        return;
+      // Filtrar mensajes para ID 1001 y market 71
+      if (parsedMessage?.id === 1001 && parsedMessage?.market === 71) {
+        const result = parsedMessage?.data?.data?.data;
+
+        if (!result || !result.datasets || !Array.isArray(result.datasets)) {
+          console.error('No se encontraron datasets dentro de `data`: ', result?.datasets);
+          return;
+        }
+
+        if (!result.labels || !Array.isArray(result.labels)) {
+          console.error('No se encontraron labels dentro de `data`:', result.labels);
+          return;
+        }
+
+        const cotizacion = result.datasets[0]?.data || [];
+        const labels = result.labels || [];
+
+        if (cotizacion.length === 0 || labels.length === 0) {
+          console.error('No se encontraron datos o etiquetas válidas.');
+          return;
+        }
+
+        // Actualizar el estado y almacenar los datos en localStorage
+        const newData = { cotizacion, labels };
+        setData1001(newData);
+        localStorage.setItem('webSocketMessage_1001', JSON.stringify(newData));
       }
-
-      const result = parsedMessage?.data?.data?.data;
-      console.log('Contenido de parsedMessage.data.data.data:', result);
-
-      if (!result || !result.datasets || !Array.isArray(result.datasets)) {
-        console.error('No se encontraron datasets dentro de `data`: ', result?.datasets);
-        return;
-      }
-
-      if (!result.labels || !Array.isArray(result.labels)) {
-        console.error('No se encontraron labels dentro de `data`:', result.labels);
-        return;
-      }
-
-      const cotizacion = result.datasets[0]?.data || [];
-      const labels = result.labels || [];
-
-      if (cotizacion.length === 0 || labels.length === 0) {
-        console.error('No se encontraron datos o etiquetas válidas.');
-        return;
-      }
-
-      setData1001({
-        cotizacion,
-        labels,
-      });
     }
   }, [message]);
 
@@ -73,7 +80,6 @@ const Price = () => {
 
     const { cotizacion, labels } = data1001;
 
-    // Función para crear el gradiente de blanco a azul
     const createGradient = (ctx, chartArea) => {
       const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Blanco en la parte inferior
@@ -81,7 +87,6 @@ const Price = () => {
       return gradient;
     };
 
-    // Datos para la gráfica
     const data = {
       labels: labels,
       datasets: [
@@ -96,19 +101,19 @@ const Price = () => {
             if (!chartArea) {
               return null;
             }
-            return createGradient(context, chartArea); // Aplica el gradiente como fondo
+            return createGradient(context, chartArea);
           },
           borderWidth: 2,
-          fill: true,  // Activa el relleno
-          tension: 0,  // Suaviza más la línea
-          pointRadius: 0  // Remueve los puntos en la línea
+          fill: true,
+          tension: 0,
+          pointRadius: 0
         }
       ]
     };
 
     const options = {
       responsive: true,
-      maintainAspectRatio: false,  // Asegura que la gráfica se ajuste a su contenedor
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: false
@@ -122,15 +127,15 @@ const Price = () => {
         x: {
           display: true,
           grid: {
-            drawOnChartArea: false  // Elimina las líneas verticales
+            drawOnChartArea: false
           },
           ticks: {
-            autoSkip: true,  // Auto saltar etiquetas de tiempo para evitar aglomeración
+            autoSkip: true,
             maxTicksLimit: 20,
             font: {
-              size: 14,  // Ajusta el tamaño de la fuente del eje X
-              family: 'Arial, sans-serif', // Fuente personalizada
-              weight: 'normal', // Sin negrita
+              size: 14,
+              family: 'Arial, sans-serif',
+              weight: 'normal',
             },
           }
         },
@@ -138,23 +143,23 @@ const Price = () => {
           display: true,
           beginAtZero: false,
           grid: {
-            color: 'rgba(0, 0, 0, 0.2)'  // Ajustar la opacidad de las líneas horizontales
+            color: 'rgba(0, 0, 0, 0.2)'
           },
           ticks: {
             font: {
-              size: 14,  // Ajusta el tamaño de la fuente del eje Y
-              family: 'Arial, sans-serif', // Fuente personalizada
-              weight: 'normal', // Sin negrita
+              size: 14,
+              family: 'Arial, sans-serif',
+              weight: 'normal',
             },
             callback: function(value) {
-              return value.toFixed(0);  // Eliminar decimales
+              return value.toFixed(0);
             }
           }
         }
       }
     };
 
-    return <Line data={data} options={options} height={491} />;  // Cambia aquí la altura de la gráfica
+    return <Line data={data} options={options} height={491} />;
   };
 
   return (

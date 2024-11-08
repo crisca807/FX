@@ -1,0 +1,127 @@
+/* Importa la fuente Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Estilos principales del footer */
+.footer-container {
+  display: flex;
+  justify-content: space-evenly; /* Distribuye el espacio de manera uniforme */
+  align-items: flex-start;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 40px 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px; /* Tamaño de fuente aumentado */
+  width: 100vw; /* Asegura que cubra todo el ancho de la ventana */
+  box-sizing: border-box;
+  margin: 0 auto; /* Centra el contenedor */
+  max-width: 100%; /* Asegura que no haya desbordamiento horizontal */
+}
+
+/* Sección del logo y redes sociales */
+.footer-logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos en la columna */
+  text-align: center;
+  flex: 1;
+  max-width: 250px;
+}
+
+/* Logo de la empresa */
+.company-logo {
+  width: 180px; /* Aumenta el tamaño del logo */
+  height: 80px;
+  background-image: url('../../../Assets/Images/set_nigga-removebg-preview.png'); /* Ruta del logo de la empresa */
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-bottom: 15px;
+}
+
+/* Eslogan */
+.footer-logo-section p {
+  font-size: 1px; /* Aumenta el tamaño del eslogan */
+  color: #bbbbbb;
+  margin: 10px 0;
+}
+
+/* Íconos de redes sociales */
+.footer-social-icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center; /* Centra los iconos de redes sociales */
+  margin-top: 15px;
+}
+
+/* Estilos para los iconos de redes sociales */
+.social-icon {
+  width: 30px; /* Tamaño de los iconos */
+  height: 30px;
+  background-size: cover;
+  display: inline-block;
+  transition: transform 0.3s ease; /* Agrega una transición para la animación */
+}
+
+/* Animación de "zoom" al pasar el mouse */
+.social-icon:hover {
+  transform: scale(1.2); /* Agranda el icono un 20% */
+}
+
+.facebook {
+  background-image: url('../../../Assets/Images/facebook.png');
+}
+
+.twitter {
+  background-image: url('../../../Assets/Images/x.png');
+}
+
+.instagram {
+  background-image: url('../../../Assets/Images/linkedin.png');
+}
+
+.linkedin {
+  background-image: url('../../../Assets/Images/linkedin.png');
+}
+
+/* Estilo de cada columna del footer */
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  margin: 0 20px; /* Aumenta el espacio entre las columnas para simetría */
+}
+
+/* Títulos de cada columna */
+.footer-column h3 {
+  font-size: 20px; /* Tamaño de los títulos */
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+/* Enlaces en cada columna */
+.footer-column a {
+  display: block;
+  font-size: 16px; /* Tamaño de los enlaces */
+  color: #bbbbbb;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+
+.footer-column a:hover {
+  color: #0c345c;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  .footer-column {
+    min-width: unset;
+    margin: 10px 0;
+  }
+}

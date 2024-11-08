@@ -5,7 +5,7 @@ import Dolarsocket from './Components/Dolarsocket.js';
 import Graphics from './Components/graphics.js'; // Asegúrate de que esté bien importado
 import Indicator from './Components/Indicator.js'; // Importa el componente Indicator
 import NewsComponent from './Components/newscomponent.js';
-import Footer from '../Delay/Footerdelay.js';
+
 import '../Dolarfx/styles/Init.css'; // Estilos generales
 
 const Init = () => {
@@ -68,7 +68,7 @@ const Init = () => {
 
         <div className="News-container">
           <NewsComponent />
-          <Footer />
+     
           <div
             className="Graphics-container-dolar"
             style={getTransformStyle(scrollPosition - 700)} /* Aplica el efecto más tarde para Graphics-container-dolar */

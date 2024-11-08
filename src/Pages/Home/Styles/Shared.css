@@ -1,7 +1,33 @@
-body {
+/* Reinicio básico */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Fondo y estilo del cuerpo */
+body, html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Evita desplazamiento horizontal */
   background-color: #ffffff; /* Fondo blanco para el cuerpo */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Permite que el footer esté siempre al final */
+}
+
+/* Contenedor principal del carrusel y banner */
+.main-container-banner-carrusel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #000000; /* Fondo negro para el carrusel */
+  padding: 0;
+  align-items: center; /* Centrado horizontal */
+  flex: 1; /* Ocupa el espacio restante, empujando el footer hacia abajo */
 }
 
 /* Estilo específico para el banner (ancho completo) */
@@ -13,12 +39,10 @@ body {
   background-color: #000000; /* Fondo negro solo para el banner */
   color: #ffffff; /* Texto en blanco en el banner */
   width: 100vw; /* Atraviesa toda la pantalla */
-  margin: 0;
-  padding: 0 30px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
 }
 
-/* Estilo único para el logo del banner */
 .unique-logo img {
   height: 70px;
 }
@@ -41,86 +65,139 @@ body {
   color: #003E69;
 }
 
-/* Contenedor principal del carrusel y banner */
-.main-container-banner-carrusel {
-  display: flex;
-  flex-direction: column;
+/* Estilos individuales para cada contenedor */
+.dolardelay-container,
+.delaysocket-container,
+.infonews-socket-container {
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 20px;
+  border-radius: 10px;
   width: 100%;
-  background-color: #000000; /* Fondo negro para el carrusel */
-  padding: 0;
-  margin: 0;
-  min-height: 90vh; /* Aumentando la altura del carrusel a 90vh */
-}
-
-/* Contenedor de Dolardelay y Delaysocket */
-.dolardelay-container {
-  background-color: #ffffff; /* Fondo blanco para el contenedor debajo del carrusel */
-  padding: 20px; /* Espaciado interno */
-  margin-top: 20px; /* Espaciado entre el carrusel y el contenedor */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, ); /* Sombra suave */
-  max-width: 2000px; /* Limitar el ancho máximo */
-  margin: 20px auto;
+  max-width: 100%; /* Asegura que cubra todo el ancho */
+  margin-bottom: 10px; /* Reduce el margen inferior para que queden más cerca */
+  box-sizing: border-box;
 }
 
 /* Título del Resumen del mercado */
 .market-summary-title {
   font-family: "Noto Sans", sans-serif;
   font-size: 35px;
-  color: #000000; /* Color negro para el título */
+  color: #000000;
   font-weight: bold;
-  margin-bottom: 10px; /* Espacio entre el título y el contenido */
-  text-align: center; /* Centrando el título */
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-/* Contenedor de Delaysocket */
-.delaysocket-container {
-  background-color: #ffffff; /* Fondo blanco para delaysocket */
-  padding: 20px; /* Espaciado interno */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0); /* Sombra suave */
-  margin-top: 10px; /* Espacio entre Dolardelay y Delaysocket */
-}
-
-/* Ajustar el tamaño del gráfico o contenido dentro de DelaySocket */
+/* Ajuste del gráfico o contenido dentro de DelaySocket */
 .delaysocket-container canvas {
   width: 100%;
-  height: 1000px; /* Ajuste de altura */
+  height: auto;
+  max-height: 1000px;
 }
 
-
+/* Contenedor de montos y sockets */
 .infomounts-socket-container {
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* Hace que los elementos se ajusten en pantallas pequeñas */
 }
 
-.trmdelay-container, .mountdelay-container {
-  flex: 1;
+/* Contenedores individuales de trmdelay y mountdelay */
+.trmdelay-container,
+.mountdelay-container {
+  flex: 1 1 100%; /* Se ajusta en pantallas pequeñas */
   background-color: #ffffff;
   padding: 10px;
-  margin: 10px;
+  margin: 5px; /* Reduce el margen entre los elementos */
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, );
+  box-sizing: border-box;
 }
 
-.infonews-socket-container {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, );
-  margin-top: 20px; /* Espaciado entre infomounts y infonews */
-  max-width: 2000px;
-  margin: 20px auto;
+/* Botón flotante */
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
 
-  .Footer-socket-container {
-    background-color: #000000;
+/* Contenedor básico del footer sin color de fondo */
+.footer-wrapper {
+  width: 100%;
+  padding: 20px 0;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+  background-color: transparent; /* Asegura que no tenga fondo negro */
+}
+
+/* Estilos responsivos */
+
+/* Para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+  .unique-banner-container {
+    flex-direction: column;
+    text-align: center;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, );
-    margin-top: 20px; /* Espaciado entre infomounts y infonews */
-    max-width: 2000px;
-    margin: 20px auto;
   }
-  
+
+  .unique-nav-links {
+    gap: 15px;
+    font-size: 16px;
+  }
+
+  .market-summary-title {
+    font-size: 28px;
+  }
+
+  .dolardelay-container,
+  .delaysocket-container,
+  .infonews-socket-container {
+    padding: 15px;
+  }
+
+  .infomounts-socket-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  .unique-banner-container {
+    padding: 10px;
+  }
+
+  .unique-nav-links {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .market-summary-title {
+    font-size: 24px;
+  }
+
+  .dolardelay-container,
+  .delaysocket-container,
+  .infonews-socket-container {
+    padding: 10px;
+  }
+
+  .infomounts-socket-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .trmdelay-container,
+  .mountdelay-container {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .unique-logo img {
+    height: 50px;
+  }
+}
