@@ -16,22 +16,16 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Price = () => {
-  // Cargar datos almacenados de localStorage al inicializar el estado
-  const [data1001, setData1001] = useState(() => {
-    const storedData = localStorage.getItem('webSocketMessage_1001');
-    return storedData ? JSON.parse(storedData) : null;
-  });
+  const [data1001, setData1001] = useState(null);
+  const [selectedLapse, setSelectedLapse] = useState("6M"); // Estado para el lapse seleccionado
   const { message, error } = useWebSocket();
 
   useEffect(() => {
-    // Si hay datos en localStorage y aún no se han cargado en el estado, establecerlos
-    if (!data1001) {
-      const storedData = localStorage.getItem('webSocketMessage_1001');
-      if (storedData) {
-        setData1001(JSON.parse(storedData));
-      }
+    const storedData = localStorage.getItem(`webSocketMessage_1001_${selectedLapse}`);
+    if (storedData) {
+      setData1001(JSON.parse(storedData));
     }
-  }, []);
+  }, [selectedLapse]);
 
   useEffect(() => {
     if (message) {
@@ -43,9 +37,19 @@ const Price = () => {
         return;
       }
 
-      // Filtrar mensajes para ID 1001 y market 71
-      if (parsedMessage?.id === 1001 && parsedMessage?.market === 71) {
+      console.log("Mensaje recibido:", parsedMessage);
+      console.log("Lapse seleccionado:", selectedLapse);
+      console.log("Lapse en el mensaje:", parsedMessage?.lapse);
+
+      // Filtrar mensajes para ID 1001, market 71 y el lapse seleccionado (1D, 5D, 1M, 6M o 1A)
+      if (
+        parsedMessage?.id === 1001 &&
+        parsedMessage?.market === 71 &&
+        parsedMessage?.lapse === selectedLapse
+      ) {
         const result = parsedMessage?.data?.data?.data;
+
+        console.log("Datos resultantes:", result);
 
         if (!result || !result.datasets || !Array.isArray(result.datasets)) {
           console.error('No se encontraron datasets dentro de `data`: ', result?.datasets);
@@ -60,22 +64,26 @@ const Price = () => {
         const cotizacion = result.datasets[0]?.data || [];
         const labels = result.labels || [];
 
+        console.log("Cotización:", cotizacion);
+        console.log("Labels:", labels);
+
         if (cotizacion.length === 0 || labels.length === 0) {
           console.error('No se encontraron datos o etiquetas válidas.');
           return;
         }
 
-        // Actualizar el estado y almacenar los datos en localStorage
         const newData = { cotizacion, labels };
         setData1001(newData);
-        localStorage.setItem('webSocketMessage_1001', JSON.stringify(newData));
+        localStorage.setItem(`webSocketMessage_1001_${selectedLapse}`, JSON.stringify(newData));
+      } else {
+        console.warn("No se encontraron datos para el lapse seleccionado:", selectedLapse);
       }
     }
-  }, [message]);
+  }, [message, selectedLapse]);
 
   const renderChart = () => {
-    if (!data1001) {
-      return <p>No se recibieron datos para el ID 1001 y mercado 71.</p>;
+    if (!data1001 || !data1001.cotizacion || !data1001.labels) {
+      return <p>No se recibieron datos para el ID 1001, mercado 71 y lapse {selectedLapse}.</p>;
     }
 
     const { cotizacion, labels } = data1001;
@@ -91,7 +99,7 @@ const Price = () => {
       labels: labels,
       datasets: [
         {
-          label: 'Cotización USD/COP',
+          label: `Cotización USD/COP (${selectedLapse})`,
           data: cotizacion,
           borderColor: '#00a1ff',
           backgroundColor: (ctx) => {
@@ -131,10 +139,10 @@ const Price = () => {
           },
           ticks: {
             autoSkip: true,
-            maxTicksLimit: 20,
+            maxTicksLimit: 7, // Mostrar solo 7 etiquetas en el eje X
             font: {
-              size: 14,
-              family: 'Arial, sans-serif',
+              family: 'Poppins', // Fuente Poppins
+              size: 12,
               weight: 'normal',
             },
           }
@@ -147,8 +155,8 @@ const Price = () => {
           },
           ticks: {
             font: {
-              size: 14,
-              family: 'Arial, sans-serif',
+              family: 'Poppins', // Fuente Poppins
+              size: 12,
               weight: 'normal',
             },
             callback: function(value) {
@@ -162,9 +170,33 @@ const Price = () => {
     return <Line data={data} options={options} height={491} />;
   };
 
+  const handleLapseChange = (lapse) => {
+    setSelectedLapse(lapse);
+    setData1001(null); // Resetear los datos para que se actualicen con el nuevo lapse seleccionado
+  };
+
   return (
     <div className="price-information" style={{ backgroundColor: 'white', color: 'black', padding: '20px', maxWidth: '1420px', height: '570px', margin: '0 auto' }}>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+        {['1D', '5D', '1M', '6M', '1A'].map((lapse) => (
+          <button
+            key={lapse}
+            onClick={() => handleLapseChange(lapse)}
+            style={{
+              padding: '10px 20px',
+              margin: '0 5px',
+              backgroundColor: lapse === selectedLapse ? '#003366' : '#336699',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            {lapse}
+          </button>
+        ))}
+      </div>
       <div>
         {renderChart()}
       </div>
