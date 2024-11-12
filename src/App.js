@@ -20,6 +20,7 @@ import NewsComponent from './Pages/Dolarfx/Components/newscomponent';
 import DelayComponent from './Pages/Delay/delaysocket';
 import TrmDelay from './Pages/Delay/Trmdelay';
 import Resetpassword from './Pages/Login/Components/ResetPassword';
+import SubscriptionPlans from './Pages/Delay/SubscriptionPlans';
 
 
 // Import authentication context if needed
@@ -61,6 +62,7 @@ function App() {
               <Route path="/candle" element={<CandleData />} />
               <Route path="/bollinger" element={<Bollinger />} />
               <Route path="/news" element={<NewsComponent />} />
+              <Route path="/Plans" element={< SubscriptionPlans/>} />
             </Routes>
           </WebSocketProvider>
         </div>

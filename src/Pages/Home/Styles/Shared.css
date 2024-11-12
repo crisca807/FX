@@ -60,6 +60,21 @@ body, html {
   font-size: 18px;
   transition: color 0.3s ease;
 }
+.pay-link {
+  background: none;
+  border: none;
+  color: #ffffff; /* Color del enlace */
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pay-link:hover {
+  color: #003e69; /* Color al pasar el cursor */
+}
 
 .unique-nav-links a:hover {
   color: #003E69;

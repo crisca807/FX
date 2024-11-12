@@ -1,11 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useWebSocket } from '../../Context/Websocketcontext'; // Importa el hook personalizado para acceder al contexto WebSocket
+import React, { useEffect, useState } from 'react';
+import { useWebSocket } from '../../Context/Websocketcontext';
 import '../styles/Banner.css';
-import logo from '../../../Assets/Images/set_icapn.png'; // Asegúrate de actualizar la ruta del logo
+import logo from '../../../Assets/Images/set_nigga-removebg-preview.png';
+import { FaUserCircle } from 'react-icons/fa'; // Importa el icono de usuario
 
 const Banner = () => {
-  const { logout } = useWebSocket(); // Obtiene la función logout del contexto WebSocket
+  const { logout } = useWebSocket();
+  const [username, setUsername] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    // Obtiene el nombre de usuario desde localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <div className="banner-custom">
@@ -17,10 +31,18 @@ const Banner = () => {
         <a href="#registrarse">Next day USD/COP</a>
         <a href="#">Estadísticas</a>
         <a href="#">Estadísticas</a>
-        {/* Botón de Cerrar Sesión */}
-        <button onClick={logout} className="logout-button">
-          Cerrar Sesión
-        </button>
+      </div>
+      {/* Icono de usuario con menú desplegable */}
+      <div className="user-menu-container">
+        <FaUserCircle className="user-icon" onClick={toggleMenu} />
+        {menuOpen && (
+          <div className="user-dropdown">
+            <span className="username">{username}</span>
+            <button onClick={logout} className="logout-button">
+              Cerrar Sesión
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
