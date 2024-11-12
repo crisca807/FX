@@ -176,7 +176,7 @@ const Price = () => {
   };
 
   return (
-    <div className="price-information" style={{ backgroundColor: 'white', color: 'black', padding: '20px', maxWidth: '1420px', height: '570px', margin: '0 auto' }}>
+    <div className="price-information" style={{ backgroundColor: 'white', color: 'black', padding: '20px', maxWidth: '1420px', height: '670px', margin: '0 auto' }}>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
         {['1D', '5D', '1M', '6M', '1A'].map((lapse) => (
