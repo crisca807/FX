@@ -21,6 +21,7 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "date-fns": "^3.6.0",
     "hjson": "^3.2.2",
+    "install": "^0.13.0",
     "json2html": "^0.0.8",
     "lightweight-charts": "^4.2.0",
     "lodash": "^4.17.21",

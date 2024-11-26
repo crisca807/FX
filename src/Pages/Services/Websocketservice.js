@@ -14,55 +14,59 @@ class WebSocketService {
 
   // Conectar al WebSocket usando el token
   async connect() {
-    // Verifica si ya hay una conexión activa o en progreso para evitar duplicados
+    // Validar si ya hay una conexión activa o en progreso
     if (this.isConnected || this.isConnecting) {
-      console.log("Conexión activa o en progreso. No se realizará una nueva conexión.");
-      return; // Salir si ya hay una conexión o intento de conexión
+      console.log("Ya hay una conexión activa o en progreso. No se realizará una nueva conexión.");
+      return; // Salir si ya estamos conectados o conectando
     }
 
-    this.isConnecting = true; // Marca que se está intentando conectar
+    this.isConnecting = true; // Marcamos que estamos intentando conectar
 
     try {
       // Obtener el token del localStorage
-      const token = localStorage.getItem('token-socket');
-
+      const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Token no encontrado en localStorage');
       }
 
-      // Construye la URL del WebSocket con el token
+      // Construir la URL del WebSocket con el token
       const wsURL = `${WS_BASE_URL}?token=${token}`;
 
       // Conectar usando neffos.js
       this.connection = await neffos.dial(wsURL, {
-        dolar: {
+        delay: {
           _OnNamespaceConnected: (nsConn) => {
-            this.isConnected = true; // Cambiar el estado de la conexión a true
-            this.isConnecting = false; // Finaliza el estado de conexión en progreso
+            if (nsConn.conn.wasReconnected()) {
+              console.log('Reconectado exitosamente.');
+            }
+            console.log("Conectado al namespace 'delay'.");
             this.nsConn = nsConn;
-            console.log('Conectado al namespace dolar');
+            this.isConnected = true;
+            this.isConnecting = false;
           },
           _OnNamespaceDisconnect: () => {
-            console.log('Desconectado del namespace dolar');
-            this.isConnected = false; // Cambiar el estado de la conexión
-            this.nsConn = null; // Limpiar la conexión del namespace
+            console.log("Desconectado del namespace 'delay'.");
+            this.isConnected = false;
+            this.nsConn = null;
           },
           chat: (nsConn, msg) => {
             // Notificar a todos los listeners registrados
             this.listeners.forEach((listener) => listener(msg.Body));
-          }
-        }
+          },
+        },
       }, {
-        reconnect: false, // Desactiva reconexión automática para evitar bucles
+        reconnect: 2000, // Intentar reconectar cada 2 segundos en caso de fallo
       });
 
-      // Conectar al namespace 'dolar'
-      this.nsConn = await this.connection.connect('dolar');
-      console.log('Conexión WebSocket establecida');
+      // Conectar al namespace 'delay'
+      this.nsConn = await this.connection.connect('delay');
+      this.isConnected = true; // Cambiar el estado de la conexión
+      console.log("Conexión WebSocket establecida con el namespace 'delay'.");
     } catch (error) {
-      console.error('Error al conectar al WebSocket:', error.message);
+      console.error("Error al conectar al WebSocket:", error.message);
       this.isConnected = false;
-      this.isConnecting = false; // Restablece el estado en caso de error
+    } finally {
+      this.isConnecting = false; // Restablecer el estado de conexión
     }
   }
 
@@ -75,24 +79,27 @@ class WebSocketService {
     }
   }
 
-  // Método para desconectar el WebSocket si es necesario
+  // Método para desconectar el WebSocket
   disconnect() {
+    if (this.nsConn) {
+      this.nsConn.close(); // Desconectar del namespace
+      this.nsConn = null;
+    }
     if (this.connection) {
       this.connection.close(); // Desconectar del WebSocket
       this.connection = null; // Limpiar la conexión
-      this.nsConn = null; // Limpiar la conexión al namespace
       this.isConnected = false; // Actualizar el estado de conexión
-      this.isConnecting = false; // Asegura que isConnecting también esté en false
-      console.log('Desconectado del WebSocket');
+      this.isConnecting = false;
+      console.log("Desconectado del WebSocket.");
     }
   }
 
   // Método para enviar mensajes desde el cliente
   emitMessage(message) {
     if (this.nsConn) {
-      this.nsConn.emit('chat', message); // Enviar mensaje al namespace 'dolar'
+      this.nsConn.emit('chat', message); // Enviar mensaje al namespace 'delay'
     } else {
-      console.error('No se puede enviar el mensaje. No hay conexión activa al namespace.');
+      console.error("No se puede enviar el mensaje. No hay conexión activa al namespace.");
     }
   }
 }

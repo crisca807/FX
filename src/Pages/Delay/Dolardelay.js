@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useWebSocketDelay } from '../Context/WebSocketContextDelay'; // Importar el contexto de WebSocket
+import { useWebSocketDelay } from '../Context/WebSocketContextDelay';
 import JSON5 from 'json5';
-import '../Delay/Styles/dolar.css'; // Importar el archivo CSS
+import '../Delay/Styles/dolar.css';
 
 const Dolardelay = () => {
   const [data1007, setData1007] = useState([]);
-  const { message, error } = useWebSocketDelay(); // Usar solo el mensaje y el error del contexto
+  const { message, error } = useWebSocketDelay();
 
   useEffect(() => {
     if (message) {
@@ -16,15 +16,23 @@ const Dolardelay = () => {
         parsedMessage = JSON5.parse(message);
       } catch (e) {
         console.error('Error parsing data with JSON5:', e.message);
-        parsedMessage = { rawMessage: message };
+        return;
       }
 
-      // Verificar que el ID es 1007 y que el market es 71
-      if (parsedMessage?.id === 1007 && parsedMessage?.market === 71) {
-        const existingData = data1007.find(
-          (item) => item.data.avg === parsedMessage.data.avg && item.data.close === parsedMessage.data.close
+      // Validar ID, market y datos relevantes
+      if (
+        parsedMessage?.id === 1007 &&
+        parsedMessage?.market === 71 &&
+        parsedMessage?.data?.avg &&
+        parsedMessage?.data?.close
+      ) {
+        const isDuplicate = data1007.some(
+          (item) =>
+            item.data.avg === parsedMessage.data.avg &&
+            item.data.close === parsedMessage.data.close
         );
-        if (!existingData) {
+
+        if (!isDuplicate) {
           setData1007((prevData) => {
             const newData = [...prevData, parsedMessage];
             return newData.slice(-30); // Mantener solo los últimos 30 elementos
@@ -35,19 +43,9 @@ const Dolardelay = () => {
     }
   }, [message, data1007]);
 
-  useEffect(() => {
-    // Refrescar la lista cada 5 segundos
-    const intervalId = setInterval(() => {
-      setData1007((prevData) => [...prevData]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [data1007]);
-
   const renderData = (item) => {
     if (!item) return <p>No data available</p>;
 
-    // Acceder directamente a los datos sin formatear
     const avg = item.data?.avg || 'Data not available';
     const close = item.data?.close || 'Data not available';
 
@@ -65,15 +63,16 @@ const Dolardelay = () => {
     );
   };
 
-  // Ordenar los datos por timestamp en orden descendente (más recientes primero)
-  const sortedData = data1007.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const sortedData = [...data1007].sort(
+    (a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0)
+  );
 
   return (
     <div className="infoprom-delay-dolar-info">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
         {sortedData.length > 0 ? (
-          renderData(sortedData[0]) // Mostrar solo el último elemento
+          renderData(sortedData[0]) // Mostrar solo el elemento más reciente
         ) : (
           <p>No data received for ID 1007 and market 71.</p>
         )}

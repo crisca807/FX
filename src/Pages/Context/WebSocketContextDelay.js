@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import WebSocketServiceDelay from '../Services/websocketdelay'; // Importa la instancia
 
 // Crear el contexto
@@ -9,9 +9,15 @@ export const WebSocketProviderDelay = ({ children }) => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isConnectingRef = useRef(false); // Marca para evitar conexiones duplicadas
 
   useEffect(() => {
     const connect = async () => {
+      if (isConnectingRef.current) {
+        console.log('Ya se está intentando conectar. Evitando conexión duplicada.');
+        return;
+      }
+      isConnectingRef.current = true; // Marcar que se está intentando conectar
       setLoading(true);
 
       // Obtener el token del localStorage
@@ -20,7 +26,7 @@ export const WebSocketProviderDelay = ({ children }) => {
 
       // Reintentar obtener el token si no está disponible
       while (!token && retries < 5) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Espera 1 segundo
         token = localStorage.getItem('token');
         retries++;
       }
@@ -28,6 +34,7 @@ export const WebSocketProviderDelay = ({ children }) => {
       if (!token) {
         setError('No se encontró un token válido después de varios intentos.');
         setLoading(false); // Finalizar la carga
+        isConnectingRef.current = false; // Liberar el intento de conexión
         return;
       }
 
@@ -53,6 +60,7 @@ export const WebSocketProviderDelay = ({ children }) => {
         console.error('Error conectando al WebSocket:', err);
       } finally {
         setLoading(false); // Finalizar la carga
+        isConnectingRef.current = false; // Liberar el intento de conexión
       }
     };
 
