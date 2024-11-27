@@ -55,16 +55,17 @@ const Dolardelay = () => {
     const close = item.data?.close || 'Datos no disponibles';
 
     return (
+     
       <div className="infoprom-delay-data-container">
-        <div className="infoprom-delay-datadolar-box infoprom-delay-avg-box">
-          <h2>Promedio</h2>
-          <p>{avg}</p>
-        </div>
-        <div className="infoprom-delay-datadolar-box infoprom-delay-close-box">
-          <h2>Cierre</h2>
-          <p>{close}</p>
-        </div>
+      <div className="infoprom-delay-datadolar-box infoprom-delay-close-box">
+        <h2>Cierre</h2>
+        <p>{close}</p>
       </div>
+      <div className="infoprom-delay-datadolar-box infoprom-delay-avg-box">
+        <h2>Promedio</h2>
+        <p>{avg}</p>
+      </div>
+    </div>
     );
   };
 
