@@ -5,49 +5,54 @@ import '../Delay/Styles/dolar.css';
 
 const Dolardelay = () => {
   const [data1007, setData1007] = useState([]);
+  const [latestData, setLatestData] = useState(null); // Estado para almacenar el dato más reciente
   const { message, error } = useWebSocketDelay();
+
+  const isDifferentData = (prevItem, newItem) => {
+    if (!prevItem || !newItem) return true; 
+    const keysToCompare = ['avg', 'close', 'timestamp'];
+    return keysToCompare.some(
+      (key) => prevItem?.data[key] !== newItem?.data[key]
+    );
+  };
 
   useEffect(() => {
     if (message) {
-      console.log('Received message in component:', message);
+      console.log('Mensaje recibido en el componente:', message);
 
       let parsedMessage;
       try {
         parsedMessage = JSON5.parse(message);
       } catch (e) {
-        console.error('Error parsing data with JSON5:', e.message);
+        console.error('Error al parsear el mensaje JSON5:', e.message);
         return;
       }
 
-      // Validar ID, market y datos relevantes
       if (
         parsedMessage?.id === 1007 &&
         parsedMessage?.market === 71 &&
-        parsedMessage?.data?.avg &&
-        parsedMessage?.data?.close
+        parsedMessage?.data?.avg !== undefined &&
+        parsedMessage?.data?.close !== undefined
       ) {
-        const isDuplicate = data1007.some(
-          (item) =>
-            item.data.avg === parsedMessage.data.avg &&
-            item.data.close === parsedMessage.data.close
-        );
-
-        if (!isDuplicate) {
-          setData1007((prevData) => {
-            const newData = [...prevData, parsedMessage];
-            return newData.slice(-30); // Mantener solo los últimos 30 elementos
-          });
-          console.log('Updated data for ID 1007 and market 71:', parsedMessage);
-        }
+        setData1007((prevData) => {
+          const latestData = prevData[prevData.length - 1];
+          if (isDifferentData(latestData, parsedMessage)) {
+            const updatedData = [...prevData, parsedMessage].slice(-30); // Mantener solo los últimos 30
+            setLatestData(parsedMessage); // Actualizar el dato más reciente
+            console.log('Datos actualizados para ID 1007:', updatedData);
+            return updatedData;
+          }
+          return prevData;
+        });
       }
     }
-  }, [message, data1007]);
+  }, [message]);
 
   const renderData = (item) => {
-    if (!item) return <p>No data available</p>;
+    if (!item) return <p>No hay datos disponibles</p>;
 
-    const avg = item.data?.avg || 'Data not available';
-    const close = item.data?.close || 'Data not available';
+    const avg = item.data?.avg || 'Datos no disponibles';
+    const close = item.data?.close || 'Datos no disponibles';
 
     return (
       <div className="infoprom-delay-data-container">
@@ -63,18 +68,14 @@ const Dolardelay = () => {
     );
   };
 
-  const sortedData = [...data1007].sort(
-    (a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0)
-  );
-
   return (
     <div className="infoprom-delay-dolar-info">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
       <div>
-        {sortedData.length > 0 ? (
-          renderData(sortedData[0]) // Mostrar solo el elemento más reciente
+        {latestData ? (
+          renderData(latestData) // Mostrar el dato más reciente
         ) : (
-          <p>No data received for ID 1007 and market 71.</p>
+          <p>No se han recibido datos para ID 1007 y mercado 71.</p>
         )}
       </div>
     </div>
