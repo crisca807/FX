@@ -34,18 +34,18 @@ class WebSocketService {
 
       // Conectar usando neffos.js
       this.connection = await neffos.dial(wsURL, {
-        delay: {
+        dolar: {
           _OnNamespaceConnected: (nsConn) => {
             if (nsConn.conn.wasReconnected()) {
               console.log('Reconectado exitosamente.');
             }
-            console.log("Conectado al namespace 'delay'.");
+            console.log("Conectado al namespace 'dolar'.");
             this.nsConn = nsConn;
             this.isConnected = true;
             this.isConnecting = false;
           },
           _OnNamespaceDisconnect: () => {
-            console.log("Desconectado del namespace 'delay'.");
+            console.log("Desconectado del namespace 'dolar'.");
             this.isConnected = false;
             this.nsConn = null;
           },
@@ -58,10 +58,10 @@ class WebSocketService {
         reconnect: 2000, // Intentar reconectar cada 2 segundos en caso de fallo
       });
 
-      // Conectar al namespace 'delay'
-      this.nsConn = await this.connection.connect('delay');
+      // Conectar al namespace 'dolar'
+      this.nsConn = await this.connection.connect('dolar');
       this.isConnected = true; // Cambiar el estado de la conexión
-      console.log("Conexión WebSocket establecida con el namespace 'delay'.");
+      console.log("Conexión WebSocket establecida con el namespace 'dolar'.");
     } catch (error) {
       console.error("Error al conectar al WebSocket:", error.message);
       this.isConnected = false;
@@ -97,7 +97,7 @@ class WebSocketService {
   // Método para enviar mensajes desde el cliente
   emitMessage(message) {
     if (this.nsConn) {
-      this.nsConn.emit('chat', message); // Enviar mensaje al namespace 'delay'
+      this.nsConn.emit('chat', message); // Enviar mensaje al namespace 'dolar'
     } else {
       console.error("No se puede enviar el mensaje. No hay conexión activa al namespace.");
     }
