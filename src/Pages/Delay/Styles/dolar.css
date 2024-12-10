@@ -1,16 +1,18 @@
 /* Estilo general del contenedor */
 .infoprom-delay-dolar-info {
-  background-color: #ffffff; /* Fondo negro */
+  background-color: #ffffff; /* Fondo blanco */
   padding: 20px;
   font-family: Arial, sans-serif;
   text-align: center; /* Centra el contenido dentro del contenedor */
+  margin-top: 15px;
 }
 
 /* Estilo del título principal */
 .infoprom-delay-dolar-info h1 {
   font-size: 2.5rem; /* Tamaño del texto del título */
-  color: #0f345c; /* Color del texto azul */
-  font-weight: bold; /* Hace que el texto sea negrita */
+  color: #000000; /* Color del texto negro */
+  font-family: 'Inter', sans-serif; /* Fuente personalizada */
+  font-weight: 700; /* Hace que el texto sea negrita */
   margin-bottom: 20px; /* Espacio debajo del título principal */
 }
 
@@ -22,12 +24,14 @@
   flex-wrap: wrap; /* Permite que las casillas se ajusten si el espacio es reducido */
 }
 
-/* Estilo unificado de las casillas de datos (infoprom-delay-datadolar-box y infoprom-delay-data-box) */
-.infoprom-delay-datadolar-box, .infoprom-delay-data-box {
-  background-color: #0f345c; /* Color de fondo azul */
+/* Estilo unificado de las casillas de datos con fondo de imagen */
+.infoprom-delay-datadolar-box,
+.infoprom-delay-data-box {
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center; /* Centra la imagen en el contenedor */
   color: #ffffff; /* Color del texto blanco */
   border-radius: 10px; /* Bordes redondeados */
-  padding: 15px; /* Espaciado interior moderado */
+  padding: 15px; /* Espaciado interior */
   width: 400px; /* Ancho fijo de las casillas */
   text-align: center; /* Alinea el texto al centro */
   box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total de la casilla */
@@ -36,10 +40,28 @@
   display: flex;
   flex-direction: column;
   justify-content: center; /* Centra el contenido verticalmente */
+
+  /* Transición suave */
+  transition: transform 0.3s ease, background-size 0.3s ease; /* Añade suavidad al cambio de tamaño */
+}
+
+/* Efecto de zoom cuando el contenido cambia */
+.infoprom-delay-datadolar-box,
+.infoprom-delay-data-box:focus,
+.infoprom-delay-data-box:active {
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+}
+
+/* Efecto de zoom al pasar el mouse */
+.infoprom-delay-datadolar-box:hover,
+.infoprom-delay-data-box:hover {
+  transform: scale(1.1); /* Aumenta el tamaño un poco más al pasar el mouse */
+  background-size: 110%; /* Hace un zoom adicional en la imagen de fondo */
 }
 
 /* Estilo del título dentro de las casillas de datos */
-.infoprom-delay-datadolar-box h2, .infoprom-delay-data-box h2 {
+.infoprom-delay-datadolar-box h2,
+.infoprom-delay-data-box h2 {
   margin: 0 0 6px 0; /* Espacio debajo del título reducido */
   font-size: 2.0rem; /* Tamaño del texto del título dentro de la casilla (aproximadamente 28px) */
   color: #ffffff; /* Color del texto blanco */
@@ -47,8 +69,77 @@
 }
 
 /* Estilo del párrafo con los números */
-.infoprom-delay-datadolar-box p, .infoprom-delay-data-box p {
+.infoprom-delay-datadolar-box p,
+.infoprom-delay-data-box p {
   margin: 0; /* Elimina el margen del párrafo */
   font-size: 2.70rem; /* Tamaño del texto del contenido ajustado (aproximadamente 36px) */
   font-weight: bold; /* Hace que el texto sea negrita */
+}
+
+/* Fondo de imagen específico para "Cierre" */
+.infoprom-delay-close-box {
+  background-image: url('../../../Assets/Images/fondo\ azul\ 3.jpg'); /* Ruta de la imagen para "Cierre" */
+}
+
+/* Fondo de imagen específico para "Promedio" */
+.infoprom-delay-avg-box {
+  background-image: url('../../../Assets/Images/fondo\ azul\ 3.jpg'); /* Ruta de la imagen para "Promedio" */
+}
+
+/* --- Diseño Responsivo --- */
+
+/* Modo Tablet (pantallas medianas) */
+@media (max-width: 1024px) {
+  .infoprom-delay-data-container {
+    gap: 1cm; /* Reduce el espacio entre casillas */
+  }
+
+  .infoprom-delay-datadolar-box,
+  .infoprom-delay-data-box {
+    width: 350px; /* Reduce el ancho de las casillas */
+    height: 120px; /* Reduce la altura de las casillas */
+  }
+
+  .infoprom-delay-datadolar-box h2,
+  .infoprom-delay-data-box h2 {
+    font-size: 1.8rem; /* Tamaño del texto reducido */
+  }
+
+  .infoprom-delay-datadolar-box p,
+  .infoprom-delay-data-box p {
+    font-size: 2.3rem; /* Tamaño del número reducido */
+  }
+}
+
+/* Modo Móvil (pantallas pequeñas) */
+@media (max-width: 768px) {
+  .infoprom-delay-data-container {
+    flex-direction: column; /* Las casillas se apilan verticalmente */
+    align-items: center; /* Centra las casillas en la pantalla */
+    gap: 20px; /* Reduce el espacio entre casillas */
+  }
+
+  .infoprom-delay-datadolar-box,
+  .infoprom-delay-data-box {
+    width: 90%; /* Ajusta el ancho al 90% del contenedor */
+    height: 100px; /* Reduce la altura */
+  }
+
+  .infoprom-delay-datadolar-box h2,
+  .infoprom-delay-data-box h2 {
+    font-size: 1.5rem; /* Tamaño del texto reducido */
+  }
+
+  .infoprom-delay-datadolar-box p,
+  .infoprom-delay-data-box p {
+    font-size: 2rem; /* Tamaño del número reducido */
+  }
+
+  .infoprom-delay-dolar-info {
+    padding: 15px; /* Reduce el padding general */
+  }
+
+  .infoprom-delay-dolar-info h1 {
+    font-size: 2rem; /* Reduce el tamaño del título */
+  }
 }

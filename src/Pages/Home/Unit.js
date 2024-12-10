@@ -26,7 +26,7 @@ const Unit = () => {
         <Carrusel /> {/* Carrusel */}
 
         <div className="dolardelay-container">
-          <h2 className="market-summary-title">Resumen del mercado</h2> {/* Título del mercado */}
+
           <Dolardelay /> {/* Componente Dolardelay */}
 
           <div className="delaysocket-container">

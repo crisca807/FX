@@ -9,13 +9,13 @@ const Carruselfx = () => {
           <h2>Aliado Pro</h2>
           {/* Aquí eliminamos el div innecesario */}
           <p className="subtitulo">
-            "Optimiza la eficiencia financiera de tu negocio
+            Optimiza la eficiencia financiera de tu negocio
           </p>
           <p>
             con herramientas avanzadas, estrategias personalizadas,
           </p>
           <p>
-            maximizando resultados y mejorando el rendimiento."
+            maximizando resultados y mejorando el rendimiento.
           </p>
         </div>
       </div>
