@@ -1,54 +1,99 @@
-import React from 'react';
-import './Styles/SubscriptionPlans.css'; // Asegúrate de que la ruta sea correcta
+import React, { useState } from 'react';
+import './Styles/SubscriptionPlans.css';
 
 const SubscriptionPlans = () => {
+  const [activePlan, setActivePlan] = useState('Plan Semestral'); // Dejar 'Plan Semestral' abierto por defecto
+
+  const plans = [
+    {
+      name: 'Plan trimestral',
+      description:
+        'Accede a servicios exclusivos de Set-icap con nuestra suscripción trimestral. Conéctate a lo mejor del mercado financiero en solo 3 meses.',
+      deposit: '$562.275',
+    },
+    {
+      name: 'Plan Semestral',
+      description:
+        'Optimiza tus inversiones con nuestro plan semestral. Asegura acceso continuo a datos y análisis de alta calidad para tomar decisiones informadas.',
+      deposit: '$1.042.859',
+    },
+    {
+      name: 'Plan Anual',
+      description:
+        'Transforma tu estrategia financiera con el plan anual de Set-icap. Obtén todo el apoyo necesario durante todo el año para maximizar tus oportunidades.',
+      deposit: '$1.914.214',
+    },
+  ];
+
+  const isMobile = window.innerWidth <= 768; // Detecta si es móvil
+
   return (
     <div className="subscription-page">
-      <h1 className="subscription-title">Planes de Suscripción - SET ICAP</h1>
-      <p className="subscription-description">
-        Elige el plan que mejor se adapte a tus necesidades y obtén acceso a información en tiempo real sobre el mercado de divisas USD/COP.
-      </p>
-      <div className="subscription-plans">
-        {/* Plan Semestral (Plan Grande con Badge Popular) */}
-        <div className="subscription-card large-plan">
-          <span className="popular-badge">Popular</span>
-          <h2>Plan Semestral</h2>
-          <h3>Suscripción Dólar SET-FX</h3>
-          <p className="price">$ 1.042.859</p>
-          <p className="duration">Semestral</p>
-          <ul>
-            <li>Información en tiempo real</li>
-            <li>1 Usuario</li>
-            <li>Soporte gratuito</li>
-          </ul>
-        </div>
-        
-        {/* Plan Trimestral */}
-        <div className="subscription-card small-plan">
-          <h2>Plan Trimestral</h2>
-          <h3>Suscripción Dólar SET-FX</h3>
-          <p className="price">$ 562.275</p>
-          <p className="duration">Trimestral</p>
-          <ul>
-            <li>Información en tiempo real</li>
-            <li>1 Usuario</li>
-            <li>Soporte gratuito</li>
-          </ul>
-        </div>
-        
-        {/* Plan Anual */}
-        <div className="subscription-card small-plan">
-          <h2>Plan Anual</h2>
-          <h3>Suscripción Dólar SET-FX</h3>
-          <p className="price">$ 1.914.214</p>
-          <p className="duration">Anual</p>
-          <ul>
-            <li>Información en tiempo real</li>
-            <li>1 Usuario</li>
-            <li>Soporte gratuito</li>
-          </ul>
-        </div>
+      {/* Sección de promoción */}
+      <div className="promo-section">
+        <h1>análisis financiero avanzado, suscripciones para decisiones inteligentes y de alto rendimiento.</h1>
+        <p>
+         
+        </p>
+        <button className="cta-button">Descubre más</button>
       </div>
+
+      {isMobile ? (
+        // Diseño para móviles: Botones en lugar de cuadros
+        <div className="mobile-selection">
+          <div className="mobile-buttons">
+            {plans.map((plan) => (
+              <button
+                key={plan.name}
+                className={`mobile-plan-button ${
+                  activePlan === plan.name ? 'active' : ''
+                }`}
+                onClick={() => setActivePlan(plan.name)}
+              >
+                {plan.name}
+              </button>
+            ))}
+          </div>
+          <div className="mobile-plan-details">
+            <h2>{activePlan}</h2>
+            <p className="description">
+              {plans.find((plan) => plan.name === activePlan)?.description}
+            </p>
+            <p className="deposit">
+              {' '}
+              {plans.find((plan) => plan.name === activePlan)?.deposit}
+            </p>
+            <button className="cta-button">Abrir cuenta</button>
+          </div>
+        </div>
+      ) : (
+        // Diseño para pantallas grandes
+        <div className="subscription-container">
+          {plans.map((plan) => (
+            <div
+              key={plan.name}
+              className={`subscription-card ${
+                activePlan === plan.name ? 'active' : ''
+              }`}
+              onMouseEnter={() => setActivePlan(plan.name)}
+              onMouseLeave={() => setActivePlan('Plan Semestral')} // Se cierra al pasar el mouse
+            >
+              <div className="card-header">
+                <h2>{plan.name}</h2>
+              </div>
+              <div
+                className={`card-content ${
+                  activePlan === plan.name ? 'show' : ''
+                }`}
+              >
+                <p className="description">{plan.description}</p>
+                <p className="deposit">Depósito de {plan.deposit}</p>
+                <button className="cta-button">Abrir cuenta</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,196 @@
+/* Estilos generales del contenedor */
+.unique-banner-container {
+    display: flex;
+    justify-content: space-between; /* Logo a la izquierda y enlaces a la derecha */
+    align-items: center;
+    padding: 8px 20px; /* Ajuste de padding para más separación */
+    background-color: #ffffff; /* Fondo blanco para el banner */
+    color: #ee1010; /* Texto en color rojo */
+    width: 100%; /* Tomamos el 100% del ancho */
+    box-sizing: border-box;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    position: relative; /* Necesario para posicionar el menú */
+    z-index: 10; /* Asegura que el banner esté por encima de otros elementos */
+    margin: 0; /* Sin margen lateral */
+}
+
+/* Estilo para el logo */
+.unique-logo img {
+    height: 60px;
+    margin-left: 300px; /* Mueve el logo más hacia el centro */
+}
+
+/* Enlaces: Modo PC */
+.unique-nav-links {
+    display: flex; /* Los enlaces están en fila (horizontalmente) */
+    gap: 30px; /* Espaciado entre los enlaces */
+    align-items: center; /* Alinea verticalmente al centro */
+    justify-content: flex-end; /* Alinea los enlaces hacia la derecha */
+    width: auto; /* Ancho ajustado al contenido */
+    height: auto; /* Ajustado al contenido */
+    background-color: transparent; /* Sin fondo */
+    box-shadow: none; /* Sin sombra */
+    padding: 0; /* Sin relleno adicional */
+    position: relative; /* Para ajustes de posición */
+    left: -20%; /* Mueve los enlaces más hacia el centro */
+}
+
+/* Estilo de los enlaces en modo PC */
+.unique-nav-links a {
+    text-decoration: none; /* Elimina el subrayado */
+    color: #000000; /* Color negro */
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: normal; /* Sin negrita */
+    transition: color 0.3s ease; /* Transición suave en hover */
+    display: inline-block; /* Asegura que cada enlace esté en línea */
+    padding: 10px; /* Espaciado interno */
+}
+
+/* Ocultar iconos en modo PC */
+.unique-nav-links a svg {
+    display: none; /* Oculta los íconos en modo PC */
+}
+
+/* Botón de menú hamburguesa: Visible solo en móvil */
+.hamburger-menu {
+    display: none; /* Oculto en modo PC */
+}
+
+/* Botón de pago */
+.pay-link {
+    background-color: #ee1010; /* Fondo rojo */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Suavidad al cambiar el color */
+    font-size: 16px;
+    margin-left: auto; /* Empuja el botón hacia la derecha */
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+    /* Ajuste del contenedor del banner */
+    .unique-banner-container {
+        padding: 10px 20px; /* Ajuste de padding para más separación */
+        justify-content: space-between; /* Mantén el logo y el menú separados */
+    }
+
+    /* Logo: Tamaño ajustado */
+    .unique-logo img {
+        height: 50px; /* Ajustamos el tamaño para pantallas pequeñas */
+        margin-left: 20px; /* Mantiene un margen pequeño desde el borde */
+    }
+
+    .unique-nav-links {
+        display: none; /* Oculto por defecto */
+        flex-direction: column; /* Organiza los enlaces en columna */
+        width: 100%; /* Ocupa todo el ancho */
+        height: 100vh; /* Altura completa de la pantalla */
+        position: fixed; /* Posiciona el menú sobre toda la pantalla */
+        top: 0; /* Comienza exactamente desde la parte superior */
+        left: 0; /* Empieza desde el borde izquierdo */
+        background-color: #ffffff; /* Fondo blanco */
+        padding: 20px 20px; /* Espaciado interno para los enlaces */
+        box-shadow: none; /* Sin sombra, para un fondo sólido */
+        z-index: 1000; /* Asegura que el menú esté sobre otros elementos */
+        overflow-y: auto; /* Permite desplazamiento si el contenido excede la pantalla */
+        justify-content: flex-start; /* Alinea los enlaces al inicio */
+        align-items: flex-start; /* Alinea el contenido al inicio horizontal */
+    }
+    
+    
+    /* Cuando el menú está abierto */
+    .unique-nav-links.open {
+        display: flex; /* Muestra el menú desplegable */
+    }
+
+    /* Ajustes para los enlaces del menú */
+    .unique-nav-links a {
+        font-size: 18px;
+        padding: 10px 15px; /* Espacio entre los enlaces */
+        color: #333; /* Texto gris */
+        border-bottom: 1px solid #eee; /* Separador entre enlaces */
+        width: 100%; /* Ocupa todo el ancho */
+        text-align: left; /* Alineación a la izquierda */
+    }
+
+    /* Mostrar iconos en móviles */
+    .unique-nav-links a svg {
+        display: inline-block; /* Visible solo en móviles */
+        margin-right: 10px; /* Espaciado entre icono y texto */
+    }
+
+    /* Botón de menú hamburguesa */
+    .hamburger-menu {
+        display: flex; /* Visible en móvil */
+        flex-direction: column;
+        gap: 5px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 25;
+    }
+
+    .hamburger-menu span {
+        width: 30px;
+        height: 4px;
+        background-color: #000;
+        border-radius: 2px;
+    }
+
+    /* Botón de pago centrado en móviles */
+    .pay-link {
+        align-self: center; /* Centra el botón */
+        margin-top: 20px; /* Espacio extra superior */
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Estilo para pantallas tablet (entre 768px y 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .unique-logo img {
+        margin-left: 100px; /* Ajuste para centrar mejor el logo en tablets */
+    }
+
+    .unique-nav-links {
+        left: -15%; /* Corrige la posición de los enlaces para tablets */
+    }
+}
+
+/* Botón de cierre del menú (solo en móvil) */
+.close-menu {
+    position: absolute; /* Fija la posición en el menú */
+    top: 10px; /* Margen superior */
+    right: 15px; /* Margen desde la derecha */
+    background: transparent; /* Fondo transparente */
+    border: none; /* Sin bordes */
+    font-size: 24px; /* Tamaño grande */
+    font-weight: bold; /* Negrita */
+    color: #333; /* Color gris oscuro */
+    cursor: pointer; /* Muestra el cursor de mano */
+    z-index: 1001; /* Más alto que el fondo del menú */
+    outline: none; /* Sin contorno al hacer clic */
+    transition: transform 0.2s ease; /* Suavidad al interactuar */
+}
+
+.close-menu:hover {
+    transform: scale(1.2); /* Aumenta el tamaño al pasar el cursor */
+    color: #ee1010; /* Cambia a color rojo */
+}
+
+/* En modo móvil: el botón se ve */
+@media (max-width: 768px) {
+  .close-menu {
+    display: block; /* Mostrar el botón "X" */
+  }
+}
+
+/* En modo PC: el botón se oculta */
+@media (min-width: 768px) {
+  .close-menu {
+    display: none; /* Ocultar el botón "X" */
+  }
+}

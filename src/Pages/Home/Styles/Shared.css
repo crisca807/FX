@@ -20,50 +20,14 @@ body, html {
 }
 
 /* Contenedor principal del carrusel y banner */
-.main-container-banner-carrusel {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background-color: #000000; /* Fondo negro para el carrusel */
-  padding: 0;
-  align-items: center; /* Centrado horizontal */
-  flex: 1; /* Ocupa el espacio restante, empujando el footer hacia abajo */
-}
 
 /* Estilo específico para el banner (ancho completo) */
-.unique-banner-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px;
-  background-color: #000000; /* Fondo negro solo para el banner */
-  color: #ffffff; /* Texto en blanco en el banner */
-  width: 100vw; /* Atraviesa toda la pantalla */
-  box-sizing: border-box;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
-}
 
-.unique-logo img {
-  height: 70px;
-}
 
-/* Estilo para los enlaces de navegación */
-.unique-nav-links {
-  display: flex;
-  gap: 30px;
-}
-
-.unique-nav-links a {
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 18px;
-  transition: color 0.3s ease;
-}
 .pay-link {
   background: none;
   border: none;
-  color: #ffffff; /* Color del enlace */
+  color: #000000; /* Color del enlace */
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -81,8 +45,6 @@ body, html {
 }
 
 /* Estilos individuales para cada contenedor */
-.dolardelay-container,
-.delaysocket-container,
 .infonews-socket-container {
   background-color: #ffffff; /* Fondo blanco */
   padding: 20px;

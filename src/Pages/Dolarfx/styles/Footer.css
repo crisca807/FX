@@ -6,15 +6,17 @@
   display: flex;
   justify-content: space-evenly; /* Distribuye el espacio de manera uniforme */
   align-items: flex-start;
-  background-color: #000000;
+  background-image: url('../../../Assets/Images/Fondo\ azul.jpg'); /* Ruta de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+  background-position: center center; /* Centra la imagen */
   color: #ffffff;
   padding: 40px 50px;
   font-family: 'Poppins', sans-serif;
-  font-size: 20px; /* Tamaño de fuente aumentado */
-  width: 100vw; /* Asegura que cubra todo el ancho de la ventana */
+  font-size: 20px;
+  width: 100vw;
   box-sizing: border-box;
-  margin: 0 auto; /* Centra el contenedor */
-  max-width: 100%; /* Asegura que no haya desbordamiento horizontal */
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 /* Sección del logo y redes sociales */
