@@ -1,0 +1,35 @@
+/* Estilo base para el contenedor del gráfico */
+.delaysocket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 20px; /* Incrementar el padding para agrandar el container */
+    width: 100%; /* Reducir el ancho total para crear espacio adicional */
+    max-width: 2000px; /* Limitar el ancho máximo */
+    box-sizing: border-box;
+}
+
+/* Texto de carga */
+.loading-text {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+}
+
+/* Estilo responsivo para móvil */
+@media (max-width: 768px) {
+    .delaysocket-container {
+        max-width: 1400px; /* Ancho más amplio para móvil */
+        padding: 10px; /* Reducir el padding para ajustar el largo */
+    }
+}
+
+/* Estilo para PC */
+@media (min-width: 769px) {
+    .delaysocket-container {
+        max-width: 1800px; /* Ancho más amplio para PC */
+        padding: 50px; /* Incrementar el padding para mayor altura */
+    }
+}

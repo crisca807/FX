@@ -1,34 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-} from 'chart.js';
-import zoomPlugin from 'chartjs-plugin-zoom';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import { useWebSocketDelay } from '../../Pages/Context/WebSocketContextDelay'; // Usar el contexto de WebSocket
-
-// Registrar los elementos básicos de ChartJS y el plugin de zoom y anotaciones
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, Filler, annotationPlugin, zoomPlugin);
+import React, { useEffect, useRef, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { useWebSocketDelay } from '../../Pages/Context/WebSocketContextDelay';
+import './Styles/responsivedolar.css';
 
 const Delaysocket = () => {
-  const [error, setError] = useState(null);
-  const data1000Ref = useRef(null); // Usar useRef para mantener la referencia de los datos
-  const chartRef = useRef(null); // Usar useRef para el componente de la gráfica
-
-  // Acceder al contexto de WebSocket
+  const chartComponentRef = useRef(null);
+  const chartContainerRef = useRef(null);
   const { message } = useWebSocketDelay();
+  const data1000Ref = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [chartOptions, setChartOptions] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    if (message && !data1000Ref.current) { // Solo actualizar si no tenemos los datos previos en la referencia
+    const handleResize = () => {
+      if (chartComponentRef.current) {
+        chartComponentRef.current.chart.reflow();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (message && !data1000Ref.current) {
       let parsedMessage;
       try {
         parsedMessage = JSON.parse(message);
@@ -38,10 +37,9 @@ const Delaysocket = () => {
       }
 
       if (parsedMessage?.id !== 1000 || parsedMessage?.market !== 71) {
-        return; // Ignorar mensajes que no sean del ID 1000 o mercado 71
+        return;
       }
 
-      // Extraer la información de datos_grafico_moneda_mercado
       const result = parsedMessage?.result?.[0];
       const datosGraficoString = result?.datos_grafico_moneda_mercado;
 
@@ -50,221 +48,242 @@ const Delaysocket = () => {
         return;
       }
 
-      // Extraer los datos relevantes desde el string de datos
       const preciosCierreMatch = datosGraficoString.match(/Precios de cierre',data:\s*\[([0-9.,\s]+)\]/);
-      const montosUSDMatch = datosGraficoString.match(/Montos \(Miles USD\)',data:\s*\[([0-9.,\s]+)\]/);
-      const labelsMatch = datosGraficoString.match(/labels:\s*\[([0-9:,\s]+)\]/);
+      const labelsMatch = datosGraficoString.match(/labels:\s*\[([0-9:,\s.]+)\]/);
+      const montosMatch = datosGraficoString.match(/Montos \(Miles USD\)',data:\s*\[([0-9.,\s]+)\]/);
 
       const preciosCierre = preciosCierreMatch ? preciosCierreMatch[1].split(',').map(Number) : [];
-      const montosUSD = montosUSDMatch ? montosUSDMatch[1].split(',').map(Number) : [];
       const labels = labelsMatch ? labelsMatch[1].split(',') : [];
+      const montos = montosMatch ? montosMatch[1].split(',').map(Number) : [];
 
-      // Guardar los datos en el useRef para evitar actualizar cada vez que llega un nuevo mensaje
+      if (preciosCierre.length !== labels.length || preciosCierre.length !== montos.length) {
+        console.error('Los datos, etiquetas y montos no coinciden en longitud.');
+        return;
+      }
+
       data1000Ref.current = {
         preciosCierre,
-        montosUSD,
         labels,
+        montos,
       };
+
+      renderChart(preciosCierre, labels, montos);
+      setIsLoading(false);
     }
-  }, [message]); // Este efecto solo se ejecutará cuando 'message' cambie
+  }, [message]);
 
-  const calcularPromedio = (data) => {
-    const total = data.reduce((acc, val) => acc + val, 0);
-    return total / data.length;
-  };
+  const renderChart = (preciosCierre, labels, montos) => {
+    const precioInicial = preciosCierre.length > 0 ? preciosCierre[0] : 0;
+    const dynamicMin = Math.min(...preciosCierre) - 20;
+    const dynamicMax = Math.max(...preciosCierre) + 20;
 
-  const renderChart = () => {
-    const data1000 = data1000Ref.current;
-
-    if (!data1000) {
-      return <p>No se recibieron datos para el ID 1000 y mercado 71.</p>;
-    }
-
-    const { preciosCierre, montosUSD, labels } = data1000;
-    const precioInicial = preciosCierre.length > 0 ? preciosCierre[0] : 0; // Primer precio de cierre del día
-    const promedioCierre = calcularPromedio(preciosCierre);
-
-    // Crear el degradado en el contexto de canvas para difuminar el cambio entre blanco, rojo y azul
-    const createGradient = (ctx, area) => {
-      const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-      // Ajustar el degradado para que el rojo y el azul se vean más estéticos
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Blanco en el eje X
-
-      // Transición suave del blanco al rojo
-      gradient.addColorStop(0.5, 'rgba(255, 120, 120, 0.6)'); // Rojo suave
-      gradient.addColorStop(0.4, 'rgba(255, 120, 120, 0.8)'); // Rojo más claro
-
-      // Transición suave del rojo al azul
-      gradient.addColorStop(0.6, 'rgba(157, 212, 255, 0.6)'); // Comienza el azul suave
-      gradient.addColorStop(1, 'rgba(0, 123, 255, 0.8)'); // Azul vibrante en la parte superior
-
-      return gradient;
-    };
-
-    const data = {
-      labels: labels, // No se filtran los labels
-      datasets: [
-        {
-          label: 'Precios de cierre',
-          data: preciosCierre, // Todos los datos
-          fill: 'start', // Llenar el área bajo la línea
-          tension: 0, // Línea recta
-          backgroundColor: (context) => {
-            const chart = context.chart;
-            const { ctx, chartArea } = chart;
-    
-            if (!chartArea) {
-              // Esto evita problemas cuando la gráfica no ha sido renderizada aún
-              return null;
-            }
-            return createGradient(ctx, chartArea);
-          },
-          // Colores de las líneas (rojo y azul) con un toque estético
-          borderColor: (context) => {
-            const { dataIndex, dataset } = context;
-            return dataset.data[dataIndex] > precioInicial ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)'; // Azul más vibrante si subió, rojo suave si bajó
-          },
-          borderWidth: 2.1, // Aquí defines el grosor de la línea. Puedes ajustar el valor (por ejemplo, 2 o 0.5 para cambiar el grosor)
-          // Colores del área debajo de las líneas (relleno con gradiente)
-          segment: {
-            borderColor: ctx => (ctx.p0.parsed.y > precioInicial ? 'rgba(0, 123, 255, 0.6)' : 'rgba(255, 0, 0, 0.6)'), // Azul vibrante por encima de la línea, rojo suave por debajo
-          },
-          pointRadius: 0, // Sin puntos
-          yAxisID: 'y',
-        },
-        {
-          label: 'Montos (Miles USD)',
-          data: montosUSD,
-          backgroundColor: 'rgba(158, 147, 147, 0.4)', // Estilo básico sin colores personalizados
-          yAxisID: 'y1',
-          type: 'bar',
-          barThickness: 2,
-        },
-      ],
-    };
-    
     const options = {
-      responsive: true,
-      maintainAspectRatio: false, // Deshabilitar la relación de aspecto predeterminada
-      aspectRatio: 3, // Ajustar la relación de aspecto para hacer la gráfica más ancha
-      interaction: {
-        mode: 'index',
-        intersect: false,
+      chart: {
+        type: 'area',
+        height: 700,
+        zoomType: 'x',
+        panning: true,
+        panKey: 'shift',
+        backgroundColor: isFullscreen ? 'white' : null,
+        events: {
+          click: function () {
+            this.container.focus();
+          },
+        },
       },
-      animation: false,
-      stacked: false,
-      plugins: {
-        zoom: {
-          pan: {
-            enabled: true,
-            mode: 'x',
-          },
-          zoom: {
-            enabled: true,
-            mode: 'x',
-            speed: 0.05,
+      title: {
+        text: null,
+      },
+      xAxis: {
+        categories: labels,
+        title: {
+          text: 'Tiempo',
+          style: {
+            fontWeight: '500',
           },
         },
-        legend: {
-          display: true,
-          labels: {
-            font: {
-              size: 14, // Reducir el tamaño de la fuente
-              family: 'Roboto, sans-serif', // Cambiar a "Roboto" o la fuente que prefieras
-              weight: 'normal', // Sin negrita
+        labels: {
+          rotation: 0,
+          step: Math.ceil(labels.length / 10),
+          style: {
+            fontWeight: '500',
+          },
+        },
+      },
+      yAxis: [
+        {
+          title: {
+            text: 'Precios',
+            style: {
+              fontWeight: '500',
             },
-            color: '#000000',
           },
-        },
-        annotation: {
-          annotations: {
-            line1: {
-              type: 'line',
-              scaleID: 'y',
-              value: precioInicial, // Primer precio del día
-              borderColor: 'rgba(0, 0, 0, 0.3)', // Color de la línea horizontal
-              borderWidth: 0.5, // Grosor de la línea
-              borderDash: [5, 5], // Cambiar a línea de puntos
+          gridLineWidth: 0,
+          tickInterval: 10,
+          min: dynamicMin,
+          max: dynamicMax,
+          plotLines: [
+            {
+              value: precioInicial,
+              color: 'black',
+              width: 2,
+              dashStyle: 'Dash',
               label: {
-                enabled: true,
-                content: `Precio Inicial: $${precioInicial.toFixed(2)}`, // Texto para la etiqueta
-                position: 'end', // Posición al final de la línea
-                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                color: 'white',
-                font: {
-                  size: 12,
-                  family: 'Arial, sans-serif',
+                text: `Precio Inicial: ${precioInicial}`,
+                align: 'right',
+                style: {
+                  color: 'black',
                 },
               },
             },
-          },
+          ],
         },
-      },
-      scales: {
-        x: {
-          ticks: {
-            font: {
-              size: 14, // Reducir tamaño de la fuente
-              family: 'Roboto, sans-serif', // Fuente personalizada para el eje X
-              weight: 'normal', // Sin negrita
-            },
-            callback: function(value, index, values) {
-              // Mostrar los datos cada 1 hora (cada 60 ticks en el array de labels)
-              if (index % 120 === 0) {
-                return labels[index];
-              }
-            },
-            maxRotation: 0,
-            minRotation: 0, // Para mostrar las etiquetas de forma horizontal
-          },
-          grid: {
-            display: false, // Ocultar la cuadrícula en el eje X
-          },
-        },
-        y: {
-          type: 'linear',
-          display: true,
-          position: 'left',
-          grid: {
-            display: false, // Ocultar la cuadrícula en el eje Y
-          },
-          ticks: {
-            font: {
-              size: 14, // Reducir tamaño de la fuente en el eje Y
-              family: 'Roboto, sans-serif', // Fuente personalizada para el eje Y
+        {
+          title: {
+            text: 'Montos (Miles USD)',
+            style: {
+              fontWeight: '500',
             },
           },
-          suggestedMax: precioInicial + 5, // Añadir un margen superior para bajar la línea
-        },
-        y1: {
-          type: 'linear',
-          display: true,
-          position: 'right',
-          grid: {
-            display: false, // Ocultar la cuadrícula en el eje Y1
-          },
-          ticks: {
-            stepSize: 1000, // Ajustar el paso de los ticks a 1000 en 1000
-            font: {
-              size: 14, // Reducir tamaño de la fuente en el eje Y1
-              family: 'Roboto, sans-serif', // Fuente personalizada para el eje Y1
+          opposite: true,
+          gridLineWidth: 0,
+          tickInterval: 1000,
+          min: 0,
+          max: Math.ceil(Math.max(...montos) / 1000) * 1000,
+          labels: {
+            formatter: function () {
+              return this.value;
+            },
+            style: {
+              fontWeight: '500',
             },
           },
         },
-      },
+      ],
+      series: [
+        {
+          name: 'Precios',
+          data: preciosCierre,
+          lineWidth: 2,
+          color: 'rgba(255, 0, 0, 0.9)',
+          zones: [
+            {
+              value: precioInicial,
+              color: 'rgba(255, 0, 0, 0.9)',
+              fillColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, 'rgba(255, 0, 0, 0.3)'],
+                  [1, 'rgba(255, 0, 0, 0)'],
+                ],
+              },
+            },
+            {
+              color: 'rgba(34, 186, 42, 0.8)',
+              fillColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                stops: [
+                  [0, 'rgba(34, 186, 42, 0.3)'],
+                  [1, 'rgba(34, 186, 42, 0)'],
+                ],
+              },
+            },
+          ],
+          marker: {
+            enabled: false,
+          },
+          yAxis: 0,
+        },
+        {
+          name: 'Montos',
+          data: montos,
+          type: 'column',
+          color: 'rgba(128, 128, 128, 0.4)',
+          yAxis: 1,
+        },
+      ],
     };
 
-    return <Line ref={chartRef} data={data} options={options} />;
+    setChartOptions(options);
   };
 
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      chartContainerRef.current.requestFullscreen().catch((err) => {
+        console.error('Error al entrar en pantalla completa:', err);
+      });
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.error('Error al salir de pantalla completa:', err);
+      });
+    }
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    let zoomTimeout;
+
+    const handleWheelZoom = (event) => {
+      event.preventDefault();
+
+      if (!chartComponentRef.current) return;
+
+      const chart = chartComponentRef.current.chart;
+      const extremes = chart.xAxis[0].getExtremes();
+
+      const zoomFactor = 0.2;
+      const delta = event.deltaY < 0 ? 1 : -1;
+
+      const newMin = Math.max(extremes.dataMin, extremes.min + delta * zoomFactor * (extremes.max - extremes.min));
+      const newMax = Math.min(extremes.dataMax, extremes.max - delta * zoomFactor * (extremes.max - extremes.min));
+
+      clearTimeout(zoomTimeout);
+      zoomTimeout = setTimeout(() => {
+        chart.xAxis[0].setExtremes(newMin, newMax);
+      }, 50); // Reduce el lag
+    };
+
+    const chartContainer = chartContainerRef.current;
+    chartContainer.addEventListener('wheel', handleWheelZoom);
+
+    return () => {
+      chartContainer.removeEventListener('wheel', handleWheelZoom);
+    };
+  }, []);
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}> {/* Este contenedor centrará la gráfica */}
-      <div className="dolar-spot-socket" style={{ backgroundColor: 'white', color: 'black', padding: '20px', width: '100%', maxWidth: '1800px', height: '700px' }}>
-        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-        <div style={{ width: '100%', height: '100%' }}>
-          {renderChart()}
-        </div>
-      </div>
+    <div
+      className="delaysocket-container"
+      ref={chartContainerRef}
+      style={{ backgroundColor: isFullscreen ? 'white' : 'transparent', position: 'relative' }}
+    >
+      {isLoading ? (
+        <p className="loading-text">Esperando datos...</p>
+      ) : (
+        chartOptions && (
+          <>
+            <button
+              className="fullscreen-button"
+              onClick={toggleFullscreen}
+              style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 10 }}
+            >
+              <span role="img" aria-label="Pantalla completa">🔍</span>
+            </button>
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={chartOptions}
+              ref={chartComponentRef}
+              containerProps={{
+                style: {
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '100%',
+                },
+              }}
+            />
+          </>
+        )
+      )}
     </div>
   );
 };
