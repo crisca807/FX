@@ -1,52 +1,150 @@
+/* Contenedor principal */
 .IndicatorDelay-container {
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
-    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, );
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.);
     width: 100%;
-    max-width: 800px; /* Limita el ancho máximo */
-    height: auto; /* Deja que la altura se ajuste al contenido */
-    margin: 20px auto; /* Centra el contenedor horizontalmente */
+    max-width: 1200px; /* Máximo ancho para pantallas grandes */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.IndicatorDelay-tab-menu {
-    display: flex;
-    justify-content: center;
+/* Título general */
+.IndicatorDelay-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #003E69;
     margin-bottom: 20px;
 }
 
-.IndicatorDelay-tab-button {
-    padding: 10px 20px;
+/* Contenedor de tablas */
+.IndicatorDelay-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centra y mantiene simetría */
+    gap: 20px; /* Espacio entre las tablas */
+    align-items: flex-start; /* Alinea arriba */
+}
+
+/* Sección individual (TRM y Montos) */
+.IndicatorDelay-section {
+    flex: 0 1 48%; /* Ajusta ambas tablas al mismo tamaño */
+    max-width: 48%; /* Limita el ancho */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.);
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Título de cada sección */
+.IndicatorDelay-section-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Ajuste para contenido */
+.IndicatorDelay-section p {
     font-size: 18px;
-    cursor: pointer;
-    background-color: #f5f5f5;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    margin: 0 5px;
-    transition: background-color 0.3s;
+    color: #555;
+    margin: 5px 0;
 }
 
-.IndicatorDelay-active {
-    background-color: #003E69;
-    color: #ffffff;
+/* --- Diseño Responsivo --- */
+
+/* Tablets (entre 769px y 1024px) */
+/* Tablets (entre 769px y 1024px) */
+@media (max-width: 1024px) {
+    .IndicatorDelay-content {
+        flex-direction: row; /* Mantiene las secciones en fila */
+        flex-wrap: nowrap; /* Evita que los elementos se salten de fila */
+        gap: 20px; /* Espacio uniforme entre contenedores */
+        justify-content: space-between; /* Distribuye los contenedores uniformemente */
+    }
+
+    .IndicatorDelay-section {
+        flex: 0 1 58%; /* Ajuste al 48% para dar más ancho */
+        max-width: 48%; /* Evita que se estiren demasiado */
+        padding: 2px; /* Padding más amplio */
+        height: auto; /* Mantiene la altura dinámica */
+        border-radius: 10px; /* Bordes ligeramente más redondeados */
+    }
+
+    .IndicatorDelay-title {
+        font-size: 26px; /* Tamaño del título principal */
+        margin-bottom: 15px; /* Espacio inferior ajustado */
+    }
+
+    .IndicatorDelay-section-title {
+        font-size: 20px; /* Ajuste del título de sección */
+        margin-bottom: 12px;
+    }
+
+    .IndicatorDelay-section p {
+        font-size: 18px; /* Tamaño consistente para el texto */
+        margin: 4px 0; /* Espacio uniforme entre párrafos */
+    }
 }
 
-.IndicatorDelay-tab-content.slide-right {
-    animation: slideRight 0.3s ease-out;
+
+/* Móviles (hasta 768px) */
+@media (max-width: 768px) {
+    .IndicatorDelay-content {
+        flex-direction: column; /* Apila verticalmente las secciones */
+        gap: 10px; /* Espacio reducido entre contenedores */
+    }
+
+    .IndicatorDelay-section {
+        width: 100%; /* Ocupa todo el ancho del dispositivo */
+        max-width: 100%;
+        padding: 10px; /* Padding reducido */
+        margin-bottom: 10px;
+    }
+
+    .IndicatorDelay-title {
+        font-size: 20px; /* Tamaño ajustado del título general */
+        margin-bottom: 10px;
+    }
+
+    .IndicatorDelay-section-title {
+        font-size: 18px; /* Tamaño ajustado para títulos de sección */
+    }
+
+    .IndicatorDelay-section p {
+        font-size: 16px; /* Tamaño más pequeño para el contenido */
+    }
 }
 
-.IndicatorDelay-tab-content.slide-left {
-    animation: slideLeft 0.3s ease-out;
-}
+/* Dispositivos pequeños (menos de 480px) */
+@media (max-width: 480px) {
+    .IndicatorDelay-container {
+        padding: 10px; /* Padding global reducido */
+    }
 
-@keyframes slideRight {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(0); }
-}
+    .IndicatorDelay-title {
+        font-size: 18px; /* Reducción del título principal */
+    }
 
-@keyframes slideLeft {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    .IndicatorDelay-section {
+        padding: 8px; /* Padding reducido */
+    }
+
+    .IndicatorDelay-section-title {
+        font-size: 16px;
+    }
+
+    .IndicatorDelay-section p {
+        font-size: 14px; /* Tamaño ajustado para pantallas muy pequeñas */
+    }
 }

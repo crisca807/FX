@@ -78,14 +78,6 @@ body, html {
 
 /* Contenedores individuales de trmdelay y mountdelay */
 .trmdelay-container,
-.mountdelay-container {
-  flex: 1 1 100%; /* Se ajusta en pantallas pequeñas */
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 5px; /* Reduce el margen entre los elementos */
-  border-radius: 10px;
-  box-sizing: border-box;
-}
 
 /* Botón flotante */
 .floating-button {

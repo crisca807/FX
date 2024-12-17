@@ -1,30 +1,15 @@
-// IndicatorDelay.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TrmDelay from '../Delay/Trmdelay';
 import MountDelay from '../Delay/Mountdelay';
 import { useWebSocketDelay } from '../Context/WebSocketContextDelay';
 import '../Delay/Styles/Indicatordelay.css';
 
 const IndicatorDelay = () => {
-    const [activeTab, setActiveTab] = useState('trm');
-    const [transitionDirection, setTransitionDirection] = useState('');
     const [currentData, setCurrentData] = useState(null);
 
-    const { message, getStoredDataForId } = useWebSocketDelay(); // Asegúrate de que getStoredDataForId esté disponible aquí
+    const { message, getStoredDataForId } = useWebSocketDelay();
 
-    const handleTabClick = (tab) => {
-        if (tab !== activeTab) {
-            setTransitionDirection(tab === 'trm' ? 'slide-right' : 'slide-left');
-            setTimeout(() => {
-                setActiveTab(tab);
-            }, 300);
-
-            const id = tab === 'trm' ? 1010 : 1011;
-            const storedData = getStoredDataForId ? getStoredDataForId(id) : null;
-            setCurrentData(storedData || message);
-        }
-    };
-
+    // Efecto para manejar los datos entrantes
     useEffect(() => {
         if (message) {
             setCurrentData(message);
@@ -33,26 +18,22 @@ const IndicatorDelay = () => {
 
     return (
         <div className="IndicatorDelay-container">
-            {/* Menú de Pestañas */}
-            <div className="IndicatorDelay-tab-menu">
-                <button
-                    className={`IndicatorDelay-tab-button ${activeTab === 'trm' ? 'IndicatorDelay-active' : ''}`}
-                    onClick={() => handleTabClick('trm')}
-                >
-                    TRM
-                </button>
-                <button
-                    className={`IndicatorDelay-tab-button ${activeTab === 'mount' ? 'IndicatorDelay-active' : ''}`}
-                    onClick={() => handleTabClick('mount')}
-                >
-                    Montos
-                </button>
-            </div>
+            {/* Título general */}
+            <h2 className="IndicatorDelay-title">Resumen de Precios</h2>
 
-            {/* Contenido de la Pestaña Activa */}
-            <div className={`IndicatorDelay-tab-content ${transitionDirection}`}>
-                {activeTab === 'trm' && <TrmDelay data={currentData} />}
-                {activeTab === 'mount' && <MountDelay data={currentData} />}
+            {/* Renderiza ambas tablas en fila */}
+            <div className="IndicatorDelay-content">
+                {/* Tabla TRM */}
+                <div className="IndicatorDelay-section">
+               
+                    <TrmDelay data={currentData} />
+                </div>
+
+                {/* Tabla Montos */}
+                <div className="IndicatorDelay-section">
+            
+                    <MountDelay data={currentData} />
+                </div>
             </div>
         </div>
     );

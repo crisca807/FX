@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faBank, faCircleUp, faCircleDown, faChartLine } from '@fortawesome/free-solid-svg-icons'; // Nuevos íconos
 import { useWebSocketDelay } from '../Context/WebSocketContextDelay';
 import JSON5 from 'json5'; 
 import '../../Pages/Delay/Styles/Trmdelay.css';
@@ -8,7 +8,6 @@ import '../../Pages/Delay/Styles/Trmdelay.css';
 const TrmDelay = () => {
   const [data1006, setData1006] = useState([]);
   const { message, error } = useWebSocketDelay();
-  const comparisonValue = 4199;
 
   useEffect(() => {
     if (message) {
@@ -29,27 +28,6 @@ const TrmDelay = () => {
     }
   }, [message]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setData1006((prevData) => [...prevData]);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, [data1006]);
-
-  const roundValue = (value) => Math.round(parseFloat(value));
-
-  const renderArrowIcon = (value) => {
-    if (!value || value === 'Data not available') return null;
-    const numericValue = roundValue(value);
-    if (numericValue > comparisonValue) {
-      return <FontAwesomeIcon icon={faArrowTrendUp} style={{ color: 'green', marginLeft: '10px' }} />;
-    } else if (numericValue < comparisonValue) {
-      return <FontAwesomeIcon icon={faArrowTrendDown} style={{ color: 'red', marginLeft: '10px' }} />;
-    }
-    return null;
-  };
-
   return (
     <div className="delay-trmdelay-container">
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
@@ -59,35 +37,40 @@ const TrmDelay = () => {
             <h1 className="delay-trm-table-title">Precios del dólar</h1>
             <div className="delay-trm-data-table">
               <div className="delay-trm-data-row">
-                <div className="delay-circular-icon delay-banco-de-la-republica"></div>
+                <div className="delay-circular-icon">
+                  <FontAwesomeIcon icon={faBank} style={{ color: '#000000 ', marginRight: '10px' }} />
+                </div>
                 <strong className="delay-trm-title">TRM:</strong>
                 <p className="delay-trm-value">
                   {data1006[0].data?.trm || 'Data not available'}
-                  <FontAwesomeIcon icon={faCartShopping} style={{ marginLeft: '10px' }} />
+                 
                 </p>
               </div>
               <div className="delay-trm-data-row">
-                <div className="delay-circular-icon delay-apertura"></div>
+                <div className="delay-circular-icon">
+                  <FontAwesomeIcon icon={faChartLine} style={{ color: '#000000 ', marginRight: '10px' }} />
+                </div>
                 <strong className="delay-trm-title">Apertura:</strong>
                 <p className="delay-trm-value">
                   {data1006[0].data?.open || 'Data not available'}
-                  {renderArrowIcon(data1006[0].data?.open)}
                 </p>
               </div>
               <div className="delay-trm-data-row">
-                <div className="delay-circular-icon delay-minimo"></div>
+                <div className="delay-circular-icon">
+                  <FontAwesomeIcon icon={faCircleDown} style={{ color: '#000000 ', marginRight: '10px' }} />
+                </div>
                 <strong className="delay-trm-title">Mínimo:</strong>
                 <p className="delay-trm-value">
                   {data1006[0].data?.low || 'Data not available'}
-                  {renderArrowIcon(data1006[0].data?.low)}
                 </p>
               </div>
               <div className="delay-trm-data-row">
-                <div className="delay-circular-icon delay-cierre"></div>
+                <div className="delay-circular-icon">
+                  <FontAwesomeIcon icon={faCircleUp} style={{ color: '#000000 ', marginRight: '10px' }} />
+                </div>
                 <strong className="delay-trm-title">Máximo:</strong>
                 <p className="delay-trm-value">
                   {data1006[0].data?.high || 'Data not available'}
-                  {renderArrowIcon(data1006[0].data?.high)}
                 </p>
               </div>
             </div>

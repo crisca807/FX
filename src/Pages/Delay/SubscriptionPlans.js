@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import './Styles/SubscriptionPlans.css';
 
 const SubscriptionPlans = () => {
-  const [activePlan, setActivePlan] = useState('Plan Semestral'); // Dejar 'Plan Semestral' abierto por defecto
-
   const plans = [
     {
       name: 'Plan trimestral',
@@ -32,60 +30,30 @@ const SubscriptionPlans = () => {
       {/* Sección de promoción */}
       <div className="promo-section">
         <h1>análisis financiero avanzado, suscripciones para decisiones inteligentes y de alto rendimiento.</h1>
-        <p>
-         
-        </p>
         <button className="cta-button">Descubre más</button>
       </div>
 
       {isMobile ? (
-        // Diseño para móviles: Botones en lugar de cuadros
-        <div className="mobile-selection">
-          <div className="mobile-buttons">
-            {plans.map((plan) => (
-              <button
-                key={plan.name}
-                className={`mobile-plan-button ${
-                  activePlan === plan.name ? 'active' : ''
-                }`}
-                onClick={() => setActivePlan(plan.name)}
-              >
-                {plan.name}
-              </button>
-            ))}
-          </div>
-          <div className="mobile-plan-details">
-            <h2>{activePlan}</h2>
-            <p className="description">
-              {plans.find((plan) => plan.name === activePlan)?.description}
-            </p>
-            <p className="deposit">
-              {' '}
-              {plans.find((plan) => plan.name === activePlan)?.deposit}
-            </p>
-            <button className="cta-button">Abrir cuenta</button>
-          </div>
+        // Diseño para móviles: Mostrar planes directamente sin botones
+        <div className="mobile-plan-details">
+          {plans.map((plan) => (
+            <div key={plan.name} className="mobile-plan">
+              <h2>{plan.name}</h2>
+              <p className="description">{plan.description}</p>
+              <p className="deposit">Depósito de {plan.deposit}</p>
+              <button className="cta-button">Abrir cuenta</button>
+            </div>
+          ))}
         </div>
       ) : (
         // Diseño para pantallas grandes
         <div className="subscription-container">
           {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`subscription-card ${
-                activePlan === plan.name ? 'active' : ''
-              }`}
-              onMouseEnter={() => setActivePlan(plan.name)}
-              onMouseLeave={() => setActivePlan('Plan Semestral')} // Se cierra al pasar el mouse
-            >
+            <div key={plan.name} className="subscription-card">
               <div className="card-header">
                 <h2>{plan.name}</h2>
               </div>
-              <div
-                className={`card-content ${
-                  activePlan === plan.name ? 'show' : ''
-                }`}
-              >
+              <div className="card-content show">
                 <p className="description">{plan.description}</p>
                 <p className="deposit">Depósito de {plan.deposit}</p>
                 <button className="cta-button">Abrir cuenta</button>

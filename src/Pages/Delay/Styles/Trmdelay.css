@@ -3,20 +3,23 @@
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 20px;
-    width: 20cm; /* Ancho del contenedor ajustado a 20 cm */
-    height: 16cm; /* Alto del contenedor */
-    margin: 20px auto; /* Centrado horizontal */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para darle un toque de elevación */
+    padding: 35px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0);
+    box-sizing: border-box;
 }
 
-/* Contenedor de datos TRM delay */
+/* Contenedor de datos */
 .delay-trmdelay-data {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinear todo al lado izquierdo */
-    justify-content: flex-start;
-    padding-left: 1.1cm; /* Desplazamiento de 1 cm hacia la derecha */
+    width: 100%;
 }
 
 /* Título de la tabla */
@@ -25,77 +28,129 @@
     color: #000000;
     font-size: 28px;
     font-weight: 700;
-    margin-bottom: 1cm; /* Separación de 1 cm entre el título y los datos */
+    margin-bottom: 20px;
 }
-  
+
 /* Fila de datos */
 .delay-trm-data-row {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 30px; /* Espacio entre filas */
-    padding: 8px;
+    margin-bottom: 12px;
+    padding: 10px 15px;
     border-radius: 8px;
-    font-size: 24px; /* Tamaño de letra de 24px para toda la fila */
+    font-size: 20px;
     color: #333;
-    justify-content: space-between; /* Alinear el título y el valor en extremos opuestos */
+    box-sizing: border-box;
 }
 
-/* Títulos de cada fila */
+/* Contenedor del título */
 .delay-trm-title {
     font-weight: 600;
-    font-size: 24px; /* Tamaño de letra de 24px */
+    font-size: 20px;
     color: #000000;
-    display: flex;
-    align-items: center;
-    margin-right: 6cm; /* Espacio de 6 cm entre el título y el valor */
-    margin-bottom: 0;  /* Sin margen inferior */
-    padding: 18px;
+    text-align: left;
+    margin-left: 0;
+    flex: 1;
 }
 
-/* Valores de cada fila */
+/* Valores alineados a la derecha */
 .delay-trm-value {
     font-weight: 500;
-    font-size: 24px; /* Tamaño de letra de 24px */
+    font-size: 20px;
     color: #000000;
     text-align: right;
+    margin-right: 0;
+    flex: 1;
 }
 
-/* Íconos circulares */
-.delay-circular-icon {
-    width: 36px; /* Incrementar tamaño del ícono */
-    height: 36px; /* Incrementar tamaño del ícono */
-    border-radius: 50%;
-    display: inline-block;
-    background-size: cover;
-    background-position: center;
-    background-color: #ffffff; /* Fondo blanco para que se vean bien */
-    padding: 5px; /* Espacio interno para el ícono */
+/* --- Diseño Responsivo --- */
+
+/* Modo Tablet (769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .delay-trmdelay-container {
+        width: 95%;
+        max-width: 950px;
+        padding: 25px;
+        margin: 10px auto;
+    }
+
+    .delay-trm-table-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .delay-trm-data-row {
+        padding: 10px 15px;
+        margin-bottom: 8px;
+    }
+
+    .delay-trm-title,
+    .delay-trm-value {
+        font-size: 18px;
+        flex: 1;
+    }
 }
 
-/* Especificar imágenes para cada ícono circular */
-.delay-banco-de-la-republica {
-    background-image: url('../../../Assets//Images/banco_de_la_republica.png'); /* Reemplaza con la URL de tu imagen */
-    background-color: #ffffff;
-}
- 
-.delay-apertura {
-    background-image: url('../../../Assets//Images/apertura.jpg'); /* Reemplaza con la URL de tu imagen */
-    background-color: #ffffff;
-}
- 
-.delay-minimo {
-    background-image: url('../../../Assets//Images/minimo__3___1_-removebg-preview\ \(1\).png');
-    background-color: #ffffff;
-}
- 
-.delay-cierre {
-    background-image: url('../../../Assets//Images/cierre.png');
-    background-color: #ffffff;
+/* Modo Móvil (hasta 768px) */
+@media (max-width: 768px) {
+    .delay-trmdelay-container {
+        width: 95%;
+        max-width: 450px;
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    .delay-trm-table-title {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .delay-trm-data-row {
+        padding: 10px; /* Ajuste del padding */
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px; /* Espacio horizontal entre título y valor */
+    }
+
+    .delay-trm-title,
+    .delay-trm-value {
+        font-size: 16px; /* Ajuste del tamaño */
+        text-align: left;
+        flex: 1;
+    }
+
+    .delay-trm-value {
+        text-align: right; /* Alineación derecha del valor */
+    }
 }
 
-/* Hover en filas */
-.delay-trm-data-row:hover {
-    background-color: #f0f0f0;
-    transition: background-color 0.3s ease;
+/* Modo Celulares Angostos (hasta 480px) */
+@media (max-width: 480px) {
+    .delay-trmdelay-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px;
+        margin: 10px auto;
+    }
+
+    .delay-trm-table-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .delay-trm-data-row {
+        padding: 8px; /* Menor padding */
+        margin-bottom: 6px;
+        gap: 8px; /* Espacio reducido */
+    }
+
+    .delay-trm-title,
+    .delay-trm-value {
+        font-size: 14px; /* Tamaño ajustado */
+        padding: 0 5px;
+    }
 }
